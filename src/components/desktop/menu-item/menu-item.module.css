@@ -1,0 +1,8 @@
+.menu_item { 
+    composes: text_type_main-default pl-2 from global; 
+    text-decoration: none; 
+    display:flex; 
+    flex-direction: row; 
+    align-items: left; 
+    color: var(--text-inactive-color); 
+}
