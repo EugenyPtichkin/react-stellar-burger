@@ -1,7 +1,0 @@
-.navigation_link {
-    composes: pt-5 pb-5 pl-5 pr-5 from global; 
-    display: flex;
-    flex-direction: column;
-    border: solid yellow 1px;    
-  }
-  

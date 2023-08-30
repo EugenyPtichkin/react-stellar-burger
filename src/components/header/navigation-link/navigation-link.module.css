@@ -1,0 +1,10 @@
+.navigation_link {
+    composes: pt-4 pb-4 pl-5 pr-5 from global; 
+    text-decoration: none; 
+    display: flex;
+    flex-direction: row;
+    border: dashed blue 1px;    
+    border-radius: 22px;
+    color: var(--text-inactive-color); 
+  }
+  

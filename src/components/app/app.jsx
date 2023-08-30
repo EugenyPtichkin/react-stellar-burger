@@ -1,12 +1,14 @@
-import styles from "./app.module.css";
-import { data } from "../../utils/data";
-import Desktop from "../desktop/desktop";
+import styles from './app.module.css';
+import { data } from '../../utils/data';
+import Header from '../header/header';
+
+export const isActive = false;
 
 function App() {
   return (
     <div className={styles.app}>
-      <Desktop>
-      </Desktop>
+      <Header>
+      </Header>
     </div>
   );
 }
