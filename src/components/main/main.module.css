@@ -1,0 +1,9 @@
+.main {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;  
+}
+
+.main_first {
+  compose: mr-10 from global;
+}

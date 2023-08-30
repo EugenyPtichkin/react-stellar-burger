@@ -15,8 +15,17 @@
 
 .header_nav {
   justify-self: start;
+  display: flex;
+  flex-direction: row;
+}
+
+.header_logo {
 }
 
 .header_profile {
   justify-self: end;
+}
+
+.header_nav_first {
+  composes: mr-2 from global;  
 }

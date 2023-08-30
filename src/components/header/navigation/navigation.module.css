@@ -1,6 +1,0 @@
-.navigation {
-  display: flex;
-  flex-direction: row;
-  justify-content: start;
-  column-gap: 8px;
-}

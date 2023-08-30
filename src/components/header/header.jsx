@@ -1,5 +1,4 @@
 import styles from './header.module.css';
-import navStyles from './navigation/navigation.module.css';
 
 import { NavigationLink } from './navigation-link/navigation-link';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
@@ -15,27 +14,27 @@ export default function Header() {
     <>
       <div className={styles.header}>
         <div className={styles.header_nav}>
-          <div className={navStyles.navigation} >
+          <div className={styles.header_nav_first}>
             <NavigationLink text='Конструктор'>
               <BurgerIcon type={isActive ? "primary" : "secondary"}></BurgerIcon>
             </NavigationLink>
-
-            <NavigationLink text='Лента заказов'>
-              <ListIcon type={isActive ? "primary" : "secondary"}></ListIcon>
-            </NavigationLink>
           </div>
+          <NavigationLink text='Лента заказов'>
+            <ListIcon type={isActive ? "primary" : "secondary"}></ListIcon>
+          </NavigationLink>
         </div>
 
-        <Logo />
+        <Logo className='header_logo'/>
 
         <div className={styles.header_profile}>
           <NavigationLink text='Личный кабинет'>
             <ProfileIcon type={isActive ? "primary" : "secondary"}></ProfileIcon>
           </NavigationLink>
         </div>
-
-
       </div>
+
+
+      
 
 
 
