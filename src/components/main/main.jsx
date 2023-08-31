@@ -5,16 +5,15 @@ import { BurgerConstructor } from './../burger-constructor/burger-constructor';
 export default function Main() {
   return (
     <div className={styles.main}>
-      <section className={styles.main_first}>
+      <section>
         <BurgerIngredients>
-
         </BurgerIngredients>
+        
       </section>
 
       <section>
-        <BurgerConstructor>
-
-        </BurgerConstructor>
+        <BurgerIngredients>
+        </BurgerIngredients>
       </section>
     </div>
   )

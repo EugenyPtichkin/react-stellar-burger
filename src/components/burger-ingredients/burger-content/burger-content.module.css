@@ -4,21 +4,47 @@
   display: flex;
   flex-direction: column;
   align-items: center;  
+  position: relative;
+  border: solid yellow 1px;
 }
-.product_image {
-  composes: pb-1 pl-2 pr-2 from global;
+.image {
   width: 240px;
   height: 120px;   
-  border: 1px solid rgba(76, 76, 255, 1);
+  composes: pb-1 pl-4 pr-4 from global;  
+  border: 1px dotted rgba(76, 76, 255, 1);
 }
-.product_price {
+.price {  
+ display: flex;
+ flex-direction: row;
+ composes: pb-1 from global;
+}
+.price_value {  
   composes: text_type_digits-default pr-2 from global;
 }
 
-.product_name {
-
+.name {
+  margin: 0;
+  width: 272px;
+  height: 48px;   
+  composes: text_type_main-default from global;  
+  text-align: center;
+  border: solid green 1px;
 }
 
-.product_quantity {
+.quantity {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 32px;
+  height: 32px;
+  border-radius: 16px;
+  background: var(--interface-accent, #4C4CFF);
+}
 
+.quantity_value {
+  margin: 0;
+  color: rgba(242, 242, 243, 1);  
+  composes: text_type_digits-default from global;
+  text-align: center;  
+  padding-top: calc((32px - 24px)/2);  
 }

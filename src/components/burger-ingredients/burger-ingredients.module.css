@@ -1,1 +1,37 @@
+.item{
+ position: relative;
+}
 
+.title {
+  margin: 0;
+  width: 600px;
+  height: 40px;
+  top: 40px;
+  border: 1px;
+  color: rgba(242, 242, 243, 1);
+  composes: text_type_main-large pt-10 pb-5 from global;
+  border: dashed green 1px;  
+  }
+
+.tab {
+  composes: pb-10 from global;
+  border: dashed yellow 1px;  
+}
+
+.subtitle {
+  margin: 0;
+  width: 600px;
+  height: 30px;
+  color: rgba(242, 242, 243, 1);  
+  composes: text_type_main-medium pb-6 from global;  
+  border: dashed magenta 1px;  
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);  
+  column-gap: 24px;
+  row-gap: 32px;
+  composes: pl-4 pr-4 pb-10 from global;    
+  border: dotted red 1px;  
+}

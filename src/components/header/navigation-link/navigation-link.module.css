@@ -4,6 +4,6 @@
     display: flex;
     flex-direction: row;
     border: dashed blue 1px;    
-    border-radius: 22px;
+    border-radius: 30px;
     color: var(--text-inactive-color); 
   }
