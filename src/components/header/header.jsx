@@ -6,7 +6,7 @@ import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components/dis
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { isActive } from '../app/app';
 
-export default function Header() {
+function Header() {
   return (
     <>
       <div className={styles.header}>
@@ -31,4 +31,6 @@ export default function Header() {
       </div>
     </>
   );
-}
+};
+
+export default Header;
