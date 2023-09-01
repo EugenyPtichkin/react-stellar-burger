@@ -9,8 +9,8 @@ import { isActive } from '../app/app';
 function Header() {
   return (
     <>
-      <div className={styles.header}>
-        <div className={styles.header_nav}>
+      <section className={styles.header}>
+        <nav className={styles.header_nav}>
           <div className={styles.header_nav_first}>
             <NavigationLink text='Конструктор'>
               <BurgerIcon type={isActive ? "primary" : "secondary"}></BurgerIcon>
@@ -19,16 +19,16 @@ function Header() {
           <NavigationLink text='Лента заказов'>
             <ListIcon type={isActive ? "primary" : "secondary"}></ListIcon>
           </NavigationLink>
-        </div>
+        </nav>
 
         <Logo className='header_logo'/>
 
-        <div className={styles.header_profile}>
+        <nav className={styles.header_profile}>
           <NavigationLink text='Личный кабинет'>
             <ProfileIcon type={isActive ? "primary" : "secondary"}></ProfileIcon>
           </NavigationLink>
-        </div>
-      </div>
+        </nav>
+      </section>
     </>
   );
 };

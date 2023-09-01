@@ -11,7 +11,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/bun-02.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
-     "__v":0
+     "__v":1
   },
   {
      "_id":"60666c42cc7b410027a1a9b5",
@@ -25,7 +25,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/meat-04.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/meat-04-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/meat-04-large.png",
-     "__v":0
+     "__v":2
   },
   {
      "_id":"60666c42cc7b410027a1a9b6",
@@ -53,7 +53,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/sauce-02.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/sauce-02-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/sauce-02-large.png",
-     "__v":0
+     "__v":3
   },
   {
      "_id":"60666c42cc7b410027a1a9b4",
@@ -207,6 +207,6 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/bun-01.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/bun-01-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/bun-01-large.png",
-     "__v":0
+     "__v":10
   }
 ]

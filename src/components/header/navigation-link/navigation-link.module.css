@@ -7,3 +7,12 @@
     border-radius: 30px;*/
     color: var(--text-inactive-color); 
   }
+  
+.navigation_link_text { 
+    margin: 0;    
+    composes: text_type_main-default pl-2 from global; 
+    display:flex; 
+    flex-direction: row; 
+    justify-content: left; 
+    color: var(--text-inactive-color); 
+}
