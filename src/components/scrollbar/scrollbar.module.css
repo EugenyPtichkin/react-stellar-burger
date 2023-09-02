@@ -5,12 +5,11 @@
 
   display: flex;
   width: 8px;
-  height: 664px;
   padding-bottom: 0px;
   flex-direction: column;
   align-items: center;
   flex-shrink: 0;
-  border: 1px dashed var(--interface-accent, #4C4CFF);
+/*  border: 1px dashed var(--interface-accent, #4C4CFF);*/
   background: var(--interface-input, #2F2F37);   
 
   box-sizing: border-box;
@@ -19,12 +18,10 @@
 .scrollbar_thumb {
   position: absolute;
   right: 0;
-  top: 0;   
   
   width: 8px;
-  height: 492px;
   flex-shrink: 0;    
-  border: 3px solid var(--text-dark-grey-secondary-text, #8585AD);
+/*  border: 3px solid var(--text-dark-grey-secondary-text, #8585AD);*/
   background: var(--text-dark-grey-secondary-text, #8585AD);   
   
   box-sizing: border-box;

@@ -1,19 +1,14 @@
 import styles from './burger-content.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
+/*import { contentPropType } from './../../../utils/prop-types';*/
 
 function CollapsableTextContent(props) {
   if (props.quantity === 0) {
     return null;
   }
-  return < Counter count={props.quantity} size="default" extraClass='m-1'/>
-          {/*<div className={styles.quantity}>           
-            <p className={styles.quantity_value}>
-             {props.quantity}
-           </p>
-         </div>*/}
+  return <Counter count={props.quantity} size="default" extraClass='m-1'/>
 }  
-
 export function BurgerContent(props) {
   return (
   <section className={styles.item}>
@@ -27,7 +22,11 @@ export function BurgerContent(props) {
       <CurrencyIcon type="primary"></CurrencyIcon>
     </div>
     <p className={styles.name}>{props.name}</p>
-    <CollapsableTextContent quantity={props.quantity} ></CollapsableTextContent> 
+    <CollapsableTextContent quantity={props.quantity} />
   </section>
   )
 }
+
+/*BurgerContent.propTypes = {
+  props: contentPropType.isRequired
+};*/

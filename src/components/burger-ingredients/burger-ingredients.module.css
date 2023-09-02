@@ -1,4 +1,12 @@
-.item{
+.contents {
+  width: 600px;
+  height: 912px;
+  box-sizing: border-box;
+  overflow: hidden;
+/*  border: dotted yellow 1px;*/
+}
+
+.scrollbar{
  position: relative;
 }
 

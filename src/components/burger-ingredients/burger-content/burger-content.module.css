@@ -27,23 +27,3 @@
   composes: text_type_main-default from global;  
   text-align: center;
 }
-
-/*
-.quantity {
-  position: absolute;
-  top: 0px;
-  right: 0px;
-  width: 32px;
-  height: 32px;
-  border-radius: 16px;
-  background: var(--interface-accent, #4C4CFF);
-}
-
-.quantity_value {
-  margin: 0;
-  color: rgba(242, 242, 243, 1);  
-  composes: text_type_digits-default from global;
-  text-align: center;  
-  padding-top: calc((32px - 24px)/2);  
-}
-*/

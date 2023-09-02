@@ -18,9 +18,6 @@
   flex-direction: row;
 }
 
-.header_logo {
-}
-
 .header_profile {
   justify-self: end;
 }

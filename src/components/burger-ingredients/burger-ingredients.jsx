@@ -4,11 +4,8 @@ import { data } from './../../utils/data';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContent } from './burger-content/burger-content';
 import { ScrollBar } from './../scrollbar/scrollbar';
-/*import { CustomScroll} from '@ya.praktikum/react-developer-burger-ui-components';*/
-
-const bunsName = ['bun', 'Булки'];
-const saucesName = ['sauce', 'Соусы'];
-const mainsName = ['main', 'Начинки'];
+import { bunsName, saucesName, mainsName } from './../main/main';
+import { ingredientPropType } from './../../utils/prop-types';
 
 function ShowTab() {
   const [current, setCurrent] = React.useState('one')
@@ -29,31 +26,27 @@ function ShowTab() {
 
 function DisplayItem({dataItem, quantity}) {
   return (
-    <div>
-      {       
-        <BurgerContent key={dataItem._id} name={dataItem.name} price={dataItem.price} quantity={quantity}>
-          <img src={dataItem.image} alt={dataItem.name} />
-        </BurgerContent>        
-      } 
-    </div>
-    
+    <>
+      <BurgerContent key={dataItem._id} name={dataItem.name} price={dataItem.price} quantity={quantity}>
+        <img src={dataItem.image} alt={dataItem.name} />
+      </BurgerContent>        
+    </>    
   );
 };
 
 export class BurgerIngredients extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { data };
   }
   render() {    
     return (
-      <>
+      <section className={styles.contents}>
         <h1 className={styles.title}>Соберите бургер</h1>
         <section className={styles.tab}>
           <ShowTab />
         </section>
-        <section className={styles.item}>
-          <ScrollBar/>          
+        <section className={styles.scrollbar}>
+          <ScrollBar scrollHeight="664px" thumbHeight="224px" thumpOffset="0px" /> 
           <section>
             <h2 className={styles.subtitle}>{bunsName[1]}</h2>
             <div className={styles.layout}> 
@@ -85,7 +78,12 @@ export class BurgerIngredients extends React.Component {
           </section>
 
         </section>
-      </>
+      </section>
     );
   };
 }
+
+BurgerIngredients.propTypes = {
+  props: ingredientPropType.isRequired
+ };
+  
