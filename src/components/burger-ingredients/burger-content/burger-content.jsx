@@ -3,11 +3,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 /*import { contentPropType } from './../../../utils/prop-types';*/
 
-function CollapsableTextContent(props) {
-  if (props.quantity === 0) {
+function CollapsableTextContent( {quantity} ) {
+  if (quantity === 0) {
     return null;
   }
-  return <Counter count={props.quantity} size="default" extraClass='m-1'/>
+  return <Counter count={quantity} size="default" extraClass='m-1'/>
 }  
 export function BurgerContent(props) {
   return (

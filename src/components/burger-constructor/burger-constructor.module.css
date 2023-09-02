@@ -7,14 +7,14 @@
   gap: 16px;
   composes: pl-4 pt-25 from global;    
   position: relative;
-  /*border: dotted yellow 1px;*/
 }
 
 .scrolbarList {
   position: relative;
   max-height: 464px;
   box-sizing: border-box;
-  overflow: hidden;
+  /*overflow: hidden;*/
+  border: dotted yellow 1px;
 }
 
 .itemsList {
