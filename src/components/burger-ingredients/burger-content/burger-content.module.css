@@ -1,0 +1,29 @@
+.item {
+  width: 272px;
+  height: 208px; 
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  position: relative;
+}
+.image {
+  width: 240px;
+  height: 120px;   
+  composes: pb-1 pl-4 pr-4 from global;  
+}
+.price {  
+ display: flex;
+ flex-direction: row;
+ composes: pb-1 from global;
+}
+.price_value {  
+  composes: text_type_digits-default pr-2 from global;
+}
+
+.name {
+  margin: 0;
+  width: 272px;
+  height: 48px;   
+  composes: text_type_main-default from global;  
+  text-align: center;
+}

@@ -1,0 +1,16 @@
+.navigation_link {
+    composes: pt-4 pb-4 pl-5 pr-5 from global; 
+    text-decoration: none; 
+    display: flex;
+    flex-direction: row;
+    color: var(--text-inactive-color); 
+  }
+  
+.navigation_link_text { 
+    margin: 0;    
+    composes: text_type_main-default pl-2 from global; 
+    display:flex; 
+    flex-direction: row; 
+    justify-content: left; 
+    color: var(--text-inactive-color); 
+}

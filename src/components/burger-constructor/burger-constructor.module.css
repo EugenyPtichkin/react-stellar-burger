@@ -1,0 +1,74 @@
+.contents {
+  width: 600px;
+  height: 912px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  composes: pl-4 pt-25 from global;    
+  position: relative;
+}
+
+.scrolbarList {
+  position: relative;
+  max-height: 464px;
+  overflow: auto;
+  composes: custom-scroll from global;
+}
+
+.itemsList {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;  
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;  
+  composes: pr-4 from global;    
+  /*border: dotted magenta 1px;*/
+}
+.layout_first_last {
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;  
+  composes: pr-8 ml-8 from global;
+  /*border: dotted blue 1px;*/
+}
+.chosableItem {
+ display: flex;
+ flex-direction: row;
+ column-gap: 8px;
+ align-items: center;
+}
+
+.info {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;  
+  composes: pr-4 pt-10 from global;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;  
+  align-items: center;
+  column-gap: 8px;
+  composes: pr-10 from global;
+}
+
+.price_value {
+  margin: 0;
+  composes: text_type_digits-medium from global;
+}
+
+.price_icon {
+  width: 36px;
+  height: 36px;
+}
+
+.price_icon svg {
+  width: 100%;
+  height: auto;
+}

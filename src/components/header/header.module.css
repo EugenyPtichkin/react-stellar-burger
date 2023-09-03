@@ -1,0 +1,27 @@
+.header {
+  width: 1920px;
+  height: 88px;
+  margin: 40px 40px 0px 40px;
+  padding: 16px 320px 16px 320px;
+  box-sizing: border-box;
+  /*border: 2px solid rgba(76, 76, 255, 1);*/
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.04);
+  background-color: #1C1C21;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+}
+
+.header_nav {
+  justify-self: start;
+  display: flex;
+  flex-direction: row;
+}
+
+.header_profile {
+  justify-self: end;
+}
+
+.header_nav_first {
+  composes: mr-2 from global;  
+}
