@@ -2,7 +2,6 @@
 import styles from './burger-constructor.module.css';
 import { data } from './../../utils/data';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ScrollBar } from './../scrollbar/scrollbar';
 import { constructorPropType } from './../../utils/prop-types';
 import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -60,7 +59,6 @@ export function BurgerConstructor() {
       </section>
 
       <section className={styles.scrolbarList}>
-        <ScrollBar scrollHeight="464px" thumbHeight="100px" thumpOffset="0px" />
         <ul className={styles.itemsList}>
           <li className={styles.layout}>
             {data.map((dataItem) => ((dataItem.type !== bunsName[0]) && (dataItem.__v !== 0) &&

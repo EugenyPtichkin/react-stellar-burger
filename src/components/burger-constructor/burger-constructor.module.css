@@ -12,9 +12,8 @@
 .scrolbarList {
   position: relative;
   max-height: 464px;
-  box-sizing: border-box;
-  /*overflow: hidden;*/
-  border: dotted yellow 1px;
+  overflow: auto;
+  composes: custom-scroll from global;
 }
 
 .itemsList {

@@ -3,7 +3,6 @@ import styles from './burger-ingredients.module.css';
 import { data } from './../../utils/data';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContent } from './burger-content/burger-content';
-import { ScrollBar } from './../scrollbar/scrollbar';
 import { bunsName, saucesName, mainsName } from './../main/main';
 import { ingredientPropType } from './../../utils/prop-types';
 
@@ -42,7 +41,6 @@ export function BurgerIngredients() {
         <ShowTab />
       </section>
       <section className={styles.scrollbar}>
-        <ScrollBar scrollHeight="664px" thumbHeight="224px" thumpOffset="0px" />
         <section>
           <h2 className={styles.subtitle}>{bunsName[1]}</h2>
           <div className={styles.layout}>
