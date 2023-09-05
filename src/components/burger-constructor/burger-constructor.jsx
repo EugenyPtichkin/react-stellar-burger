@@ -48,14 +48,20 @@ function DisplayItems({ dataItem, num }) {
     ))
 };
 
+
 export function BurgerConstructor() {
+  //найти первую по списку выбранную булку (с ненулевым счетчиком) - вторую отбросит
+  let bunIndex = data.findIndex(item => item.type === bunsName[0] && item.__v !== 0);
   return (
     <section className={styles.contents}>
-
       <section className={styles.layout_first_last}> {
-        data.map((dataItem) => ((dataItem.type === bunsName[0]) && (dataItem.__v !== 0) &&
+        <DisplayItem key={data[bunIndex]._id} dataItem={data[bunIndex]} style="top" lock={true} />
+      }
+      {/* //отображает две булки, если выбраны обе!
+          data.map(dataItem => ((dataItem.type === bunsName[0]) && (dataItem.__v !== 0) &&
           <DisplayItem key={dataItem._id} dataItem={dataItem} style="top" lock={true} />
-        ))}
+        ))
+        */}
       </section>
 
       <section className={styles.scrolbarList}>
@@ -70,9 +76,8 @@ export function BurgerConstructor() {
       </section>
 
       <section className={styles.layout_first_last}> {
-        data.map((dataItem) => ((dataItem.type === bunsName[0]) && (dataItem.__v !== 0) &&
-          <DisplayItem dataItem={dataItem} key={dataItem._id} style="bottom" lock={true} />
-        ))}
+         <DisplayItem key={data[bunIndex]._id} dataItem={data[bunIndex]} style="bottom" lock={true} />
+        }
       </section>
 
       <section className={styles.info}>
