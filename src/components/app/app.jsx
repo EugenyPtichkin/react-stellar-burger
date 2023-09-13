@@ -30,15 +30,17 @@ const App = () => {
     }
     getIngredientsData();
   }, [])
-  console.log(data.isLoading);
-  console.log(data.ingredientsData);
 
   return (
-    <div className={styles.app}>
-      <Header />
-      {!data.isLoading && <Main ingredients={data.ingredientsData}/>}
-      {data.isLoading && <p>Данные загружаются</p>}
-    </div> 
+    <>
+      <div className={styles.app}>
+        <Header />
+        {!data.isLoading && <Main ingredients={data.ingredientsData} />}
+        {data.isLoading && <p>Данные загружаются</p>}
+      </div>
+      
+      <div id = "react-modals"></div>  
+    </>
   );
 }
 

@@ -8,7 +8,6 @@ export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
 
 function Main(props) {
-  /*console.log(props.ingredients);*/
   return (
     <div className={styles.main}>
       <section>

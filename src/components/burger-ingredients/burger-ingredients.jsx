@@ -5,6 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContent } from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../main/main';
 import { ingredientPropType } from './../../utils/prop-types';
+import  Modal from './../modal/modal';
 
 function ShowTab() {
   const [current, setCurrent] = React.useState('Булки')
@@ -23,12 +24,27 @@ function ShowTab() {
   )
 }
 
-function DisplayItem({ dataItem, quantity }) {
+function DisplayItem({ dataSet, productName }) {
+  const[modalActive, setModalActive] = React.useState(false);
+  
+  function handleClose () {
+    setModalActive(false);
+  }
+
   return (
     <>
-      <BurgerContent key={dataItem._id} name={dataItem.name} price={dataItem.price} quantity={quantity}>
-        <img src={dataItem.image} alt={dataItem.name} />
-      </BurgerContent>
+      <h2 className={styles.subtitle}>{productName[1]}</h2>
+      <div className={styles.layout}> {
+        dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
+          <BurgerContent key={dataItem._id} name={dataItem.name} price={dataItem.price} quantity={dataItem.__v}>
+            <img src={dataItem.image} alt={dataItem.name} />
+          </BurgerContent>
+        ))
+        }
+        <Modal title="Заголовок" handleClose={handleClose} >
+          <p>Содержимое</p>
+        </Modal>
+      </div>
     </>
   );
 };
@@ -41,7 +57,11 @@ export function BurgerIngredients() {
         <ShowTab />
       </section>
       <section className={styles.scrollbar}>
-        <section>
+        <DisplayItem dataSet={data} productName={bunsName} />
+        <DisplayItem dataSet={data} productName={saucesName} />
+        <DisplayItem dataSet={data} productName={mainsName} />
+        {/*  Небольшой рефакторинг против DRY      
+       <section>
           <h2 className={styles.subtitle}>{bunsName[1]}</h2>
           <div className={styles.layout}>
             {data.map((dataItem) => ((dataItem.type === bunsName[0]) &&
@@ -69,8 +89,8 @@ export function BurgerIngredients() {
             ))
             }
           </div>
-        </section>
-
+        </section> 
+*/}
       </section>
     </section>
   );

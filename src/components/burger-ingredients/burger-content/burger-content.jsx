@@ -9,6 +9,7 @@ function CollapsableTextContent( {quantity} ) {
   }
   return <Counter count={quantity} size="default" extraClass='m-1'/>
 }  
+
 export function BurgerContent(props) {
   return (
   <section className={styles.item}>
