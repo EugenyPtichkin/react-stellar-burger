@@ -14,16 +14,21 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  width: 640px;
+  height: 64px;
+  composes: pt-10 from global;
 }
 
 .title_text {
-    margin: 0;
-    padding: 0;
-    color: #F2F2F3;
-    composes: text_type_main-large pl-10 pr-10 pt-10 from global;  
-  }
+  margin: 0;
+  padding: 0;
+  color: #F2F2F3;
+  max-width: 580px;
+  composes: text_type_main-large pl-10 pr-10 pt-10 from global;
+}
 
 .close_button {
   width: 24px;
   height: 24px;
+  cursor: pointer;
 }
