@@ -1,0 +1,8 @@
+.order_details {
+ display: flex;
+ flex-direction: column;
+ justify-content: flex-start;
+ align-items: center;
+ composes: pt-4 pb-30 from global;
+ width: 520px;
+}

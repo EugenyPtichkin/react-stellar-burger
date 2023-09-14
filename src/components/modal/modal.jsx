@@ -6,7 +6,7 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components/di
 
 const modalRoot = document.getElementById('react-modals');
 
-export const Modal = ({ title, children, handleClose }) => {
+const Modal = ({ title, children, handleClose }) => {
 
   const closeOnEscape = (event) => {
     if (event.key === "Escape") {
@@ -35,3 +35,5 @@ export const Modal = ({ title, children, handleClose }) => {
     modalRoot
   );
 };
+
+export default Modal;

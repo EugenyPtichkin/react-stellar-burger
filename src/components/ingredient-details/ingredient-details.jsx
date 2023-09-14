@@ -1,7 +1,6 @@
 import Styles from './ingredient-details.module.css';
 
 function IngredientDetails(data) {
-  console.log(data);
   return (
     <div className={Styles.ingredient_details}>
       <img className={Styles.ingredient_image} src={data.data.image_large}/>

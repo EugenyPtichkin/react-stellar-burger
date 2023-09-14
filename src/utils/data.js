@@ -1,3 +1,8 @@
+export const orderNumber = '034536';
+export const bunsName = ['bun', 'Булки'];
+export const saucesName = ['sauce', 'Соусы'];
+export const mainsName = ['main', 'Начинки'];
+
 export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b1",

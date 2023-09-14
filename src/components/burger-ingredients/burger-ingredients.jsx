@@ -1,9 +1,8 @@
 import React from 'react';
 import styles from './burger-ingredients.module.css';
-import { data } from './../../utils/data';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BurgerContent } from './burger-content/burger-content';
-import { bunsName, saucesName, mainsName } from './../main/main';
+import BurgerContent from './burger-content/burger-content';
+import { bunsName, saucesName, mainsName } from './../../utils/data';
 import { ingredientPropType } from './../../utils/prop-types';
 
 
@@ -40,7 +39,8 @@ function DisplayItem({ dataSet, productName }) {
   );
 }
 
-export function BurgerIngredients() {
+function BurgerIngredients({ingredients}) {
+  console.log(ingredients);
   return (
     <section className={styles.contents}>
       <h1 className={styles.title}>Соберите бургер</h1>
@@ -48,14 +48,15 @@ export function BurgerIngredients() {
         <ShowTab />
       </section>
       <section className={styles.scrollbar}>
-        <DisplayItem dataSet={data} productName={bunsName} />
-        <DisplayItem dataSet={data} productName={saucesName} />
-        <DisplayItem dataSet={data} productName={mainsName} />
+        <DisplayItem dataSet={ingredients} productName={bunsName} />
+        <DisplayItem dataSet={ingredients} productName={saucesName} />
+        <DisplayItem dataSet={ingredients} productName={mainsName} />
       </section>
     </section>
   );
 };
 
+export default BurgerIngredients;
 
 BurgerIngredients.propTypes = {
   props: ingredientPropType.isRequired

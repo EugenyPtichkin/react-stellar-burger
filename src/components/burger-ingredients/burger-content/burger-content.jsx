@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './burger-content.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { Modal } from './../../modal/modal';
+import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 /*import { contentPropType } from './../../../utils/prop-types';*/
 
@@ -13,7 +13,7 @@ function CollapsableTextContent({ quantity }) {
   return <Counter count={quantity} size="default" extraClass='m-1' />
 }
 
-export function BurgerContent({ children, dataItem }) {
+function BurgerContent({ children, dataItem }) {
   const [modalActive, setModalActive] = React.useState(false);
 
   const handleOpen = () => {
@@ -47,6 +47,8 @@ export function BurgerContent({ children, dataItem }) {
     </>
   )
 }
+
+export default BurgerContent;
 
 /*BurgerContent.propTypes = {
   props: contentPropType.isRequired
