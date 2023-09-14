@@ -3,10 +3,10 @@ import styles from './modal.module.css';
 import { ModalOverlay } from '../modalOverlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 
-/*const modalRoot = document.getElementById('react-modals');*/
+const modalRoot = document.getElementById('react-modals');
 
 export const Modal = ({ title, children, handleClose}) => {
-  /*console.log(modalRoot);*/
+  console.log(modalRoot);
   return ReactDOM.createPortal(
     <ModalOverlay handleClose={handleClose}>
       <div className={styles.modal} >
@@ -17,7 +17,6 @@ export const Modal = ({ title, children, handleClose}) => {
         {children}
       </div>
     </ModalOverlay>,
-  /*modalRoot*/
-  document.getElementById('react-modals')
+  modalRoot  
   );
 };
