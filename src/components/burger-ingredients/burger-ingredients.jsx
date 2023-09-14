@@ -5,7 +5,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import { BurgerContent } from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../main/main';
 import { ingredientPropType } from './../../utils/prop-types';
-import  Modal from './../modal/modal';
+import { Modal } from './../modal/modal';
 
 function ShowTab() {
   const [current, setCurrent] = React.useState('Булки')

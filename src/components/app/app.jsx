@@ -36,10 +36,9 @@ const App = () => {
       <div className={styles.app}>
         <Header />
         {!data.isLoading && <Main ingredients={data.ingredientsData} />}
-        {data.isLoading && <p>Данные загружаются</p>}
+        {data.isLoading && <p className={"text text-type-main-large"} >Данные загружаются</p>}
       </div>
-      
-      <div id = "react-modals"></div>  
+{/*   <div id = "react-modals"></div>  */}
     </>
   );
 }
