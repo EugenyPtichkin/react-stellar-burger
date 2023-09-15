@@ -8,11 +8,11 @@ const Main = (props) => {
   return (
     <div className={styles.main}>
       <section>
-        <BurgerIngredients ingredients={data}> {/* {props.ingredients} */}
+        <BurgerIngredients ingredients={props.ingredients}> {/*{data}>*/}
         </BurgerIngredients>
       </section>
       <section>
-        <BurgerConstructor ingredients={data}> {/* {props.ingredients} */}
+        <BurgerConstructor ingredients={props.ingredients}> {/*{data}>*/}
         </BurgerConstructor>
       </section>
     </div>
