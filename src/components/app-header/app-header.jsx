@@ -1,4 +1,4 @@
-import styles from './header.module.css';
+import styles from './app-header.module.css';
 import NavigationLink from './navigation-link/navigation-link';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
@@ -6,7 +6,7 @@ import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components/dis
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { isActive } from '../app/app';
 
-function Header() {
+function AppHeader() {
   return (
     <>
       <section className={styles.header}>
@@ -33,4 +33,4 @@ function Header() {
   );
 };
 
-export default Header;
+export default AppHeader;

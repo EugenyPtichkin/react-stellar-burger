@@ -5,7 +5,7 @@ import { orderNumber, bunsName } from './../../utils/data';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import OrderDetails from './../orderDetails/order-details';
+import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
 
 function BurgerConstructor({ ingredients }) {

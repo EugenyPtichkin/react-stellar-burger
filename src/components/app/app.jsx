@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './app.module.css';
-import Header from '../header/header';
+import AppHeader from '../app-header/app-header';
 import Main from '../main/main';
 
 export const isActive = false;
@@ -33,7 +33,7 @@ const App = () => {
   return (
     <>
       <div className={styles.app}>
-        <Header />
+        <AppHeader />
         {!data.isLoading && <Main ingredients={data.ingredientsData} />}
         {data.isLoading && <p className="text text-type-main-large" >Данные загружаются</p>}
       </div>
