@@ -8,17 +8,12 @@ function Main(props) {
   return (
     <div className={styles.main}>
       <section>
-        {!props.isLoading && 
-          <BurgerIngredients ingredients={props.ingredients}>
-          </BurgerIngredients>
-        }
+        <BurgerIngredients ingredients={data}>
+        </BurgerIngredients>
       </section>
-
       <section>
-        {!props.isLoading &&
-          <BurgerConstructor ingredients={props.ingredients}>
-          </BurgerConstructor>
-        }
+        <BurgerConstructor ingredients={data}>
+        </BurgerConstructor>
       </section>
     </div>
 

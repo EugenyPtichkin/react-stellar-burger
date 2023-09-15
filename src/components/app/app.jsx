@@ -34,7 +34,7 @@ const App = () => {
     <>
       <div className={styles.app}>
         <Header />
-        {!data.isLoading && <Main ingredients={data.ingredientsData} isLoading={data.isLoading} />}
+        {!data.isLoading && <Main ingredients={data.ingredientsData} />}
         {data.isLoading && <p className="text text-type-main-large" >Данные загружаются</p>}
       </div>
     </>

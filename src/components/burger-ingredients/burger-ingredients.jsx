@@ -39,8 +39,8 @@ function DisplayItem({ dataSet, productName }) {
   );
 }
 
-function BurgerIngredients({ingredients}) {
-  console.log(ingredients);
+function BurgerIngredients(props) {
+  console.log(props.ingredients);
   return (
     <section className={styles.contents}>
       <h1 className={styles.title}>Соберите бургер</h1>
@@ -48,9 +48,9 @@ function BurgerIngredients({ingredients}) {
         <ShowTab />
       </section>
       <section className={styles.scrollbar}>
-        <DisplayItem dataSet={ingredients} productName={bunsName} />
-        <DisplayItem dataSet={ingredients} productName={saucesName} />
-        <DisplayItem dataSet={ingredients} productName={mainsName} />
+        <DisplayItem dataSet={props.ingredients} productName={bunsName} />
+        <DisplayItem dataSet={props.ingredients} productName={saucesName} />
+        <DisplayItem dataSet={props.ingredients} productName={mainsName} />
       </section>
     </section>
   );

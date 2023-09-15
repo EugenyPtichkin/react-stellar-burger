@@ -5,10 +5,6 @@
   width: 520px;  
 }
 
-.ingredient_image {    
-  composes: pl-5 pr-5 pb-4 from global;
-}
-
 .ingredient_name {
   margin: 0;
   composes: text_type_main-medium pb-8 from global;
