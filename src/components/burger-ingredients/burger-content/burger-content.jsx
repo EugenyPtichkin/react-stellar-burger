@@ -9,6 +9,8 @@ import IngredientDetails from './../../ingredient-details/ingredient-details';
 
 const BurgerContent = (props) => {
   const [modalActive, setModalActive] = React.useState(false);
+  const [currentQuantity, setcurrentQuantity] = React.useState(props.dataItem.__v);
+  console.log(currentQuantity);
 
   const handleOpen = () => {
     setModalActive(true);
@@ -18,10 +20,16 @@ const BurgerContent = (props) => {
     setModalActive(false);
   };
 
+  const incrementQuantity = () => {
+    setcurrentQuantity(currentQuantity + 1);  
+    console.log(props.dataItem.name);    
+    console.log(currentQuantity);
+  }
+
   function CollapsableTextContent({ quantity }) {
-   /* if (quantity === 0) {
+   if (quantity === 0) {
       return null;
-    }*/
+    }
     return <Counter count={quantity} size="default" extraClass='m-1' />
   }
 
@@ -42,7 +50,7 @@ const BurgerContent = (props) => {
       </section>
       {modalActive &&
         <Modal title="Детали ингредиента" handleClose={handleClose} >
-          <IngredientDetails data={props.dataItem} />
+          <IngredientDetails data={props.dataItem} onClick={incrementQuantity}/>
         </Modal>
       }
     </>

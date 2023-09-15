@@ -27,6 +27,9 @@ function BurgerConstructor({ ingredients }) {
   //если не выбрана ни одна булка, выбрать первую по списку для заказа
   let bunIndex = bunIndexNonZero === -1 ? bunIndexFirst : bunIndexNonZero;
 
+  //вычисление суммы заказа
+  let totalPrice = ingredients.map((dataItem) => dataItem.price * dataItem.__v).reduce((acc, item) =>  acc + item, 0);
+
   // Дописать к названию булочки "верх" или "низ" 
   function DisplayConstructorElement({ dataItem, style, lock }) {
     let newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
@@ -89,7 +92,7 @@ function BurgerConstructor({ ingredients }) {
 
       <section className={Styles.info}>
         <div className={Styles.price}>
-          <p className={Styles.price_value}>610</p>
+          <p className={Styles.price_value}>{totalPrice}</p>
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={handleOpen}>

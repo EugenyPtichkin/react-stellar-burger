@@ -8,7 +8,7 @@ const Main = (props) => {
   return (
     <div className={styles.main}>
       <section>
-        <BurgerIngredients ingredients={props.ingredients}>
+        <BurgerIngredients ingredients={data}> {/* {props.ingredients} */}
         </BurgerIngredients>
       </section>
       <section>
