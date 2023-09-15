@@ -1,6 +1,7 @@
 import styles from './navigation-link.module.css';
+import PropTypes from "prop-types";
 
-export function NavigationLink(props) {
+function NavigationLink(props) {
   return (
     <a href="#" className={styles.navigation_link}>
       {props.children}
@@ -8,3 +9,9 @@ export function NavigationLink(props) {
     </a>
   );
 }
+NavigationLink.propTypes = {
+  children: PropTypes.node.isRequired,
+  text: PropTypes.string.isRequired
+};
+
+export default NavigationLink;

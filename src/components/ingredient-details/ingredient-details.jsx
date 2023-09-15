@@ -1,3 +1,4 @@
+import { sglDataPropType } from './../../utils/prop-types';
 import Styles from './ingredient-details.module.css';
 
 function IngredientDetails(data) {
@@ -26,5 +27,9 @@ function IngredientDetails(data) {
     </div>
   );
 }
+
+IngredientDetails.propTypes = {
+  data: sglDataPropType.isRequired,
+};
 
 export default IngredientDetails;

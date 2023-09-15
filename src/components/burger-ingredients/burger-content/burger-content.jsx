@@ -1,19 +1,13 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { sglDataPropType } from './../../../utils/prop-types';
 import styles from './burger-content.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
-/*import { contentPropType } from './../../../utils/prop-types';*/
 
-function CollapsableTextContent({ quantity }) {
-  if (quantity === 0) {
-    return null;
-  }
-  return <Counter count={quantity} size="default" extraClass='m-1' />
-}
-
-function BurgerContent({ children, dataItem }) {
+const BurgerContent = (props) => {
   const [modalActive, setModalActive] = React.useState(false);
 
   const handleOpen = () => {
@@ -24,32 +18,40 @@ function BurgerContent({ children, dataItem }) {
     setModalActive(false);
   };
 
+  function CollapsableTextContent({ quantity }) {
+    if (quantity === 0) {
+      return null;
+    }
+    return <Counter count={quantity} size="default" extraClass='m-1' />
+  }
+
   return (
     <>
       <section className={styles.item} onClick={handleOpen}>
         <div className={styles.image} >
-          {children}
+          {props.children}
         </div>
         <div className={styles.price}>
           <div className={styles.price_value}>
-            {dataItem.price}
+            {props.dataItem.price}
           </div>
           <CurrencyIcon type="primary"></CurrencyIcon>
         </div>
-        <p className={styles.name}>{dataItem.name}</p>
-        <CollapsableTextContent quantity={dataItem.__v} />
+        <p className={styles.name}>{props.dataItem.name}</p>
+        <CollapsableTextContent quantity={props.dataItem.__v} />
       </section>
       {modalActive &&
         <Modal title="Детали ингредиента" handleClose={handleClose} >
-          <IngredientDetails data={dataItem} />
+          <IngredientDetails data={props.dataItem} />
         </Modal>
       }
     </>
   )
 }
 
-export default BurgerContent;
+BurgerContent.propTypes = {
+  dataItem: sglDataPropType.isRequired,
+  children: PropTypes.node.isRequired
+};
 
-/*BurgerContent.propTypes = {
-  props: contentPropType.isRequired
-};*/
+export default BurgerContent;

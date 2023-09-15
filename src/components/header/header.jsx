@@ -1,5 +1,5 @@
 import styles from './header.module.css';
-import { NavigationLink } from './navigation-link/navigation-link';
+import NavigationLink from './navigation-link/navigation-link';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';

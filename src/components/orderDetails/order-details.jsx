@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import Styles from './order-details.module.css';
 import imageDone from './../../images/done.png';
 
@@ -12,5 +13,9 @@ function OrderDetails(props) {
     </div>    
   );
 }
+
+OrderDetails.propTypes = {
+  OrderDetails: PropTypes.number.isRequired
+};
 
 export default OrderDetails;
