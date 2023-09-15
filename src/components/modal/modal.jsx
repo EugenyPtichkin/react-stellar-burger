@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import styles from './modal.module.css';
+import Styles from './modal.module.css';
 import ModalOverlay from '../modalOverlay/modal-overlay';
 import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 
@@ -23,15 +23,16 @@ const Modal = ({ title, children, handleClose }) => {
 
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay handleClose={handleClose}>
-      <div className={styles.modal} >
-        <div className={styles.title}>
-          <p className={styles.title_text}>{title}</p>
-          <CloseIcon type="primary" className={styles.close_button} onClick={handleClose} />
+      <div className={Styles.modal} >
+        <div className={Styles.title}>
+          <p className={Styles.title_text}>{title}</p>
+          <div className={Styles.close_button} onClick={handleClose}>
+            <CloseIcon type="primary"/>
+          </div>
         </div>
         {children}
       </div>
-      </ModalOverlay>
+      <ModalOverlay handleClose={handleClose}></ModalOverlay>
     </>,
     modalRoot
   );

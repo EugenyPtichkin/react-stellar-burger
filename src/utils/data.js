@@ -1,4 +1,4 @@
-export const orderNumber = '034536';
+export const orderNumber = Number('034536');
 export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];

@@ -19,9 +19,9 @@ const BurgerContent = (props) => {
   };
 
   function CollapsableTextContent({ quantity }) {
-    if (quantity === 0) {
+   /* if (quantity === 0) {
       return null;
-    }
+    }*/
     return <Counter count={quantity} size="default" extraClass='m-1' />
   }
 
@@ -55,3 +55,4 @@ BurgerContent.propTypes = {
 };
 
 export default BurgerContent;
+

@@ -33,3 +33,7 @@
   align-items: center;
   composes: text_type_main-small text_color_inactive from global;
 }
+
+.nutrition_value:first-child {
+  min-width: 120px;
+}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { dataPropType } from './../../utils/prop-types';
-import styles from './burger-constructor.module.css';
+import Styles from './burger-constructor.module.css';
 import { orderNumber, bunsName } from './../../utils/data';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
@@ -44,14 +44,11 @@ function BurgerConstructor({ ingredients }) {
 
   // Добавить к разметке иконку перетаскивания
   function DisplayItem({ dataItem, style, lock }) {
-    if (!lock) {
-      return <section className={styles.chosableItem}>
-        <DragIcon />
+    return (
+      <section className={Styles.chosableItem}>
+        {!lock && < DragIcon />}
         <DisplayConstructorElement dataItem={dataItem} style={style} lock={lock} />
       </section>
-    }
-    return (
-      <DisplayConstructorElement dataItem={dataItem} style={style} lock={lock} />
     );
   };
 
@@ -68,15 +65,15 @@ function BurgerConstructor({ ingredients }) {
   };
 
   return (
-    <section className={styles.contents}>
-      <section className={styles.layout_first_last}> {
+    <section className={Styles.contents}>
+      <section className={Styles.layout_first_last}> {
         <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="top" lock={true} />
       }
       </section>
 
-      <section className={styles.scrolbarList}>
-        <ul className={styles.itemsList}>
-          <li className={styles.layout}>
+      <section className={Styles.scrolbarList}>
+        <ul className={Styles.itemsList}>
+          <li className={Styles.layout}>
             {ingredients.map((dataItem) => ((dataItem.type !== bunsName[0]) && (dataItem.__v !== 0) &&
               <DisplayItems key={dataItem._id} dataItem={dataItem} num={dataItem.__v} />
             ))
@@ -85,15 +82,15 @@ function BurgerConstructor({ ingredients }) {
         </ul>
       </section>
 
-      <section className={styles.layout_first_last}> {
+      <section className={Styles.layout_first_last}> {
         <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="bottom" lock={true} />
       }
       </section>
 
-      <section className={styles.info}>
-        <div className={styles.price}>
-          <p className={styles.price_value}>610</p>
-          <div className={styles.price_icon}><CurrencyIcon /></div>
+      <section className={Styles.info}>
+        <div className={Styles.price}>
+          <p className={Styles.price_value}>610</p>
+          <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={handleOpen}>
           Оформить заказ
