@@ -21,18 +21,18 @@ function BurgerConstructor({ ingredients }) {
   };
 
   //найти первую по списку выбранную булку (с ненулевым счетчиком) - вторую отбросит
-  let bunIndexNonZero = ingredients.findIndex(item => item.type === bunsName[0] && item.__v !== 0);
+  const bunIndexNonZero = ingredients.findIndex(item => item.type === bunsName[0] && item.__v !== 0);
   //найти первую по списку булку (с любым счетчиком) - вторую отбросит
-  let bunIndexFirst = ingredients.findIndex(item => item.type === bunsName[0]);
+  const bunIndexFirst = ingredients.findIndex(item => item.type === bunsName[0]);
   //если не выбрана ни одна булка, выбрать первую по списку для заказа
-  let bunIndex = bunIndexNonZero === -1 ? bunIndexFirst : bunIndexNonZero;
+  const bunIndex = bunIndexNonZero === -1 ? bunIndexFirst : bunIndexNonZero;
 
   //вычисление суммы заказа
-  let totalPrice = ingredients.map((dataItem) => dataItem.price * dataItem.__v).reduce((acc, item) =>  acc + item, 0);
+  const totalPrice = ingredients.map((dataItem) => dataItem.price * dataItem.__v).reduce((acc, item) =>  acc + item, 0);
 
   // Дописать к названию булочки "верх" или "низ" 
   function DisplayConstructorElement({ dataItem, style, lock }) {
-    let newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
+    const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
       (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
     return (
       <ConstructorElement

@@ -1,41 +1,30 @@
 import React from 'react';
-import styles from './app.module.css';
+import Styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import Main from '../main/main';
+import getIngredientsData from './../../utils/burger-api';
 
 export const isActive = false;
-const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
 
 const App = () => {
   const [data, setData] = React.useState({
     ingredientsData: null,
-    isLoading: true
+    isLoading: true,
+    isError: false,
+    errorType: ''
   })
 
   React.useEffect(() => {
-    const getIngredientsData = async () => {
-      try {
-        setData({ ...data, isLoading: true });
-        const res = await fetch(baseUrl);
-        const resultData = await res.json();
-        setData({
-          ...data,
-          ingredientsData: resultData.data,
-          isLoading: false
-        });
-      }
-      catch (err) {
-        console.log(err);
-      }
-    }
-    getIngredientsData();
+    getIngredientsData(data, setData);
   }, [])
+  
   return (
     <>
-      <div className={styles.app}>
+      <div className={Styles.app}>
         <AppHeader />
-        {!data.isLoading && <Main ingredients={data.ingredientsData} />}
-        {data.isLoading && <p className="text text-type-main-large" >Данные загружаются</p>}
+        {!data.isLoading && !data.isError && <Main ingredients={data.ingredientsData} />}
+        {data.isLoading && !data.isError && <p className={`text text_type_main-large ${Styles.loading_text}`}>Данные загружаются</p>}
+        {data.isError && <p className={`text text_type_main-large ${Styles.loading_text}`}>{`Ошибка сервера: ${data.errorType}`}</p>}
       </div>
     </>
   );
