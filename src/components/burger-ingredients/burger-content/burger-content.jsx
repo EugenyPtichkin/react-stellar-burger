@@ -7,7 +7,7 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 
-const BurgerContent = ({dataItem, children, handleIncrementQuantity}) => {
+const BurgerContent = ({dataItem, children}) => {
   const [modalActive, setModalActive] = React.useState(false);
 
   const handleOpen = () => {
@@ -17,18 +17,6 @@ const BurgerContent = ({dataItem, children, handleIncrementQuantity}) => {
   const handleClose = () => {
     setModalActive(false);
   };
-
-  const incrementOnPlus = (event) => {
-    if (event.key === "+") {
-      handleIncrementQuantity(dataItem._id);
-    }
-  };
-  React.useEffect(() => {
-    document.addEventListener("keydown", incrementOnPlus);
-    return () => {
-      document.removeEventListener("keydown", incrementOnPlus);
-    }
-  },[]);
 
   function CollapsableTextContent({ quantity }) {
    if (quantity === 0) {
@@ -64,7 +52,6 @@ const BurgerContent = ({dataItem, children, handleIncrementQuantity}) => {
 BurgerContent.propTypes = {
   dataItem: sglDataPropType.isRequired,
   children: PropTypes.node.isRequired,
-  handleIncrementQuantity: PropTypes.func.isRequired
 };
 
 export default BurgerContent;
