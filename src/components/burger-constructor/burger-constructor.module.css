@@ -45,14 +45,14 @@
 .info {
   display: flex;
   flex-direction: row;
-  justify-content: end;  
+  justify-content: flex-end;  
   composes: pr-4 pt-10 from global;
 }
 
 .price {
   display: flex;
   flex-direction: row;
-  justify-content: end;  
+  justify-content: flex-end;  
   align-items: center;
   column-gap: 8px;
   composes: pr-10 from global;

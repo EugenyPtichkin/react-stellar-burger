@@ -1,32 +1,58 @@
-import styles from './burger-content.module.css';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { sglDataPropType } from './../../../utils/prop-types';
+import Styles from './burger-content.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-/*import { contentPropType } from './../../../utils/prop-types';*/
+import Modal from './../../modal/modal';
+import IngredientDetails from './../../ingredient-details/ingredient-details';
 
-function CollapsableTextContent( {quantity} ) {
-  if (quantity === 0) {
-    return null;
+const BurgerContent = ({dataItem, children}) => {
+  const [modalActive, setModalActive] = React.useState(false);
+
+  const handleOpen = () => {
+    setModalActive(true);
+  };
+
+  const handleClose = () => {
+    setModalActive(false);
+  };
+
+  function CollapsableTextContent({ quantity }) {
+   if (quantity === 0) {
+      return null;
+    }
+    return <Counter count={quantity} size="default" extraClass='m-1' />
   }
-  return <Counter count={quantity} size="default" extraClass='m-1'/>
-}  
-export function BurgerContent(props) {
+
   return (
-  <section className={styles.item}>
-    <div className={styles.image} >
-      {props.children}
-    </div>
-    <div className={styles.price}>
-      <div className={styles.price_value}>
-        {props.price}      
-      </div>
-      <CurrencyIcon type="primary"></CurrencyIcon>
-    </div>
-    <p className={styles.name}>{props.name}</p>
-    <CollapsableTextContent quantity={props.quantity} />
-  </section>
+    <>
+      <section className={Styles.item} onClick={handleOpen}>
+        <div className={Styles.image} >
+          {children}
+        </div>
+        <div className={Styles.price}>
+          <div className={Styles.price_value}>
+            {dataItem.price}
+          </div>
+          <CurrencyIcon type="primary"></CurrencyIcon>
+        </div>
+        <p className={Styles.name}>{dataItem.name}</p>
+        <CollapsableTextContent quantity={dataItem.quantity} />
+      </section>
+      {modalActive &&
+        <Modal title="Детали ингредиента" handleClose={handleClose}  >
+          <IngredientDetails data={dataItem}/>
+        </Modal>
+      }
+    </>
   )
 }
 
-/*BurgerContent.propTypes = {
-  props: contentPropType.isRequired
-};*/
+BurgerContent.propTypes = {
+  dataItem: sglDataPropType.isRequired,
+  children: PropTypes.node.isRequired,
+};
+
+export default BurgerContent;
+

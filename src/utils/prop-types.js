@@ -1,6 +1,6 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 
-const dataPropType =  PropTypes.arrayOf(PropTypes.shape({
+export const sglDataPropType = PropTypes.shape({
   _id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -13,17 +13,6 @@ const dataPropType =  PropTypes.arrayOf(PropTypes.shape({
   image_mobile: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired,
   __v: PropTypes.number.isRequired
-}));
+});
 
-export const ingredientPropType =  dataPropType;
-export const constructorPropType =  dataPropType;
-
-/*
-export const contentPropType = { 
-  children: PropTypes.node.isRequired,
-  key: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  name: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired  
- };*/
-  
+export const dataPropType =  PropTypes.arrayOf(sglDataPropType);  

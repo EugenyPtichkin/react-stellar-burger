@@ -1,3 +1,9 @@
+export const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
+export const orderNumber = Number('034536');
+export const bunsName = ['bun', 'Булки'];
+export const saucesName = ['sauce', 'Соусы'];
+export const mainsName = ['main', 'Начинки'];
+
 export const data = [
   {
      "_id":"60666c42cc7b410027a1a9b1",
@@ -11,7 +17,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/bun-02.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/bun-02-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/bun-02-large.png",
-     "__v":1
+     "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9b5",
@@ -25,7 +31,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/meat-04.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/meat-04-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/meat-04-large.png",
-     "__v":2
+     "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9b6",
@@ -39,7 +45,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/meat-01.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/meat-01-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/meat-01-large.png",
-     "__v":2
+     "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9b7",
@@ -67,7 +73,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/meat-02.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/meat-02-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/meat-02-large.png",
-     "__v":1
+     "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9b8",
@@ -95,7 +101,7 @@ export const data = [
    "image":"https://code.s3.yandex.net/react/code/sauce-03.png",
    "image_mobile":"https://code.s3.yandex.net/react/code/sauce-03-mobile.png",
    "image_large":"https://code.s3.yandex.net/react/code/sauce-03-large.png",
-   "__v":1
+   "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9bc",
@@ -109,7 +115,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/sp_1.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/sp_1-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/sp_1-large.png",
-     "__v":1
+     "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9bb",
@@ -123,7 +129,7 @@ export const data = [
      "image":"https://code.s3.yandex.net/react/code/mineral_rings.png",
      "image_mobile":"https://code.s3.yandex.net/react/code/mineral_rings-mobile.png",
      "image_large":"https://code.s3.yandex.net/react/code/mineral_rings-large.png",
-     "__v":2
+     "__v":0
   },
   {
      "_id":"60666c42cc7b410027a1a9ba",

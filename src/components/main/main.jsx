@@ -1,27 +1,29 @@
-import styles from './main.module.css';
-import { BurgerIngredients } from './../burger-ingredients/burger-ingredients';
-import { BurgerConstructor } from './../burger-constructor/burger-constructor';
+import Styles from './main.module.css';
+import { dataPropType } from './../../utils/prop-types';
+import BurgerIngredients from './../burger-ingredients/burger-ingredients';
+import BurgerConstructor from './../burger-constructor/burger-constructor';
 import { data } from './../../utils/data';
 
-export const bunsName = ['bun', 'Булки'];
-export const saucesName = ['sauce', 'Соусы'];
-export const mainsName = ['main', 'Начинки'];
-
-function Main() {
+const Main = (props) => {
+  const localIngredients = props.ingredients.slice(); /*data.slice();*/
+  localIngredients.forEach((item) => item.quantity = 0);
+  
   return (
-    <div className={styles.main}>
+    <div className={Styles.main}>
       <section>
-        <BurgerIngredients props={data}>
+        <BurgerIngredients ingredients={localIngredients}>
         </BurgerIngredients>
-        
       </section>
-
       <section>
-        <BurgerConstructor props={data}>
+        <BurgerConstructor ingredients={localIngredients}>
         </BurgerConstructor>
       </section>
     </div>
   )
 }
+
+Main.propTypes = {
+  ingredients: dataPropType.isRequired
+};
 
 export default Main;
