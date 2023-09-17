@@ -1,15 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { sglDataPropType } from './../../../utils/prop-types';
-import styles from './burger-content.module.css';
+import Styles from './burger-content.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 
-const BurgerContent = (props) => {
+const BurgerContent = ({dataItem, children, handleIncrementQuantity}) => {
   const [modalActive, setModalActive] = React.useState(false);
-  const [currentQuantity, setCurrentQuantity] = React.useState(props.dataItem.__v);
 
   const handleOpen = () => {
     setModalActive(true);
@@ -19,9 +18,17 @@ const BurgerContent = (props) => {
     setModalActive(false);
   };
 
-  const incrementQuantity = () => {
-    setCurrentQuantity(currentQuantity + 1);  
-  }
+  const incrementOnPlus = (event) => {
+    if (event.key === "+") {
+      handleIncrementQuantity(dataItem._id);
+    }
+  };
+  React.useEffect(() => {
+    document.addEventListener("keydown", incrementOnPlus);
+    return () => {
+      document.removeEventListener("keydown", incrementOnPlus);
+    }
+  },[]);
 
   function CollapsableTextContent({ quantity }) {
    if (quantity === 0) {
@@ -32,22 +39,22 @@ const BurgerContent = (props) => {
 
   return (
     <>
-      <section className={styles.item} onClick={handleOpen}>
-        <div className={styles.image} >
-          {props.children}
+      <section className={Styles.item} onClick={handleOpen}>
+        <div className={Styles.image} >
+          {children}
         </div>
-        <div className={styles.price}>
-          <div className={styles.price_value}>
-            {props.dataItem.price}
+        <div className={Styles.price}>
+          <div className={Styles.price_value}>
+            {dataItem.price}
           </div>
           <CurrencyIcon type="primary"></CurrencyIcon>
         </div>
-        <p className={styles.name}>{props.dataItem.name}</p>
-        <CollapsableTextContent quantity={props.dataItem.__v} />
+        <p className={Styles.name}>{dataItem.name}</p>
+        <CollapsableTextContent quantity={dataItem.quantity} />
       </section>
       {modalActive &&
-        <Modal title="Детали ингредиента" handleClose={handleClose} onClick={incrementQuantity}>
-          <IngredientDetails data={props.dataItem}/>
+        <Modal title="Детали ингредиента" handleClose={handleClose}  >
+          <IngredientDetails data={dataItem}/>
         </Modal>
       }
     </>
@@ -56,7 +63,8 @@ const BurgerContent = (props) => {
 
 BurgerContent.propTypes = {
   dataItem: sglDataPropType.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  handleIncrementQuantity: PropTypes.func.isRequired
 };
 
 export default BurgerContent;

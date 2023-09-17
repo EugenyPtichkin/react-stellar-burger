@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import PropTypes from 'prop-types';
 import { dataPropType } from './../../utils/prop-types';
 import Styles from './burger-constructor.module.css';
 import { orderNumber, bunsName } from './../../utils/data';
@@ -8,7 +9,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
 
-function BurgerConstructor({ ingredients }) {
+function BurgerConstructor({ ingredients, handleIncrementQuantity, handleResetQuantity }) {
 
   const [modalActive, setModalActive] = React.useState(false);
 
@@ -21,48 +22,55 @@ function BurgerConstructor({ ingredients }) {
   };
 
   //найти первую по списку выбранную булку (с ненулевым счетчиком) - вторую отбросит
-  const bunIndexNonZero = ingredients.findIndex(item => item.type === bunsName[0] && item.__v !== 0);
+  const bunIndexNonZero = ingredients.findIndex(item => item.type === bunsName[0] && item.quantity !== 0);
   //найти первую по списку булку (с любым счетчиком) - вторую отбросит
   const bunIndexFirst = ingredients.findIndex(item => item.type === bunsName[0]);
   //если не выбрана ни одна булка, выбрать первую по списку для заказа
   const bunIndex = bunIndexNonZero === -1 ? bunIndexFirst : bunIndexNonZero;
-
+  useEffect(() => {
+    handleIncrementQuantity(ingredients[bunIndex]._id);
+  },[]);
+  
+    
   //вычисление суммы заказа
-  const totalPrice = ingredients.map((dataItem) => dataItem.price * dataItem.__v).reduce((acc, item) =>  acc + item, 0);
+  const totalPrice = ingredients.map((dataItem) => dataItem.price * dataItem.quantity).reduce((acc, item) => acc + item, 0);
 
   // Дописать к названию булочки "верх" или "низ" 
-  function DisplayConstructorElement({ dataItem, style, lock }) {
+  function DisplayConstructorElement({ dataItem, style, lock, handleResetQuantity }) {
     const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
       (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
     return (
-      <ConstructorElement
-        type={style}
-        isLocked={lock}
-        text={newtext}
-        price={dataItem.price}
-        thumbnail={dataItem.image}
-      />
+      <div onClick={handleResetQuantity(dataItem._id)}>
+        <ConstructorElement
+          type={style}
+          isLocked={lock}
+          text={newtext}
+          price={dataItem.price}
+          thumbnail={dataItem.image}
+        />
+      </div>
     )
   }
 
   // Добавить к разметке иконку перетаскивания
-  function DisplayItem({ dataItem, style, lock }) {
+  function DisplayItem({ dataItem, style, lock, handleResetQuantity }) {
     return (
       <section className={Styles.chosableItem}>
         {!lock && < DragIcon />}
-        <DisplayConstructorElement dataItem={dataItem} style={style} lock={lock} />
+        <DisplayConstructorElement dataItem={dataItem} style={style} lock={lock} handleResetQuantity={handleResetQuantity}/>
       </section>
     );
   };
 
   // Цикл для отображения переносимых элементов 
-  function DisplayItems({ dataItem, num }) {
+  function DisplayItems({ dataItem, num, handleResetQuantity }) {
     return (
       Array(num).fill().map((item, index) =>
         <DisplayItem
           key={[dataItem._id, index.toString()].join('')}
           dataItem={dataItem}
           lock={false}
+          handleResetQuantity={handleResetQuantity}
         />
       ))
   };
@@ -70,15 +78,15 @@ function BurgerConstructor({ ingredients }) {
   return (
     <section className={Styles.contents}>
       <section className={Styles.layout_first_last}> {
-        <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="top" lock={true} />
+        <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="top" lock={true} handleResetQuantity={handleResetQuantity}/>
       }
       </section>
 
       <section className={Styles.scrolbarList}>
         <ul className={Styles.itemsList}>
           <li className={Styles.layout}>
-            {ingredients.map((dataItem) => ((dataItem.type !== bunsName[0]) && (dataItem.__v !== 0) &&
-              <DisplayItems key={dataItem._id} dataItem={dataItem} num={dataItem.__v} />
+            {ingredients.map((dataItem) => ((dataItem.type !== bunsName[0]) && (dataItem.quantity !== 0) &&
+              <DisplayItems key={dataItem._id} dataItem={dataItem} num={dataItem.quantity} lock={false} handleResetQuantity={handleResetQuantity}/>
             ))
             }
           </li>
@@ -86,7 +94,7 @@ function BurgerConstructor({ ingredients }) {
       </section>
 
       <section className={Styles.layout_first_last}> {
-        <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="bottom" lock={true} />
+        <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="bottom" lock={true} handleResetQuantity={handleResetQuantity}/>
       }
       </section>
 
@@ -110,7 +118,9 @@ function BurgerConstructor({ ingredients }) {
 };
 
 BurgerConstructor.propTypes = {
-  ingredients: dataPropType.isRequired
+  ingredients: dataPropType.isRequired,
+  handleIncrementQuantity: PropTypes.func.isRequired,
+  handleResetQuantity: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;

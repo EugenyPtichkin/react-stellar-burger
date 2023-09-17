@@ -1,4 +1,4 @@
-import styles from './app-header.module.css';
+import Styles from './app-header.module.css';
 import NavigationLink from './navigation-link/navigation-link';
 import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
@@ -9,9 +9,9 @@ import { isActive } from '../app/app';
 function AppHeader() {
   return (
     <>
-      <section className={styles.header}>
-        <nav className={styles.header_nav}>
-          <div className={styles.header_nav_first}>
+      <section className={Styles.header}>
+        <nav className={Styles.header_nav}>
+          <div className={Styles.header_nav_first}>
             <NavigationLink text='Конструктор'>
               <BurgerIcon type={isActive ? "primary" : "secondary"}></BurgerIcon>
             </NavigationLink>
@@ -23,7 +23,7 @@ function AppHeader() {
 
         <Logo className='header_logo'/>
 
-        <nav className={styles.header_profile}>
+        <nav className={Styles.header_profile}>
           <NavigationLink text='Личный кабинет'>
             <ProfileIcon type={isActive ? "primary" : "secondary"}></ProfileIcon>
           </NavigationLink>

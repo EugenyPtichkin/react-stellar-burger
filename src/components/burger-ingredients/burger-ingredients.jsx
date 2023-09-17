@@ -1,11 +1,12 @@
 import React from 'react';
-import styles from './burger-ingredients.module.css';
+import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
+import PropTypes from 'prop-types';
 import { dataPropType } from './../../utils/prop-types';
 
-function BurgerIngredients({ingredients}) {
+function BurgerIngredients({ingredients, handleIncrementQuantity}) {
 
   function ShowTab() {
     const [current, setCurrent] = React.useState('Булки')
@@ -24,13 +25,13 @@ function BurgerIngredients({ingredients}) {
     )
   }
 
-  function DisplayItem({ dataSet, productName }) {
+  function DisplayItem({ dataSet, productName, handleIncrementQuantity }) {
     return (
       <>
-        <h2 className={styles.subtitle}>{productName[1]}</h2>
-        <div className={styles.layout}>  {
+        <h2 className={Styles.subtitle}>{productName[1]}</h2>
+        <div className={Styles.layout}>  {
           dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
-            <BurgerContent key={dataItem._id} dataItem={dataItem}>
+            <BurgerContent key={dataItem._id} dataItem={dataItem} handleIncrementQuantity={handleIncrementQuantity} >
               <img src={dataItem.image} alt={dataItem.name} />
             </BurgerContent>
           ))
@@ -41,22 +42,23 @@ function BurgerIngredients({ingredients}) {
   }
 
   return (
-    <section className={styles.contents}>
-      <h1 className={styles.title}>Соберите бургер</h1>
-      <section className={styles.tab}>
+    <section className={Styles.contents}>
+      <h1 className={Styles.title}>Соберите бургер</h1>
+      <section className={Styles.tab}>
         <ShowTab />
       </section>
-      <section className={styles.scrollbar}>
-        <DisplayItem dataSet={ingredients} productName={bunsName} />
-        <DisplayItem dataSet={ingredients} productName={saucesName} />
-        <DisplayItem dataSet={ingredients} productName={mainsName} />
+      <section className={Styles.scrollbar}>
+        <DisplayItem dataSet={ingredients} handleIncrementQuantity={handleIncrementQuantity} productName={bunsName} />
+        <DisplayItem dataSet={ingredients} handleIncrementQuantity={handleIncrementQuantity} productName={saucesName} />
+        <DisplayItem dataSet={ingredients} handleIncrementQuantity={handleIncrementQuantity} productName={mainsName} />
       </section>
     </section>
   );
 };
 
 BurgerIngredients.propTypes = {
- ingredients: dataPropType.isRequired
+ ingredients: dataPropType.isRequired,
+ handleIncrementQuantity: PropTypes.func.isRequired
 };
 
 export default BurgerIngredients;
