@@ -7,7 +7,7 @@ import getIngredientsData from './../../utils/burger-api';
 
 export const isActive = false;
 
-const App = () => {
+const App = () => {  
   const [data, setData] = React.useState({
     ingredientsData: null,
     isLoading: true,
@@ -21,8 +21,6 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-  {/* <div className='app'>   стиль 'app' не применяется, только через {Styles.app} */}
-  {/* <div class='app'>       глобальный стиль также не применяется */}
       <div className={Styles.app}>
         <AppHeader />
         {!data.isLoading && !data.isError && <Main ingredients={data.ingredientsData} />}
