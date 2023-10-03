@@ -8,6 +8,7 @@ import getIngredientsData from './../../utils/burger-api';
 export const isActive = false;
 
 const App = () => {  
+  //перечень доступных ингредиентов
   const [data, setData] = React.useState({
     ingredientsData: null,
     isLoading: true,

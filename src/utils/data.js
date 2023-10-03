@@ -1,8 +1,10 @@
-export const baseUrl = "https://norma.nomoreparties.space/api/ingredients";
-export const orderNumber = Number('034536');
+export const baseUrl = "https://norma.nomoreparties.space/api";
 export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
+
+/*
+export const orderNumber = Number('034536');
 
 export const data = [
   {
@@ -215,4 +217,4 @@ export const data = [
      "image_large":"https://code.s3.yandex.net/react/code/bun-01-large.png",
      "__v":0
   }
-]
+]*/

@@ -20,7 +20,8 @@
   align-items: center;
   width: 640px;
   height: 64px;
-  composes: pt-10 from global;
+  composes: pt-10 pb-5 from global;
+  text-align: center; 
 }
 
 .title_text {

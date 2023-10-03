@@ -7,9 +7,10 @@ import { IngredientsContext, ConstructorContext, PriceContext } from '../../util
 import { v4 as uuidv4 } from 'uuid';
 
 const Main = (props) => {
+  //добавить ко всем элементам поле c уникальным id
   const localIngredients = props.ingredients.slice();
   localIngredients.forEach((item) => item.uniqueKey = uuidv4());
-  const [allIngredients, setAllIngredients] = useState(localIngredients); //props.ingredients
+  const [allIngredients, setAllIngredients] = useState(localIngredients);
   const [burgerIngredients, setBurgerIngredients] = useState({ bun: null, ingredients: [] });
 
   //подсчет стоимости через useReducer
