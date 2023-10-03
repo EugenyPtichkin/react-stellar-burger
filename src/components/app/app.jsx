@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ErrorBoundary from './../errorboundary/error-boundary';
 import Styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
@@ -15,7 +15,7 @@ const App = () => {
     errorType: ''
   })
 
-  React.useEffect(() => {
+  useEffect(() => {
     getIngredientsData(data, setData);
   }, [])
 

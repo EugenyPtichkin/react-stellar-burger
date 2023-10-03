@@ -19,15 +19,8 @@ const BurgerContent = ({ dataItem, children }) => {
     const copyItem = Object.assign({}, dataItem);
     copyItem.uniqueKey = uuidv4();    
     copyItem.type == 'bun' ? copySet.bun = copyItem : copySet.ingredients.push(copyItem);    
-    console.log(copyItem.price); 
     copyItem.type == 'bun' ? dispatch({type: 'addBun', productPrice: copyItem.price}) : dispatch({type: 'addMeal', productPrice: copyItem.price}) ;
     setBurgerIngredients(copySet);    
-/*    if (copyItem.type !== "bun") {
-      console.log(copySet.ingredients.length - 1);
-      console.log(copySet.ingredients[copySet.ingredients.length - 1].uniqueKey);
-      console.log(copySet.ingredients[copySet.ingredients.length - 1]);
-      console.log(copySet); 
-    }*/
   };
 
   const handleOpen = () => {

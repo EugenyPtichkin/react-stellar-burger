@@ -1,4 +1,4 @@
-import React, {useContext}  from 'react';
+import { useState, useContext }  from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
@@ -11,7 +11,7 @@ function BurgerIngredients() {
   const ingredients = ingredientsObject.allIngredients;  
   
   function ShowTab() {
-    const [current, setCurrent] = React.useState('Булки')
+    const [current, setCurrent] = useState('Булки')
     return (
       <div style={{ display: 'flex' }}>
         <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent} >
