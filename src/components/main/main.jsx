@@ -1,26 +1,56 @@
-import { useState } from 'react';
+import { useState, useReducer } from 'react';
 import Styles from './main.module.css';
 import { dataPropType } from './../../utils/prop-types';
 import BurgerIngredients from './../burger-ingredients/burger-ingredients';
 import BurgerConstructor from './../burger-constructor/burger-constructor';
-import { IngredientsContext, ConstructorContext } from '../../utils/ingredientsContext';
+import { IngredientsContext, ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
 import { v4 as uuidv4 } from 'uuid';
 
 const Main = (props) => {
-  const localIngredients = props.ingredients.slice(); 
-  localIngredients.forEach((item) => item.uniqueKey=uuidv4());
+  const localIngredients = props.ingredients.slice();
+  localIngredients.forEach((item) => item.uniqueKey = uuidv4());
   const [allIngredients, setAllIngredients] = useState(localIngredients); //props.ingredients
-  const [burgerIngredients, setBurgerIngredients] = useState({bun: null, ingredients:[]});
+  const [burgerIngredients, setBurgerIngredients] = useState({ bun: null, ingredients: [] });
+
+  //подсчет стоимости через useReducer
+  const initialPrice = { bunsPrice: 0, ingredientsPrice: 0, totalPrice: 0 };
+  function reducer(state, action) {
+    switch (action.type) {
+      case "addBun":
+        return {
+          bunsPrice: action.productPrice * 2,
+          ingredientsPrice: state.ingredientsPrice,
+          totalPrice: state.ingredientsPrice + action.productPrice * 2
+        };
+      case "addMeal":
+        return {
+          bunsPrice: state.bunsPrice,
+          ingredientsPrice: state.ingredientsPrice + action.productPrice,
+          totalPrice: state.bunsPrice + state.ingredientsPrice + action.productPrice
+        };
+      case "deleteMeal":
+        return {
+          bunsPrice: state.bunsPrice,
+          ingredientsPrice: state.ingredientsPrice - action.productPrice,
+          totalPrice: state.bunsPrice + state.ingredientsPrice - action.productPrice
+        };
+      default:
+        throw new Error('Wrong type of action: ${action.type}');
+    }
+  }
+  const [state, dispatch] = useReducer(reducer, initialPrice);
 
   return (
-    <IngredientsContext.Provider value={{allIngredients}}>
-      <ConstructorContext.Provider value={{burgerIngredients, setBurgerIngredients}}>
-        <div className={Styles.main}>
-          <BurgerIngredients/> 
-          <BurgerConstructor/> 
-        </div>
-      </ConstructorContext.Provider>
-    </IngredientsContext.Provider>
+    <PriceContext.Provider value={{ state, dispatch }}>
+      <IngredientsContext.Provider value={{ allIngredients }}>
+        <ConstructorContext.Provider value={{ burgerIngredients, setBurgerIngredients }}>
+          <div className={Styles.main}>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </div>
+        </ConstructorContext.Provider>
+      </IngredientsContext.Provider>
+    </PriceContext.Provider>
   )
 }
 
