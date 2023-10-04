@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useMemo } from 'react';
 import Styles from './main.module.css';
 import { dataPropType } from './../../utils/prop-types';
 import BurgerIngredients from './../burger-ingredients/burger-ingredients';
@@ -41,8 +41,12 @@ const Main = (props) => {
   }
   const [state, dispatch] = useReducer(reducer, initialPrice);
 
+  const contextValue = useMemo(() => {
+    return { state, dispatch };
+  }, [state, dispatch]);
+
   return (
-    <PriceContext.Provider value={{ state, dispatch }}>
+    <PriceContext.Provider value={contextValue}>  {/*{ state, dispatch }*/}
       <IngredientsContext.Provider value={{ allIngredients }}>
         <ConstructorContext.Provider value={{ burgerIngredients, setBurgerIngredients }}>
           <div className={Styles.main}>
