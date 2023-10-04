@@ -1,14 +1,17 @@
-import React from 'react';
+import { useState, useContext }  from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
-import { dataPropType } from './../../utils/prop-types';
+import { sglDataPropType } from './../../utils/prop-types';
+import { IngredientsContext } from '../../utils/ingredientsContext';
 
-function BurgerIngredients({ingredients}) {
-
+function BurgerIngredients() {
+  const ingredientsObject = useContext(IngredientsContext);
+  const ingredients = ingredientsObject.allIngredients;  
+  
   function ShowTab() {
-    const [current, setCurrent] = React.useState('Булки')
+    const [current, setCurrent] = useState('Булки')
     return (
       <div style={{ display: 'flex' }}>
         <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent} >
@@ -55,8 +58,8 @@ function BurgerIngredients({ingredients}) {
   );
 };
 
-BurgerIngredients.propTypes = {
- ingredients: dataPropType.isRequired
-};
+BurgerContent.propTypes = {
+  dataItem: sglDataPropType.isRequired
+}
 
 export default BurgerIngredients;

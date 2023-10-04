@@ -20,7 +20,8 @@
   align-items: center;
   width: 640px;
   height: 64px;
-  composes: pt-10 from global;
+  composes: pt-10 pb-5 from global;
+  text-align: center; 
 }
 
 .title_text {
@@ -29,6 +30,10 @@
   color: #F2F2F3;
   max-width: 580px;
   composes: text_type_main-large pl-10 pr-10 pt-10 from global;
+}
+
+.error_text {
+  margin: 20px 0 30px 0;
 }
 
 .close_button {

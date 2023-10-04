@@ -1,16 +1,52 @@
-import React from 'react';
-import { dataPropType } from './../../utils/prop-types';
+import { useContext, useState, useEffect } from 'react';
 import Styles from './burger-constructor.module.css';
-import { orderNumber, bunsName } from './../../utils/data';
+import ModalStyles from './../modal/modal.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
 import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
+import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
+import getOrderNumber from '../../utils/order-api';
 
-function BurgerConstructor({ ingredients }) {
+function BurgerConstructor() {
+  const [modalActive, setModalActive] = useState(false);
+  const [modalErrorActive, setErrorActive] = useState(false); //Обработка ошибки - заказ без булки
+  const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
+  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
+  const { state, dispatch } = useContext(PriceContext);
 
-  const [modalActive, setModalActive] = React.useState(false);
+  //cостояние заказа используется только в BurgerConstructor
+  const [orderData, setOrderData] = useState({
+    ids: [],
+    name: '',
+    order: 0,
+    success: false,
+    isError: false,
+    errorType: ''
+  });
+
+  const handleSubmit = () => {
+    if (!burgerIngredients.bun) {//Проверка на наличие булки в заказе - сервер не принимает заказы без кода булки
+      handleErrorOpen(); 
+    }
+    else
+    {
+      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
+      orderData.ids = burgerIngredientsIds;
+      console.log(orderData.ids);
+      getOrderNumber(orderData, setOrderData);
+      handleOpen();
+    }
+  };
+
+  useEffect(() => {
+    if ( orderData.isError ) {
+      handleClose();
+      handleServerErrorOpen();
+    }
+  }, [orderData]);
+
 
   const handleOpen = () => {
     setModalActive(true);
@@ -20,19 +56,35 @@ function BurgerConstructor({ ingredients }) {
     setModalActive(false);
   };
 
-  //найти первую по списку выбранную булку (с ненулевым счетчиком) - вторую отбросит
-  const bunIndexNonZero = ingredients.findIndex(item => item.type === bunsName[0] && item.quantity !== 0);
-  //найти первую по списку булку (с любым счетчиком) - вторую отбросит
-  const bunIndexFirst = ingredients.findIndex(item => item.type === bunsName[0]);
-  //если не выбрана ни одна булка, выбрать первую по списку для заказа
-  const bunIndex = bunIndexNonZero === -1 ? bunIndexFirst : bunIndexNonZero;
-  ingredients[bunIndex].quantity = 2;
-  
-  //вычисление суммы заказа
-  const totalPrice = ingredients.map((dataItem) => dataItem.price * dataItem.quantity).reduce((acc, item) => acc + item, 0);
+  const handleErrorOpen = () => {
+    setErrorActive(true);
+  };
 
-  // Дописать к названию булочки "верх" или "низ" 
+  const handleErrorClose = () => {
+    setErrorActive(false);
+  };
+
+  const handleServerErrorOpen = () => {
+    setServerErrorActive(true);
+  };
+
+  const handleServerErrorClose = () => {
+    setServerErrorActive(false);
+  };
+
+  //вычисление суммы заказа перебором через массив
+  /*const bunsPrice = burgerIngredients.bun ? burgerIngredients.bun.price * 2 : 0;
+    const totalPrice = burgerIngredients.ingredients ? burgerIngredients.ingredients.reduce((acc, dataItem) => acc + dataItem.price, bunsPrice) : 0;*/
+
+  // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
   function DisplayConstructorElement({ dataItem, style, lock }) {
+    function handleDeleteItem() {
+      const copySet = Object.assign({}, burgerIngredients);
+      const index = copySet.ingredients.findLastIndex(item => item.uniqueKey === dataItem.uniqueKey);
+      dispatch({ type: 'deleteMeal', productPrice: copySet.ingredients[index].price });
+      copySet.ingredients.splice(index, 1);
+      setBurgerIngredients(copySet);
+    }
     const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
       (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
     return (
@@ -42,13 +94,13 @@ function BurgerConstructor({ ingredients }) {
         text={newtext}
         price={dataItem.price}
         thumbnail={dataItem.image}
+        handleClose={handleDeleteItem}
       />
-
     )
   }
 
   // Добавить к разметке иконку перетаскивания
-  function DisplayItem({ dataItem, style, lock}) {
+  function DisplayItem({ dataItem, style, lock }) {
     return (
       <section className={Styles.chosableItem}>
         {!lock && < DragIcon />}
@@ -57,62 +109,79 @@ function BurgerConstructor({ ingredients }) {
     );
   };
 
-  // Цикл для отображения переносимых элементов 
-  function DisplayItems({ dataItem, num }) {
-    return (
-      Array(num).fill().map((item, index) =>
-        <DisplayItem
-          key={[dataItem._id, index.toString()].join('')}
-          dataItem={dataItem}
-          lock={false}
-        />
-      ))
-  };
-
   return (
     <section className={Styles.contents}>
-      <section className={Styles.layout_first_last}> {
-        <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="top" lock={true} />
+      {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
+        <p className={`text text_type_main-large ${Styles.empty_text}`}>Пусто</p>
       }
-      </section>
-
-      <section className={Styles.scrolbarList}>
-        <ul className={Styles.itemsList}>
-          <li className={Styles.layout}>
-            {ingredients.map((dataItem) => ((dataItem.type !== bunsName[0]) && (dataItem.quantity !== 0) &&
-              <DisplayItems key={dataItem._id} dataItem={dataItem} num={dataItem.quantity} lock={false} />
-            ))
-            }
-          </li>
-        </ul>
-      </section>
-
-      <section className={Styles.layout_first_last}> {
-        <DisplayItem key={ingredients[bunIndex]._id} dataItem={ingredients[bunIndex]} style="bottom" lock={true} />
+      {burgerIngredients.bun &&
+        <section className={Styles.layout_first_last}> {
+          <DisplayItem
+            key={burgerIngredients.bun.uniqueKey}
+            dataItem={burgerIngredients.bun}
+            style={"top"}
+            lock={true}
+          />
+        }
+        </section>
       }
-      </section>
+      {burgerIngredients.ingredients.length !== 0 &&
+        <section className={Styles.scrolbarList}>
+          <ul className={Styles.itemsList}>
+            <li className={Styles.layout}>
+              {burgerIngredients.ingredients.map((dataItem) =>
+                <DisplayItem
+                  key={dataItem.uniqueKey}
+                  dataItem={dataItem}
+                  lock={false}
+                />
+              )}
+            </li>
+          </ul>
+        </section>
+      }
+      {burgerIngredients.bun &&
+        <section className={Styles.layout_first_last}> {
+          <DisplayItem
+            key={burgerIngredients.bun.uniqueKey}
+            dataItem={burgerIngredients.bun}
+            style={"bottom"}
+            lock={true}
+          />
+        }
+        </section>
+      }
 
       <section className={Styles.info}>
         <div className={Styles.price}>
-          <p className={Styles.price_value}>{totalPrice}</p>
+          <p className={Styles.price_value}>{state.totalPrice}</p>
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleOpen}>
+        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}>
           Оформить заказ
         </Button>
       </section>
 
-      {modalActive &&
+      {modalActive && //модальное окно с номером заказа
         <Modal title='' handleClose={handleClose} >
-          <OrderDetails orderNumber={orderNumber} />
+          <OrderDetails orderNumber={orderData.order} />
         </Modal>
       }
+
+      {modalErrorActive && //модальное окно с сообщением об ошибке заказа
+        <Modal title='Пожалуйста, добавьте булку в заказ!' handleClose={handleErrorClose} >
+          <p></p>
+        </Modal>
+      }
+
+      {modalServerErrorActive && //модальное окно с сообщением об ошибке сервера
+        <Modal title='Ошибка запроса на сервер' handleClose={handleServerErrorClose} >
+          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderData.errorType}</p>
+        </Modal>
+      }
+
     </section>
   );
-};
-
-BurgerConstructor.propTypes = {
-  ingredients: dataPropType.isRequired
 };
 
 export default BurgerConstructor;
