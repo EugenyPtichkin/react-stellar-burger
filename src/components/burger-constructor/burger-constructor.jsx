@@ -6,7 +6,6 @@ import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
-import { v4 as uuidv4 } from 'uuid';
 import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
 import getOrderNumber from '../../utils/order-api';
 
@@ -118,9 +117,9 @@ function BurgerConstructor() {
       {burgerIngredients.bun &&
         <section className={Styles.layout_first_last}> {
           <DisplayItem
-            key={uuidv4()}
+            key={burgerIngredients.bun.uniqueKey}
             dataItem={burgerIngredients.bun}
-            style='top'
+            style={"top"}
             lock={true}
           />
         }
@@ -132,7 +131,7 @@ function BurgerConstructor() {
             <li className={Styles.layout}>
               {burgerIngredients.ingredients.map((dataItem) =>
                 <DisplayItem
-                  key={uuidv4()}
+                  key={dataItem.uniqueKey}
                   dataItem={dataItem}
                   lock={false}
                 />
@@ -144,9 +143,9 @@ function BurgerConstructor() {
       {burgerIngredients.bun &&
         <section className={Styles.layout_first_last}> {
           <DisplayItem
-            key={uuidv4()}
+            key={burgerIngredients.bun.uniqueKey}
             dataItem={burgerIngredients.bun}
-            style='bottom'
+            style={"bottom"}
             lock={true}
           />
         }

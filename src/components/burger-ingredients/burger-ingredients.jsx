@@ -58,10 +58,6 @@ function BurgerIngredients() {
   );
 };
 
-/*BurgerIngredients.propTypes = {
- ingredients: dataPropType.isRequired
-};*/
-
 BurgerContent.propTypes = {
   dataItem: sglDataPropType.isRequired
 }

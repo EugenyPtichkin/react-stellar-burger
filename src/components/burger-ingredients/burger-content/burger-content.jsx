@@ -17,7 +17,7 @@ const BurgerContent = ({ dataItem, children }) => {
   const handleAdd = () => {
     const copySet = Object.assign({}, burgerIngredients);
     const copyItem = Object.assign({}, dataItem);
-    copyItem.uniqueKey = uuidv4();    
+    copyItem.uniqueKey = uuidv4();    //присвоить однократно уникальный код при добавлении ингредиента
     copyItem.type == 'bun' ? copySet.bun = copyItem : copySet.ingredients.push(copyItem);    
     copyItem.type == 'bun' ? dispatch({type: 'addBun', productPrice: copyItem.price}) : dispatch({type: 'addMeal', productPrice: copyItem.price}) ;
     setBurgerIngredients(copySet);    
