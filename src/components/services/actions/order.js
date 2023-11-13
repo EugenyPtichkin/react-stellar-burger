@@ -1,3 +1,3 @@
 export const ORDER_REQUEST = 'ORDER_REQUEST';
-export const ORDER_SUCCESS = 'ORDER_SUCCESS';
-export const ORDER_ERROR = 'ORDER_ERROR';
+export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
+export const SET_ORDER_ERROR = 'SET_ORDER_ERROR';

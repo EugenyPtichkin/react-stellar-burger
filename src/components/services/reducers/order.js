@@ -41,5 +41,8 @@ export const orderReducer = (state = initialState, action) => {
         orderIsError: true,
         orderErrorType: action.errorType
       }
+    default:
+        return state;
+    
   }
 }
