@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'; //useContext
 import Styles from './burger-constructor.module.css';
 import ModalStyles from './../modal/modal.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -6,15 +6,22 @@ import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
-import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
+//import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
 import getOrderNumber from '../../utils/order-api';
+import { useSelector, useDispatch } from 'react-redux';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
   const [modalErrorActive, setErrorActive] = useState(false); //Обработка ошибки - заказ без булки
   const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
-  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
-  const { state, dispatch } = useContext(PriceContext);
+  //const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
+  //const { state, dispatch } = useContext(PriceContext);
+
+  const { ingredients, bun } = useSelector(store => store.burger);
+  const burgerIngredients = {bun, ingredients};
+  console.log(burgerIngredients);
+
+  const dispatch = useDispatch();
 
   //cостояние заказа используется только в BurgerConstructor
   const [orderData, setOrderData] = useState({
@@ -72,18 +79,18 @@ function BurgerConstructor() {
     setServerErrorActive(false);
   };
 
-  //вычисление суммы заказа перебором через массив
-  /*const bunsPrice = burgerIngredients.bun ? burgerIngredients.bun.price * 2 : 0;
-    const totalPrice = burgerIngredients.ingredients ? burgerIngredients.ingredients.reduce((acc, dataItem) => acc + dataItem.price, bunsPrice) : 0;*/
-
   // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
   function DisplayConstructorElement({ dataItem, style, lock }) {
     function handleDeleteItem() {
-      const copySet = Object.assign({}, burgerIngredients);
+      dispatch({
+        type: 'DELETE_INGREDIENT',
+        uuid: dataItem.uniqueKey
+      });
+/*    const copySet = Object.assign({}, burgerIngredients);
       const index = copySet.ingredients.findLastIndex(item => item.uniqueKey === dataItem.uniqueKey);
       dispatch({ type: 'deleteMeal', productPrice: copySet.ingredients[index].price });
       copySet.ingredients.splice(index, 1);
-      setBurgerIngredients(copySet);
+      setBurgerIngredients(copySet);*/
     }
     const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
       (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
@@ -154,7 +161,7 @@ function BurgerConstructor() {
 
       <section className={Styles.info}>
         <div className={Styles.price}>
-          <p className={Styles.price_value}>{state.totalPrice}</p>
+          <p className={Styles.price_value}>Цена</p>   {/*state.totalPrice*/}
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}>

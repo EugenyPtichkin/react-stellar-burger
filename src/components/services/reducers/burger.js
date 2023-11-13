@@ -2,14 +2,14 @@ import {
     ADD_INGREDIENT,
     ADD_BUNS,
     DELETE_INGREDIENT
-} from '../actions/constuctor';
+} from '../actions/burger';
 
 const initialState = {
     bun : null,
     ingredients : []
 }
 
-export const constructorReducer = (state = initialState, action) => {
+export const burgerReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_BUNS : 
       return {

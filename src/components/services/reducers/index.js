@@ -4,7 +4,7 @@ import { combineReducers } from 'redux';
 import {ingredientsReducer} from './ingredients';
 
 // Редьюсер бургера
-import {constructorReducer} from './constructor';
+import {burgerReducer} from './burger';
 
 // Редьюсер просматриваемого ингредиента
 import {ingredientReducer} from './ingredient';
@@ -15,7 +15,7 @@ import {orderReducer} from './order';
 // Корневой редьюсер
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
-    constructor: constructorReducer,
+    burger: burgerReducer,
     ingredient: ingredientReducer,
     order: orderReducer
 }) 

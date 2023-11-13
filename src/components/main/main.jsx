@@ -1,20 +1,19 @@
-import { useState, useReducer, useMemo } from 'react';
+//import { useState, useReducer, useMemo } from 'react';
 import Styles from './main.module.css';
-import { dataPropType } from './../../utils/prop-types';
+//import { dataPropType } from './../../utils/prop-types';
 import BurgerIngredients from './../burger-ingredients/burger-ingredients';
 import BurgerConstructor from './../burger-constructor/burger-constructor';
-import { IngredientsContext, ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
-//import { v4 as uuidv4 } from 'uuid';
+//import { IngredientsContext, ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
 
-const Main = (props) => {
+const Main = () => {  //props
   //добавить ко всем элементам поле для уникального id без значения
-  const localIngredients = props.ingredients.slice();
-  localIngredients.forEach((item) => item.uniqueKey = ''); //uuidv4()
-  const [allIngredients] = useState(localIngredients);
-  const [burgerIngredients, setBurgerIngredients] = useState({ bun: null, ingredients: [] });
+//  const localIngredients = props.ingredients.slice();
+//  localIngredients.forEach((item) => item.uniqueKey = ''); //uuidv4()
+//  const [allIngredients] = useState(localIngredients);
+//  const [burgerIngredients, setBurgerIngredients] = useState({ bun: null, ingredients: [] });
 
   //подсчет стоимости через useReducer
-  const initialPrice = { bunsPrice: 0, ingredientsPrice: 0, totalPrice: 0 };
+/*  const initialPrice = { bunsPrice: 0, ingredientsPrice: 0, totalPrice: 0 };
   function reducer(state, action) {
     switch (action.type) {
       case "addBun":
@@ -44,23 +43,24 @@ const Main = (props) => {
   const contextValue = useMemo(() => {
     return { state, dispatch };
   }, [state, dispatch]);
+*/
 
   return (
-    <PriceContext.Provider value={contextValue}>  {/*{ state, dispatch }*/}
-      <IngredientsContext.Provider value={{ allIngredients }}>
-        <ConstructorContext.Provider value={{ burgerIngredients, setBurgerIngredients }}>
+  //  <PriceContext.Provider value={contextValue}>  {/*{ state, dispatch }*/}
+  //    <IngredientsContext.Provider value={{ allIngredients }}>
+  //      <ConstructorContext.Provider value={{ burgerIngredients, setBurgerIngredients }}>
           <div className={Styles.main}>
             <BurgerIngredients />
-            <BurgerConstructor />
+            <BurgerConstructor /> 
           </div>
-        </ConstructorContext.Provider>
-      </IngredientsContext.Provider>
-    </PriceContext.Provider>
+ //       </ConstructorContext.Provider>
+ //     </IngredientsContext.Provider>
+ //   </PriceContext.Provider>
   )
 }
 
-Main.propTypes = {
+/*Main.propTypes = {
   ingredients: dataPropType.isRequired
-};
+};*/
 
 export default Main;

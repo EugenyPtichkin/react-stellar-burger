@@ -6,8 +6,8 @@ import {
 
   //перечень доступных ингредиентов + статусы запросов
   const initialState = {
-    ingredientsData: null,
-    ingredientsLoading: false,
+    ingredients: null,
+    ingredientsLoading: true,
     ingredientsError: false,
     ingredientsErrorType: ''
   };
@@ -18,14 +18,14 @@ import {
         return {
           ...state,
           ingredientsLoading: true,
-          ingredientsLoading: false,
+          ingredientsError: false,
           ingredientsErrorType: ''
         }
       }
       case SET_INGREDIENTS_SUCCESS: {
         return {
           ...state,
-          ingredientsData: action.ingredients,
+          ingredients: action.ingredients,
           ingredientsLoading: false,
           ingredientsError: false,
           ingredientsErrorType: ''

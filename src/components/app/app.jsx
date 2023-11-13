@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import ErrorBoundary from './../errorboundary/error-boundary';
 import Styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
@@ -11,25 +11,11 @@ export const isActive = false;
 const App = () => {  
   const dispatch = useDispatch();
 
-  //перечень доступных ингредиентов
-/*  const [data, setData] = React.useState({
-    ingredientsData: null,
-    isLoading: true,
-    isError: false,
-    errorType: ''
-  })*/
-
   useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch]);
 
-  const ingredientsLoading = useSelector(store => store.ingredients.ingredientsLoading);
-  const ingredientsError = useSelector(store => store.ingredients.ingredientsError);
-  const ingredientsErrorType = useSelector(store => store.ingredients.ingredientsErrorType);
-  
-/*const ingredientsLoading=false;
-  const ingredientsError=false;
-  const ingredientsErrorType='';*/
+  const {ingredientsLoading, ingredientsError, ingredientsErrorType}  = useSelector(store => store.ingredients);
 
   return (
     <ErrorBoundary>

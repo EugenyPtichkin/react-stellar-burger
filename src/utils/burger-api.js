@@ -12,13 +12,13 @@ const getIngredientsData = async () => {    //data, setData
 //  if (!res.ok) {
 //    setData({ ...data, isError: true, errorType: res.status});
 //  }
-    const resultData = await checkResponse(res);
+//  const resultData = await checkResponse(res);
+    return await checkResponse(res);
 //  setData({
 //    ...data,
 //    ingredientsData: resultData.data,
 //    isLoading: false
 //  });
-    return resultData;
 //  }
 //  catch (err) {
 //    console.log(err);
