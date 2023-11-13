@@ -6,21 +6,29 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
-import { ConstructorContext, PriceContext } from '../../../utils/ingredientsContext';
+//import { ConstructorContext, PriceContext } from '../../../utils/ingredientsContext';
 import { v4 as uuidv4 } from 'uuid';
+import {useDispatch} from 'react-redux';
 
 const BurgerContent = ({ dataItem, children }) => {
   const [modalActive, setModalActive] = useState(false);
-  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
-  const { state, dispatch } = useContext(PriceContext);  
+//  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
+//  const { state, dispatch } = useContext(PriceContext);  
 
+  const dispatch = useDispatch();
+  
   const handleAdd = () => {
-    const copySet = Object.assign({}, burgerIngredients);
+    dispatch({
+      type: 'ADD_INGREDIENT',
+      data: dataItem,
+      uuid: uuidv4()    //присвоить однократно уникальный код при добавлении ингредиента
+    });
+/*    const copySet = Object.assign({}, burgerIngredients);
     const copyItem = Object.assign({}, dataItem);
     copyItem.uniqueKey = uuidv4();    //присвоить однократно уникальный код при добавлении ингредиента
     copyItem.type == 'bun' ? copySet.bun = copyItem : copySet.ingredients.push(copyItem);    
     copyItem.type == 'bun' ? dispatch({type: 'addBun', productPrice: copyItem.price}) : dispatch({type: 'addMeal', productPrice: copyItem.price}) ;
-    setBurgerIngredients(copySet);    
+    setBurgerIngredients(copySet);    */
   };
 
   const handleOpen = () => {
