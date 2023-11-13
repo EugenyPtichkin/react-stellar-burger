@@ -7,7 +7,7 @@ import {
   //перечень доступных ингредиентов + статусы запросов
   const initialState = {
     ingredientsData: null,
-    ingredientsLoading: true,
+    ingredientsLoading: false,
     ingredientsError: false,
     ingredientsErrorType: ''
   };
@@ -17,13 +17,15 @@ import {
       case INGREDIENTS_REQUEST: {
         return {
           ...state,
-          ingredientsData: action.data,
-          ingredientsLoading: false
+          ingredientsLoading: true,
+          ingredientsLoading: false,
+          ingredientsErrorType: ''
         }
       }
       case SET_INGREDIENTS_SUCCESS: {
         return {
           ...state,
+          ingredientsData: action.ingredients,
           ingredientsLoading: false,
           ingredientsError: false,
           ingredientsErrorType: ''
