@@ -1,67 +1,44 @@
 import {
-    ADD_ITEMS,
-    SET_ISLOADING,
-    RESET_ISLOADING,
-    SET_ISERROR,
-    RESET_ISERROR,
-    SET_ERROR,
-    RESET_ERROR,
+    INGREDIENTS_REQUEST,
+    SET_INGREDIENTS_SUCCESS,
+    SET_INGREDIENTS_ERROR     
   } from '../actions/ingredients';
 
-  //перечень доступных ингредиентов
+  //перечень доступных ингредиентов + статусы запросов
   const initialState = {
     ingredientsData: null,
-    isLoading: true,
-    isError: false,
-    errorType: ''
+    ingredientsLoading: true,
+    ingredientsError: false,
+    ingredientsErrorType: ''
   };
   
   export const ingredientsReducer = (state = initialState, action) => {
     switch (action.type) {
-      case ADD_ITEMS: {
+      case INGREDIENTS_REQUEST: {
         return {
           ...state,
-          ingredientsData: action.data
-        };
+          ingredientsData: action.data,
+          ingredientsLoading: false
+        }
       }
-      case SET_ISLOADING: {
+      case SET_INGREDIENTS_SUCCESS: {
         return {
           ...state,
-          isLoading: true,
-        };
+          ingredientsLoading: false,
+          ingredientsError: false,
+          ingredientsErrorType: ''
+        }
       }
-      case RESET_ISLOADING: {
+      case SET_INGREDIENTS_ERROR: {
         return {
-            ...state,
-            isLoading: false,
-          };
-      }
-      case SET_ISERROR: {
-        return {
-            ...state,
-            isError: true,
-          };
-      }
-      case RESET_ISERROR: {
-        return {
-            ...state,
-            isError: false,
-          };
-      }
-      case SET_ERROR: {
-        return {
-            ...state,
-            errorType: action.error,
-          };
-      }
-      case RESET_ERROR: {
-        return {
-            ...state,
-            errorType: '',
-          };
-      }
+          ...state,
+          ingredientsLoading: false,
+          ingredientsError: true,
+          ingredientsErrorType: action.errorType
+        }
+      }      
       default: {
         return state;
       }
     }
-  };
+  }

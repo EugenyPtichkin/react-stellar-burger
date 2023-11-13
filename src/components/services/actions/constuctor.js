@@ -1,0 +1,3 @@
+export const ADD_INGREDIENT = 'ADD_INGREDIENT';
+export const ADD_BUNS = 'ADD_BUNS';
+export const DELETE_INGREDIENT = 'DELETE_INGREDIENT';

@@ -1,21 +1,21 @@
 import { combineReducers } from 'redux';
 
 // Редьюсер ингредиентов
-import {ingredientsList} from './../reducers/igredients';
+import {ingredientsReducer} from './ingredients';
 
 // Редьюсер бургера
-import {constructorList} from './../reducers/constructor';
+import {constructorReducer} from './constructor';
 
 // Редьюсер просматриваемого ингредиента
-import {ingredientList} from './../reducers/igredient';
+import {ingredientReducer} from './ingredient';
 
 // Редьюсер созданного заказа
-import {orderList} from './../reducers/order';
+import {orderReducer} from './order';
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
-    ingredientsList,
-    constructorList,
-    ingredientList,
-    orderList
+    ingredients: ingredientsReducer,
+    constructor: constructorReducer,
+    ingredient: ingredientReducer,
+    order: orderReducer
 }) 
