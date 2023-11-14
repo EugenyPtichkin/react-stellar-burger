@@ -21,7 +21,7 @@ function BurgerConstructor() {
 
   const { bun, ingredients } = useSelector(store => store.burger);
   const burgerIngredients = {bun, ingredients};
-  console.log(burgerIngredients);
+//console.log(burgerIngredients);
   
   const burgerPrice = useMemo(() =>   {
     return bun && (ingredients.lenght !== 0) &&
@@ -31,7 +31,7 @@ function BurgerConstructor() {
   const dispatch = useDispatch();
 
   //cостояние заказа
-    const { orderName, orderIsError, orderErrorType } = useSelector(store => store.order);  
+    const { orderIsError, orderErrorType } = useSelector(store => store.order);  
 /*  const [orderData, setOrderData] = useState({
     ids: [],
     name: '',

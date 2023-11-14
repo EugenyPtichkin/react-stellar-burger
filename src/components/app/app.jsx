@@ -17,6 +17,17 @@ const App = () => {
 
   const {ingredientsLoading, ingredientsError, ingredientsErrorType}  = useSelector(store => store.ingredients);
 
+//const ingredientItems = document.querySelectorAll("section[class^ = 'burger-content__item']");
+//console.log(ingredientItems);
+//const ingredientXY = ingredientItems.getBoundingClientRect();
+//console.log(ingredientXY);  
+function getAllMatches(regEx){
+  return Array.prototype.slice.call(document.querySelectorAll('*')).filter(function(el) {
+    return el.tagName.match(regEx);
+  });
+}
+console.log(getAllMatches(/^section/i));
+
   return (
     <ErrorBoundary>
       <div className={Styles.app}>

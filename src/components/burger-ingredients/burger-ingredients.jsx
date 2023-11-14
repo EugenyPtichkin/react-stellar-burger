@@ -1,4 +1,4 @@
-import { useState, useContext }  from 'react';
+import { useState }  from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
@@ -12,7 +12,7 @@ function BurgerIngredients() {
 //  const ingredients = ingredientsObject.allIngredients;  
   const { ingredients } = useSelector(store => store.ingredients);
 //  console.log(ingredients);
-  
+
   function ShowTab() {
     const [current, setCurrent] = useState('Булки')
     return (

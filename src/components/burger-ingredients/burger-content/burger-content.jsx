@@ -12,12 +12,12 @@ import {useDispatch, useSelector} from 'react-redux';
 import { addBuns, addIngredient } from './../../services/actions/burger';
 import {fillItem, clearItem} from './../../services/actions/ingredient';
 
+
 const BurgerContent = ({ dataItem, children }) => {
   const [modalActive, setModalActive] = useState(false);
 //  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
 //  const { state, dispatch } = useContext(PriceContext);  
 
-  
   const dispatch = useDispatch();      
   
   const handleAdd = () => {
