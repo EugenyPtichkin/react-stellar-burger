@@ -1,32 +1,38 @@
 import {
-    ADD_INGREDIENT,
-    ADD_BUNS,
-    DELETE_INGREDIENT
+  ADD_INGREDIENT,
+  ADD_BUNS,
+  DELETE_INGREDIENT,
+  UPDATE_INGREDIENTS
 } from '../actions/burger';
 
 const initialState = {
-    bun : null,
-    ingredients : []
+  bun: null,
+  ingredients: []
 }
 
 export const burgerReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_BUNS : 
+    case ADD_BUNS:
       return {
         ...state,
         bun: action.data
       }
-    case ADD_INGREDIENT : 
+    case ADD_INGREDIENT:
       return {
         ...state,
-        ingredients: [...state.ingredients, {...action.data, uuid: action.uuid}]
+        ingredients: [...state.ingredients, { ...action.data, uuid: action.uuid }]
       }
     case DELETE_INGREDIENT:
       return {
         ...state,
-        ingredients:  [...state.ingredients].filter(item => item.uuid !== action.uuid)
+        ingredients: [...state.ingredients].filter(item => item.uuid !== action.uuid)
+      }
+    case UPDATE_INGREDIENTS:
+      return {
+        ...state,
+        ingredients: action.data
       }
     default:
-        return state
+      return state
   }
 }

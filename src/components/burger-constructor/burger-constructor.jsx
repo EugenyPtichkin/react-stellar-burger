@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'; //useContext
+import { useState, useEffect, useMemo, useCallback } from 'react'; //useContext
 import Styles from './burger-constructor.module.css';
 import ModalStyles from './../modal/modal.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -8,7 +8,7 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
 import { useSelector, useDispatch } from 'react-redux';
-import { deleteIngredient } from './../services/actions/burger';
+import { deleteIngredient, updateIngredients } from './../services/actions/burger';
 import { getOrder } from './../services/actions/order';
 import { useDrop} from 'react-dnd';
 import { addBuns, addIngredient } from './../services/actions/burger';
@@ -116,6 +116,15 @@ function BurgerConstructor() {
     );
   };
 
+  const handleSwitchItems = useCallback((dragIndex, hoverIndex) => {
+    const dragItem = ingredients[dragIndex];
+    const hoverItem = ingredients[hoverIndex];
+    const updatedIngredients = [...ingredients];
+    updatedIngredients[dragIndex]=hoverItem;
+    updatedIngredients[hoverIndex]=dragItem;
+    dispatch(updateIngredients(updatedIngredients));
+  }, [dispatch, ingredients]);
+
   return (
     <section className={Styles.contents}>
       <section className={isOver ? `${Styles.notOver} ${Styles.isOver}` : `${Styles.notOver}`} ref={dropRef}>
@@ -140,7 +149,7 @@ function BurgerConstructor() {
                   key={dataItem.uuid}
                   dataItem={dataItem}
                   index={index}
-//                  moveItem={moveItem}
+                  handleSwitchItems={handleSwitchItems}
                 />
               )}
             </ul>

@@ -6,7 +6,7 @@ import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { deleteIngredient } from './../services/actions/burger';
 
-export const BurgerItem = ({ dataItem, style, lock, index}) => {
+export const BurgerItem = ({ dataItem, style, lock, index, handleSwitchItems}) => {
 
   const ref = useRef(null);
   const dispatch = useDispatch();  
@@ -16,7 +16,7 @@ export const BurgerItem = ({ dataItem, style, lock, index}) => {
 
   const [{ isMoving }, move] = useDrag({
     type: 'item',
-    item: dataItem,
+    item: {index},
     collect: monitor => ({
     isMoving: monitor.isDragging()
     })
@@ -24,7 +24,11 @@ export const BurgerItem = ({ dataItem, style, lock, index}) => {
 
   const [{ isHover }, drop] = useDrop({
     accept: 'item',
-    drop(item) {
+    hover(item) {
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      console.log(dragIndex, hoverIndex);
+      handleSwitchItems(dragIndex, hoverIndex);
     },
     collect: monitor => ({
       isHover: monitor.isOver()
