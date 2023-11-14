@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'; //useContext
+import { useState, useEffect, useMemo } from 'react'; //useContext
 import Styles from './burger-constructor.module.css';
 import ModalStyles from './../modal/modal.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -19,9 +19,14 @@ function BurgerConstructor() {
   //const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
   //const { state, dispatch } = useContext(PriceContext);
 
-  const { ingredients, bun } = useSelector(store => store.burger);
+  const { bun, ingredients } = useSelector(store => store.burger);
   const burgerIngredients = {bun, ingredients};
-  //console.log(burgerIngredients);
+  console.log(burgerIngredients);
+  
+  const burgerPrice = useMemo(() =>   {
+    return bun && (ingredients.lenght !== 0) &&
+     bun.price*2 + ingredients.reduce((acc, item) => acc + item.price, 0);
+  }, [bun, ingredients]);
 
   const dispatch = useDispatch();
 
@@ -56,7 +61,7 @@ function BurgerConstructor() {
       handleClose();
       handleServerErrorOpen();
     }
-  }, [orderName]); //orderData
+  }, [orderIsError]); //orderData
 
 
   const handleOpen = () => {
@@ -162,7 +167,7 @@ function BurgerConstructor() {
 
       <section className={Styles.info}>
         <div className={Styles.price}>
-          <p className={Styles.price_value}>Цена</p>   {/*state.totalPrice*/}
+          <p className={Styles.price_value}>{burgerPrice}</p>   {/*state.totalPrice*/}
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}>
