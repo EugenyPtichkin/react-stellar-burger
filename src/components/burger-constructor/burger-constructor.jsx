@@ -11,6 +11,8 @@ import Modal from './../modal/modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteIngredient } from './../services/actions/burger';
 import { getOrder } from './../services/actions/order';
+import { useDrop } from 'react-dnd';
+import { addBuns, addIngredient } from './../services/actions/burger';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
@@ -19,49 +21,52 @@ function BurgerConstructor() {
   //const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
   //const { state, dispatch } = useContext(PriceContext);
 
-  const { bun, ingredients } = useSelector(store => store.burger);
-  const burgerIngredients = {bun, ingredients};
-//console.log(burgerIngredients);
-  
-  const burgerPrice = useMemo(() =>   {
-    return bun && (ingredients.lenght !== 0) &&
-     bun.price*2 + ingredients.reduce((acc, item) => acc + item.price, 0);
-  }, [bun, ingredients]);
-
   const dispatch = useDispatch();
 
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      console.log(item);
+      if (item.type === 'bun') {
+        dispatch(addBuns(item))
+      } else {
+        dispatch(addIngredient(item))
+      }
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver()
+    })
+  })
+
+  const { bun, ingredients } = useSelector(store => store.burger);
+  const burgerIngredients = { bun, ingredients };
+  //console.log(burgerIngredients);
+
+  const burgerPrice = useMemo(() => {
+    return bun && (ingredients.lenght !== 0) &&
+      bun.price * 2 + ingredients.reduce((acc, item) => acc + item.price, 0);
+  }, [bun, ingredients]);
+
   //cостояние заказа
-    const { orderIsError, orderErrorType } = useSelector(store => store.order);  
-/*  const [orderData, setOrderData] = useState({
-    ids: [],
-    name: '',
-    order: 0,
-    success: false,
-    isError: false,
-    errorType: ''
-  });*/
+  const { orderIsError, orderErrorType } = useSelector(store => store.order);
 
   const handleSubmit = () => {
     if (!burgerIngredients.bun) {//Проверка на наличие булки в заказе - сервер не принимает заказы без кода булки
-      handleErrorOpen(); 
+      handleErrorOpen();
     }
-    else
-    {
+    else {
       const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
-//    orderData.ids = burgerIngredientsIds;
-//    console.log(orderData.ids);
-//    getOrderNumber(orderData, setOrderData);
       dispatch(getOrder(burgerIngredientsIds));
       handleOpen();
     }
   };
 
   useEffect(() => {
-    if ( orderIsError ) {   //orderData.isError
+    if (orderIsError) {
       handleClose();
       handleServerErrorOpen();
     }
-  }, [orderIsError]); //orderData
+  }, [orderIsError]);
 
 
   const handleOpen = () => {
@@ -91,12 +96,7 @@ function BurgerConstructor() {
   // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
   function DisplayConstructorElement({ dataItem, style, lock }) {
     function handleDeleteItem() {
-      dispatch(deleteIngredient(dataItem.uuid));    
-/*    const copySet = Object.assign({}, burgerIngredients);
-      const index = copySet.ingredients.findLastIndex(item => item.uniqueKey === dataItem.uniqueKey);
-      dispatch({ type: 'deleteMeal', productPrice: copySet.ingredients[index].price });
-      copySet.ingredients.splice(index, 1);
-      setBurgerIngredients(copySet);*/
+      dispatch(deleteIngredient(dataItem.uuid));
     }
     const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
       (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
@@ -124,50 +124,52 @@ function BurgerConstructor() {
 
   return (
     <section className={Styles.contents}>
-      {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
-        <p className={`text text_type_main-large ${Styles.empty_text}`}>Пусто</p>
-      }
-      {burgerIngredients.bun &&
-        <section className={Styles.layout_first_last}> {
-          <DisplayItem
-            key={burgerIngredients.bun.uniqueKey}
-            dataItem={burgerIngredients.bun}
-            style={"top"}
-            lock={true}
-          />
+      <section className={isOver ? `${Styles.notOver} ${Styles.isOver}` : `${Styles.notOver}`} ref={dropRef}>
+        {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
+          <p className={`text text_type_main-large ${Styles.empty_text}`}>Пусто</p>
         }
-        </section>
-      }
-      {burgerIngredients.ingredients.length !== 0 &&
-        <section className={Styles.scrolbarList}>
-          <ul className={Styles.itemsList}>
-            <li className={Styles.layout}>
-              {burgerIngredients.ingredients.map((dataItem) =>
-                <DisplayItem
-                  key={dataItem.uuid}  //uniqueKey
-                  dataItem={dataItem}
-                  lock={false}
-                />
-              )}
-            </li>
-          </ul>
-        </section>
-      }
-      {burgerIngredients.bun &&
-        <section className={Styles.layout_first_last}> {
-          <DisplayItem
-            key={burgerIngredients.bun.uuid} //uniqueKey
-            dataItem={burgerIngredients.bun}
-            style={"bottom"}
-            lock={true}
-          />
+        {burgerIngredients.bun &&
+          <section className={Styles.layout_first_last}> {
+            <DisplayItem
+              key={burgerIngredients.bun.uuid}
+              dataItem={burgerIngredients.bun}
+              style={"top"}
+              lock={true}
+            />
+          }
+          </section>
         }
-        </section>
-      }
+        {burgerIngredients.ingredients.length !== 0 &&
+          <section className={Styles.scrolbarList}>
+            <ul className={Styles.itemsList}>
+              <li className={Styles.layout}>
+                {burgerIngredients.ingredients.map((dataItem) =>
+                  <DisplayItem
+                    key={dataItem.uuid}
+                    dataItem={dataItem}
+                    lock={false}
+                  />
+                )}
+              </li>
+            </ul>
+          </section>
+        }
+        {burgerIngredients.bun &&
+          <section className={Styles.layout_first_last}> {
+            <DisplayItem
+              key={burgerIngredients.bun.uuid}
+              dataItem={burgerIngredients.bun}
+              style={"bottom"}
+              lock={true}
+            />
+          }
+          </section>
+        }
+      </section>
 
       <section className={Styles.info}>
         <div className={Styles.price}>
-          <p className={Styles.price_value}>{burgerPrice}</p>   {/*state.totalPrice*/}
+          <p className={Styles.price_value}>{burgerPrice}</p>
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}>
@@ -177,7 +179,7 @@ function BurgerConstructor() {
 
       {modalActive && //модальное окно с номером заказа
         <Modal title='' handleClose={handleClose} >
-          <OrderDetails/>  {/* orderNumber={orderNumber}  orderData.order*/}
+          <OrderDetails />  {/* orderNumber={orderNumber}  orderData.order*/}
         </Modal>
       }
 
@@ -189,7 +191,7 @@ function BurgerConstructor() {
 
       {modalServerErrorActive && //модальное окно с сообщением об ошибке сервера
         <Modal title='Ошибка запроса на сервер' handleClose={handleServerErrorClose} >
-          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderErrorType}</p> {/*orderData.errorType*/}
+          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderErrorType}</p>
         </Modal>
       }
 
