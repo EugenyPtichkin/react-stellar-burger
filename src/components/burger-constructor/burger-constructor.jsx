@@ -118,10 +118,9 @@ function BurgerConstructor() {
 
   const handleSwitchItems = useCallback((dragIndex, hoverIndex) => {
     const dragItem = ingredients[dragIndex];
-    const hoverItem = ingredients[hoverIndex];
     const updatedIngredients = [...ingredients];
-    updatedIngredients[dragIndex]=hoverItem;
-    updatedIngredients[hoverIndex]=dragItem;
+    updatedIngredients.splice(dragIndex,1);          //удалить переносимый
+    updatedIngredients.splice(hoverIndex,0,dragItem);//вставить внутрь
     dispatch(updateIngredients(updatedIngredients));
   }, [dispatch, ingredients]);
 
