@@ -21,14 +21,12 @@ function BurgerConstructor() {
 
   const { ingredients, bun } = useSelector(store => store.burger);
   const burgerIngredients = {bun, ingredients};
-  console.log(burgerIngredients);
+  //console.log(burgerIngredients);
 
   const dispatch = useDispatch();
 
-  //cостояние заказа используется только в BurgerConstructor
+  //cостояние заказа
     const { orderName, orderNumber, orderIsError, orderErrorType } = useSelector(store => store.order);  
-    console.log(orderName);
-    console.log(orderNumber);
 /*  const [orderData, setOrderData] = useState({
     ids: [],
     name: '',
@@ -88,7 +86,6 @@ function BurgerConstructor() {
   // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
   function DisplayConstructorElement({ dataItem, style, lock }) {
     function handleDeleteItem() {
-      console.log(dataItem.uuid);
       dispatch(deleteIngredient(dataItem.uuid));    
 /*    const copySet = Object.assign({}, burgerIngredients);
       const index = copySet.ingredients.findLastIndex(item => item.uniqueKey === dataItem.uniqueKey);

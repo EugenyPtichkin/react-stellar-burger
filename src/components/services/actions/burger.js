@@ -16,7 +16,7 @@ export function addBuns(item) {
 
 export function addIngredient(item) {
     return function(dispatch) {
-      console.log(item);    
+      //console.log(item);    
       dispatch ({
         type: ADD_INGREDIENT,
         data: item,

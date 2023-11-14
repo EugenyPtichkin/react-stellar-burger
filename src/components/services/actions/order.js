@@ -5,7 +5,6 @@ export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
 export const SET_ORDER_ERROR = 'SET_ORDER_ERROR';
 
 export function getOrder(data) {
-    console.log(data);
     return function(dispatch) {      
       dispatch({
         type: ORDER_REQUEST,

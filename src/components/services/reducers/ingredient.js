@@ -23,23 +23,22 @@ export const ingredientReducer = (state = initialState, action) => {
       case FILL_ITEM: {
         return {
           ...state,
-          _id: action._id,
-          name: action.name,
-          type: action.type,
-          proteins: action.proteins,
-          fat: action.fat,
-          carbohydrates: action.carbohydrates,
-          calories: action.calories,
-          price: action.price,
-          image: action.image,
-          image_mobile: action.image_mobile,
-          image_large: action.image_large,
-          __v: action.__v  
+          _id: action.ingredient._id,
+          name: action.ingredient.name,
+          type: action.ingredient.type,
+          proteins: action.ingredient.proteins,
+          fat: action.ingredient.fat,
+          carbohydrates: action.ingredient.carbohydrates,
+          calories: action.ingredient.calories,
+          price: action.ingredient.price,
+          image: action.ingredient.image,
+          image_mobile: action.ingredient.image_mobile,
+          image_large: action.ingredient.image_large,
+          __v: action.ingredient.__v  
         };
       }
       case CLEAR_ITEM: {
         return {
-          ...state,
           state: initialState
         };
       }

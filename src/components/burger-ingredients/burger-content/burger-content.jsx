@@ -8,8 +8,9 @@ import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 //import { ConstructorContext, PriceContext } from '../../../utils/ingredientsContext';
 //import { v4 as uuidv4 } from 'uuid';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import { addBuns, addIngredient } from './../../services/actions/burger';
+import {fillItem, clearItem} from './../../services/actions/ingredient';
 
 const BurgerContent = ({ dataItem, children }) => {
   const [modalActive, setModalActive] = useState(false);
@@ -20,7 +21,6 @@ const BurgerContent = ({ dataItem, children }) => {
   const dispatch = useDispatch();      
   
   const handleAdd = () => {
-    console.log(dataItem);
     if (dataItem.type === 'bun') {
       dispatch(addBuns(dataItem))
     } else {
@@ -36,10 +36,12 @@ const BurgerContent = ({ dataItem, children }) => {
   };
 
   const handleOpen = () => {
+    dispatch(fillItem(dataItem));
     setModalActive(true);
   };
 
   const handleClose = () => {
+    dispatch(clearItem(dataItem));
     setModalActive(false);
   };
 
@@ -68,7 +70,7 @@ const BurgerContent = ({ dataItem, children }) => {
       {modalActive &&
         <div onClick={handleAdd}>
           <Modal title="Детали ингредиента" handleClose={handleClose}>
-            <IngredientDetails data={dataItem} />
+            <IngredientDetails/> {/* data={dataItem} */}
           </Modal>
         </div>
       }
