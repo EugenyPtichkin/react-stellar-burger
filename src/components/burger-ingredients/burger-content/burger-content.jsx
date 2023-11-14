@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'; //useContext
+import { useState, useRef } from 'react'; 
 import PropTypes from 'prop-types';
 import { sglDataPropType } from './../../../utils/prop-types';
 import Styles from './burger-content.module.css';
@@ -7,7 +7,6 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
-//import { addBuns, addIngredient } from './../../services/actions/burger';
 import { fillItem, clearItem } from './../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
 
@@ -16,15 +15,6 @@ const BurgerContent = ({ dataItem, children }) => {
 
   const dispatch = useDispatch();
 
-  /*const handleAdd = () => {
-      if (dataItem.type === 'bun') {
-        dispatch(addBuns(dataItem))
-      } else {
-        dispatch(addIngredient(dataItem))      
-      }      
-    };*/
-
-  console.log(dataItem);
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
     item: dataItem,
@@ -71,7 +61,7 @@ const BurgerContent = ({ dataItem, children }) => {
         </div>
         <p className={Styles.name}>{dataItem.name}</p>
         <CollapsableTextContent quantity={
-          (dataItem.type === 'bun') && bun && (dataItem._id === bun._id) ? 1 : 0 +
+          (dataItem.type === 'bun') && bun && (dataItem._id === bun._id) ? 2 : 0 +
           (dataItem.type !== 'bun') && ingredients.filter(item => item._id === dataItem._id).length} />
       </section>
       {modalActive &&

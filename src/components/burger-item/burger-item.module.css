@@ -1,0 +1,21 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    row-gap: 16px;  
+    composes: pr-4 from global;    
+  }
+
+.chosableItem {
+    display: flex;
+    flex-direction: row;
+    column-gap: 8px;
+    align-items: center;
+   }
+   
+.isMoving {
+    opacity: 0.3;
+  }
+  
+  .isHover {
+    border: solid green 1px;
+  }

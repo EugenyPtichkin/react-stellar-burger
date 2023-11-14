@@ -4,14 +4,10 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
 import { sglDataPropType } from './../../utils/prop-types';
-//import { IngredientsContext } from '../../utils/ingredientsContext';
 import {useSelector} from 'react-redux';
 
 function BurgerIngredients() {
-//  const ingredientsObject = useContext(IngredientsContext);
-//  const ingredients = ingredientsObject.allIngredients;  
   const { ingredients } = useSelector(store => store.ingredients);
-//  console.log(ingredients);
 
   function ShowTab() {
     const [current, setCurrent] = useState('Булки')
