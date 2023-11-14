@@ -24,7 +24,7 @@ export const burgerReducer = (state = initialState, action) => {
     case DELETE_INGREDIENT:
       return {
         ...state,
-        ingredients:  [state.ingredients].filter(item => item.uuid !== action.uuid)
+        ingredients:  [...state.ingredients].filter(item => item.uuid !== action.uuid)
       }
     default:
         return state

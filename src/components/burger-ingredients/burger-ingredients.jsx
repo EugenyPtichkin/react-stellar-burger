@@ -11,7 +11,7 @@ function BurgerIngredients() {
 //  const ingredientsObject = useContext(IngredientsContext);
 //  const ingredients = ingredientsObject.allIngredients;  
   const { ingredients } = useSelector(store => store.ingredients);
-  console.log(ingredients);
+//  console.log(ingredients);
   
   function ShowTab() {
     const [current, setCurrent] = useState('Булки')

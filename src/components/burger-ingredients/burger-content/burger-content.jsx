@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react'; //useContext
 import PropTypes from 'prop-types';
 import { sglDataPropType } from './../../../utils/prop-types';
 import Styles from './burger-content.module.css';
@@ -7,22 +7,26 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 //import { ConstructorContext, PriceContext } from '../../../utils/ingredientsContext';
-import { v4 as uuidv4 } from 'uuid';
-import {useDispatch} from 'react-redux';
+//import { v4 as uuidv4 } from 'uuid';
+import {useDispatch, useSelector} from 'react-redux';
+import { addBuns, addIngredient } from './../../services/actions/burger';
 
 const BurgerContent = ({ dataItem, children }) => {
   const [modalActive, setModalActive] = useState(false);
 //  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
 //  const { state, dispatch } = useContext(PriceContext);  
 
-  const dispatch = useDispatch();
+  
+  const dispatch = useDispatch();      
   
   const handleAdd = () => {
-    dispatch({
-      type: 'ADD_INGREDIENT',
-      data: dataItem,
-      uuid: uuidv4()    //присвоить однократно уникальный код при добавлении ингредиента
-    });
+    console.log(dataItem);
+    if (dataItem.type === 'bun') {
+      dispatch(addBuns(dataItem))
+    } else {
+      dispatch(addIngredient(dataItem))      
+    }
+      
 /*    const copySet = Object.assign({}, burgerIngredients);
     const copyItem = Object.assign({}, dataItem);
     copyItem.uniqueKey = uuidv4();    //присвоить однократно уникальный код при добавлении ингредиента

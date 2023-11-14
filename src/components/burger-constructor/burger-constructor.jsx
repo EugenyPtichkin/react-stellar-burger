@@ -9,6 +9,7 @@ import Modal from './../modal/modal';
 //import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
 import getOrderNumber from '../../utils/order-api';
 import { useSelector, useDispatch } from 'react-redux';
+import { deleteIngredient } from './../services/actions/burger';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
@@ -82,10 +83,8 @@ function BurgerConstructor() {
   // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
   function DisplayConstructorElement({ dataItem, style, lock }) {
     function handleDeleteItem() {
-      dispatch({
-        type: 'DELETE_INGREDIENT',
-        uuid: dataItem.uniqueKey
-      });
+      console.log(dataItem.uuid);
+      dispatch(deleteIngredient(dataItem.uuid));    
 /*    const copySet = Object.assign({}, burgerIngredients);
       const index = copySet.ingredients.findLastIndex(item => item.uniqueKey === dataItem.uniqueKey);
       dispatch({ type: 'deleteMeal', productPrice: copySet.ingredients[index].price });
@@ -138,7 +137,7 @@ function BurgerConstructor() {
             <li className={Styles.layout}>
               {burgerIngredients.ingredients.map((dataItem) =>
                 <DisplayItem
-                  key={dataItem.uniqueKey}
+                  key={dataItem.uuid}  //uniqueKey
                   dataItem={dataItem}
                   lock={false}
                 />
@@ -150,7 +149,7 @@ function BurgerConstructor() {
       {burgerIngredients.bun &&
         <section className={Styles.layout_first_last}> {
           <DisplayItem
-            key={burgerIngredients.bun.uniqueKey}
+            key={burgerIngredients.bun.uuid} //uniqueKey
             dataItem={burgerIngredients.bun}
             style={"bottom"}
             lock={true}
