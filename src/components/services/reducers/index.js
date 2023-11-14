@@ -12,10 +12,13 @@ import {ingredientReducer} from './ingredient';
 // Редьюсер созданного заказа
 import {orderReducer} from './order';
 
+import {positionReducer} from './position';
+
 // Корневой редьюсер
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     burger: burgerReducer,
     ingredient: ingredientReducer,
-    order: orderReducer
+    order: orderReducer,
+    coordinates: positionReducer
 }) 

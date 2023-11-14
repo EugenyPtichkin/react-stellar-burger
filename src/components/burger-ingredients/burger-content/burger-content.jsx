@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'; 
+import { useRef, useState, useMemo, useEffect} from 'react'; 
 import PropTypes from 'prop-types';
 import { sglDataPropType } from './../../../utils/prop-types';
 import Styles from './burger-content.module.css';
@@ -9,8 +9,10 @@ import IngredientDetails from './../../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { fillItem, clearItem } from './../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
+//import { useInView } from 'react-intersection-observer';
+//import { addYCoordinate } from './../../services/actions/position';
 
-const BurgerContent = ({ dataItem, children }) => {
+const BurgerContent = ({ dataItem, children}) => {   {/* setCurrentTab */}
   const [modalActive, setModalActive] = useState(false);
 
   const dispatch = useDispatch();
@@ -33,10 +35,40 @@ const BurgerContent = ({ dataItem, children }) => {
     setModalActive(false);
   };
 
-  /*  const sectionRef = useRef(null);
-    console.log(sectionRef);  
-    const ingredientPos = sectionRef.current?.getBoundingClientRect();
-    console.log(ingredientPos);  */
+  /*const ref = useRef();
+  const [positionY, setPositionY] = useState(0);
+  useEffect(() => {
+    setPositionY(ref.current.getBoundingClientRect().top)
+  },[ref.current]);
+  console.log(positionY); */
+
+
+  /*const ref = useRef();
+  const [bbox, setBbox] = useState({});
+  const set = () => setBbox(ref && ref.current ? ref.current.getBoundingClientRect() : {});
+    useEffect(() => {
+    set();
+    window.addEventListener('resize', set);
+    return () => window.removeEventListener('resize', set);
+  }, []);
+  console.log(bbox.top);*/
+  
+  
+/*  const [prevEntry, setPrevEntry] = useState({});
+  const {ref, entry} = useInView();  
+  if (entry && entry !== prevEntry) {
+    setPrevEntry(entry);
+//console.log(entry.boundingClientRect.y);  
+//dispatch(addYCoordinate(dataItem, entry.boundingClientRect.y));
+  if (dataItem.type === 'bun') {
+     setCurrentTab('Булки'); 
+  } else if (dataItem.type === 'sauce') {
+    setCurrentTab('Соусы');   
+  } else if (dataItem.type === 'main') {
+    setCurrentTab('Начинки');       
+  }
+  else {}
+};*/
 
   const { bun, ingredients } = useSelector(store => store.burger);
 
@@ -50,7 +82,7 @@ const BurgerContent = ({ dataItem, children }) => {
   return (
     <>
       <section className={isDragging ? `${Styles.item} ${Styles.itemDrag}` : `${Styles.item}`} onClick={handleOpen} ref={dragRef} >
-        <div className={Styles.image} >
+        <div className={Styles.image} > {/*ref={ref}> */}
           {children}
         </div>
         <div className={Styles.price}>

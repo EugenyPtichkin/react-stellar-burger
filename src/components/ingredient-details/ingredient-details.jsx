@@ -1,4 +1,3 @@
-//import { sglDataPropType } from './../../utils/prop-types';
 import Styles from './ingredient-details.module.css';
 import {useSelector} from 'react-redux';
 
@@ -31,9 +30,5 @@ function IngredientDetails() { //data
     </div>
   );
 }
-
-//IngredientDetails.propTypes = {
-//  data: sglDataPropType.isRequired,
-//};
 
 export default IngredientDetails;

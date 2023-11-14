@@ -4,7 +4,7 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { useRef } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { deleteIngredient } from './../services/actions/burger';
+import { deleteIngredient } from '../services/actions/burger';
 
 export const BurgerItem = ({ dataItem, style, lock, index, handleSwitchItems}) => {
 

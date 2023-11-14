@@ -4,22 +4,22 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
 import { sglDataPropType } from './../../utils/prop-types';
-import {useSelector} from 'react-redux';
+import { useSelector } from 'react-redux';
 
 function BurgerIngredients() {
   const { ingredients } = useSelector(store => store.ingredients);
+  const [currentTab, setCurrentTab] = useState('Булки')
 
-  function ShowTab() {
-    const [current, setCurrent] = useState('Булки')
+  function ShowTab() {    
     return (
       <div style={{ display: 'flex' }}>
-        <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent} >
+        <Tab value='Булки' active={currentTab === 'Булки'} onClick={setCurrentTab} >
           {bunsName[1]}
         </Tab>
-        <Tab value='Соусы' active={current === 'Соусы'} onClick={setCurrent}>
+        <Tab value='Соусы' active={currentTab === 'Соусы'} onClick={setCurrentTab}>
           {saucesName[1]}
         </Tab>
-        <Tab value='Начинки' active={current === 'Начинки'} onClick={setCurrent}>
+        <Tab value='Начинки' active={currentTab === 'Начинки'} onClick={setCurrentTab}>
           {mainsName[1]}
         </Tab>
       </div>
@@ -32,7 +32,7 @@ function BurgerIngredients() {
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
         <div className={Styles.layout}>  {
           dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
-            <BurgerContent key={dataItem._id} dataItem={dataItem}>
+            <BurgerContent key={dataItem._id} dataItem={dataItem} > {/* setCurrentTab={setCurrentTab} */}
               <img src={dataItem.image} alt={dataItem.name} />
             </BurgerContent>
           ))
@@ -48,7 +48,7 @@ function BurgerIngredients() {
       <section className={Styles.tab}>
         <ShowTab />
       </section>
-      <section className={Styles.scrollbar}>
+      <section className={Styles.scrollbar} >
         <DisplayItem dataSet={ingredients} productName={bunsName} />
         <DisplayItem dataSet={ingredients} productName={saucesName} />
         <DisplayItem dataSet={ingredients} productName={mainsName} />
