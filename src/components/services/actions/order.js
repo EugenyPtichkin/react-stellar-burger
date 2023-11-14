@@ -13,7 +13,7 @@ export function getOrder(data) {
       getOrderNumber(data)
       .then(res => {
         if (res && res.success) {
-          console.log(res);
+          //console.log(res);
           dispatch( {
             type: SET_ORDER_SUCCESS,
             name: res.name,

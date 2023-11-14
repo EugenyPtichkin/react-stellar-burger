@@ -26,7 +26,7 @@ function BurgerConstructor() {
   const dispatch = useDispatch();
 
   //cостояние заказа
-    const { orderName, orderNumber, orderIsError, orderErrorType } = useSelector(store => store.order);  
+    const { orderName, orderIsError, orderErrorType } = useSelector(store => store.order);  
 /*  const [orderData, setOrderData] = useState({
     ids: [],
     name: '',
@@ -172,7 +172,7 @@ function BurgerConstructor() {
 
       {modalActive && //модальное окно с номером заказа
         <Modal title='' handleClose={handleClose} >
-          <OrderDetails orderNumber={orderNumber} />  //orderData.order
+          <OrderDetails/>  {/* orderNumber={orderNumber}  orderData.order*/}
         </Modal>
       }
 

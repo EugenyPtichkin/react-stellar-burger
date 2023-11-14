@@ -8,7 +8,7 @@ import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 //import { ConstructorContext, PriceContext } from '../../../utils/ingredientsContext';
 //import { v4 as uuidv4 } from 'uuid';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import { addBuns, addIngredient } from './../../services/actions/burger';
 import {fillItem, clearItem} from './../../services/actions/ingredient';
 
@@ -45,7 +45,9 @@ const BurgerContent = ({ dataItem, children }) => {
     setModalActive(false);
   };
 
-  function CollapsableTextContent({ quantity }) {
+  const { bun, ingredients } = useSelector(store => store.burger);  
+ 
+  function CollapsableTextContent({quantity}) {
     if (quantity === 0) {
       return null;
     }
@@ -65,7 +67,9 @@ const BurgerContent = ({ dataItem, children }) => {
           <CurrencyIcon type="primary"></CurrencyIcon>
         </div>
         <p className={Styles.name}>{dataItem.name}</p>
-        <CollapsableTextContent quantity={dataItem.quantity} />
+        <CollapsableTextContent quantity={
+          (dataItem.type === 'bun') && bun && (dataItem._id === bun._id) ? 1 : 0  +
+          (dataItem.type !== 'bun') && ingredients.filter(item => item._id === dataItem._id).length } />
       </section>
       {modalActive &&
         <div onClick={handleAdd}>

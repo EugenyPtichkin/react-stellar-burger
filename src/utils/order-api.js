@@ -3,7 +3,7 @@ import { checkResponse } from "./burger-api";
 
 export const getOrderNumber = async (data) => {  //, setData
 //  try {
-    console.log(data.ids);
+    //console.log(data);
     const res = await fetch(`${baseUrl}/orders`, {
       method: 'POST',
       headers: {
