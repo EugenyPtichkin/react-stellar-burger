@@ -24,7 +24,7 @@ export const BurgerItem = ({ dataItem, style, lock, index, handleSwitchItems}) =
 
   const [{ isHover }, drop] = useDrop({
     accept: 'item',
-    hover(item) {
+    drop(item) {
       const dragIndex = item.index;
       const hoverIndex = index;
       console.log(dragIndex, hoverIndex);
