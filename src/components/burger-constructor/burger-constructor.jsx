@@ -7,9 +7,10 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
 //import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
-import getOrderNumber from '../../utils/order-api';
+//import getOrderNumber from '../../utils/order-api';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteIngredient } from './../services/actions/burger';
+import { getOrder } from './../services/actions/order';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
@@ -25,14 +26,17 @@ function BurgerConstructor() {
   const dispatch = useDispatch();
 
   //cостояние заказа используется только в BurgerConstructor
-  const [orderData, setOrderData] = useState({
+    const { orderName, orderNumber, orderIsError, orderErrorType } = useSelector(store => store.order);  
+    console.log(orderName);
+    console.log(orderNumber);
+/*  const [orderData, setOrderData] = useState({
     ids: [],
     name: '',
     order: 0,
     success: false,
     isError: false,
     errorType: ''
-  });
+  });*/
 
   const handleSubmit = () => {
     if (!burgerIngredients.bun) {//Проверка на наличие булки в заказе - сервер не принимает заказы без кода булки
@@ -41,19 +45,20 @@ function BurgerConstructor() {
     else
     {
       const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
-      orderData.ids = burgerIngredientsIds;
-      console.log(orderData.ids);
-      getOrderNumber(orderData, setOrderData);
+//    orderData.ids = burgerIngredientsIds;
+//    console.log(orderData.ids);
+//    getOrderNumber(orderData, setOrderData);
+      dispatch(getOrder(burgerIngredientsIds));
       handleOpen();
     }
   };
 
   useEffect(() => {
-    if ( orderData.isError ) {
+    if ( orderIsError ) {   //orderData.isError
       handleClose();
       handleServerErrorOpen();
     }
-  }, [orderData]);
+  }, [orderName]); //orderData
 
 
   const handleOpen = () => {
@@ -170,7 +175,7 @@ function BurgerConstructor() {
 
       {modalActive && //модальное окно с номером заказа
         <Modal title='' handleClose={handleClose} >
-          <OrderDetails orderNumber={orderData.order} />
+          <OrderDetails orderNumber={orderNumber} />  //orderData.order
         </Modal>
       }
 
@@ -182,7 +187,7 @@ function BurgerConstructor() {
 
       {modalServerErrorActive && //модальное окно с сообщением об ошибке сервера
         <Modal title='Ошибка запроса на сервер' handleClose={handleServerErrorClose} >
-          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderData.errorType}</p>
+          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderErrorType}</p> {/*orderData.errorType*/}
         </Modal>
       }
 

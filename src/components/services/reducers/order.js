@@ -6,7 +6,7 @@
 
   //cостояние заказа + статусы запросов
   const initialState = {
-    orderIds: [],
+    Ids: [],
     orderName: '',
     orderNumber: 0,
     orderRequest: false,

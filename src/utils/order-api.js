@@ -1,22 +1,25 @@
 import { baseUrl } from "./data";
 import { checkResponse } from "./burger-api";
 
-const getOrderNumber = async (data, setData) => {
-  try {
+export const getOrderNumber = async (data) => {  //, setData
+//  try {
+    console.log(data.ids);
     const res = await fetch(`${baseUrl}/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        ingredients: data.ids
-      })      
+        'ingredients': data
+      }),      
     });
-    if (!res.ok) {
-        setData({ ...data, isError: true, errorType: res.status});
-        console.log(`Error in answer from the server: ${res.status}`);
-    }
-    const resultData = await checkResponse(res);
+//    if (!res.ok) {
+//        setData({ ...data, isError: true, errorType: res.status});
+//        console.log(`Error in answer from the server: ${res.status}`);
+//    }
+//    const resultData = await checkResponse(res);
+     return await checkResponse(res);
+/*
     console.log(resultData);
     setData({
       ...data,
@@ -29,6 +32,5 @@ const getOrderNumber = async (data, setData) => {
   }
   catch (err) {
     console.log(err);
-  }
+  }*/
 }
-export default getOrderNumber;
