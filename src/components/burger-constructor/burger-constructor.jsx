@@ -39,8 +39,7 @@ function BurgerConstructor() {
   const burgerIngredients = { bun, ingredients };
 
   const burgerPrice = useMemo(() => {
-    return bun && (ingredients.lenght !== 0) &&
-      bun.price * 2 + ingredients.reduce((acc, item) => acc + item.price, 0);
+    return (bun && bun.price * 2) + ingredients.reduce((acc, item) => acc + item.price, 0);
   }, [bun, ingredients]);
 
   //cостояние заказа
@@ -128,7 +127,7 @@ function BurgerConstructor() {
     <section className={Styles.contents}>
       <section className={isOver ? `${Styles.notOver} ${Styles.isOver}` : `${Styles.notOver}`} ref={dropRef}>
         {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
-          <p className={`text text_type_main-large ${Styles.empty_text}`}>Перетяните сюда!</p>
+          <p className={`text text_type_main-large ${Styles.empty_text}`}>Перетяните сюда булку!</p>
         }
         {burgerIngredients.bun &&
           <section className={Styles.layout_first_last}> {
@@ -171,7 +170,8 @@ function BurgerConstructor() {
           <p className={Styles.price_value}>{burgerPrice}</p>
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}>
+        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit} 
+        disabled={!burgerIngredients.bun} >
           Оформить заказ
         </Button>
       </section>
