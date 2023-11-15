@@ -2,6 +2,8 @@ export const baseUrl = "https://norma.nomoreparties.space/api";
 export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
+export const bunPosition = 275;
+export const saucePosition = 800;
 
 /*
 export const orderNumber = Number('034536');

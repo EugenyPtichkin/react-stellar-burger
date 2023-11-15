@@ -4,6 +4,8 @@
 }
 
 .scrollbar {
+  margin: 0;
+  padding: 0;
   position: relative;
   max-height: 664px;
   max-width: 600px;

@@ -1,27 +1,31 @@
-import { useState }  from 'react';
+import { useState, useEffect }  from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
 import { sglDataPropType } from './../../utils/prop-types';
 import { useSelector } from 'react-redux';
+import { bunPosition, saucePosition } from './../../utils/data';
 
 function BurgerIngredients() {
-  const { ingredients } = useSelector(store => store.ingredients);
-  //const { items } = useSelector(store => store.inview);
 
-  const [currentTab, setCurrentTab] = useState('Булки');
+  const [bunsCategoryActive, setBunsCategoryActive] = useState(true);
+  const [saucesCategoryActive, setSaucesCategoryActive] = useState(false);
+  const [mainsCategoryActive, setMainsCategoryActive] = useState(false);
+  const [categories, setCategories] = useState();
+
+  const { ingredients } = useSelector(store => store.ingredients);
 
   function ShowTab() {    
     return (
       <div style={{ display: 'flex' }}>
-        <Tab value='Булки' active={currentTab === 'Булки'} onClick={setCurrentTab} >
+        <Tab value='Булки' active={bunsCategoryActive}  >  {/* onClick={setBunsCategoryActive} */}
           {bunsName[1]}
         </Tab>
-        <Tab value='Соусы' active={currentTab === 'Соусы'} onClick={setCurrentTab}>
+        <Tab value='Соусы' active={saucesCategoryActive} > {/*  onClick={setSaucesCategoryActive}> */}
           {saucesName[1]}
         </Tab>
-        <Tab value='Начинки' active={currentTab === 'Начинки'} onClick={setCurrentTab}>
+        <Tab value='Начинки' active={mainsCategoryActive} > {/*  onClick={setMainsCategoryActive}> */}
           {mainsName[1]}
         </Tab>
       </div>
@@ -34,7 +38,7 @@ function BurgerIngredients() {
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
         <div className={Styles.layout}>  {
           dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
-            <BurgerContent key={dataItem._id} dataItem={dataItem} >
+            <BurgerContent key={dataItem._id} dataItem={dataItem}>
               <img src={dataItem.image} alt={dataItem.name} />
             </BurgerContent>
           ))
@@ -44,17 +48,47 @@ function BurgerIngredients() {
     );
   }
 
+  useEffect(() => {
+    setCategories(document.getElementById("categories"));
+    function check() {
+      if (categories === null || categories === undefined) {
+        return;
+      } else {
+        categories.addEventListener("scroll", (evt) => {        
+          const scrollPosition = evt.target.scrollTop;
+          //console.log('scrollPosition:', scrollPosition)
+          if (scrollPosition < bunPosition) {
+            setBunsCategoryActive(true);
+            setSaucesCategoryActive(false);
+            setMainsCategoryActive(false);
+          }
+          else if (scrollPosition < saucePosition) {
+            setBunsCategoryActive(false);
+            setSaucesCategoryActive(true);
+            setMainsCategoryActive(false);
+          }
+          else {
+            setBunsCategoryActive(false);
+            setSaucesCategoryActive(false);
+            setMainsCategoryActive(true);
+          }
+        });
+      }
+    }
+    check();
+  }, [categories]);
+
   return (
     <section className={Styles.contents}>
       <h1 className={Styles.title}>Соберите бургер</h1>
       <section className={Styles.tab}>
         <ShowTab />
       </section>
-      <section className={Styles.scrollbar} >
+      <ul className={Styles.scrollbar} id="categories" >
         <DisplayItem dataSet={ingredients} productName={bunsName} />
         <DisplayItem dataSet={ingredients} productName={saucesName} />
         <DisplayItem dataSet={ingredients} productName={mainsName} />
-      </section>
+      </ul>
     </section>
   );
 };

@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { sglDataPropType } from './../../../utils/prop-types';
 import Styles from './burger-content.module.css';
@@ -9,8 +9,6 @@ import IngredientDetails from './../../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { fillItem, clearItem } from './../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
-import { useInView } from 'react-intersection-observer';
-import { addInView } from './../../services/actions/position';
 
 const BurgerContent = ({ dataItem, children }) => {
   const [modalActive, setModalActive] = useState(false);
@@ -35,17 +33,6 @@ const BurgerContent = ({ dataItem, children }) => {
     setModalActive(false);
   };
 
-  const { ref, inView, entry } = useInView({ threshold: 0 });
-  if (entry) {
-    dispatch(addInView(dataItem.type, inView));
-  }
-
-  /* const ref = useRef();
-  useEffect(() => {
-    const rect = ref.current.getBoundingClientRect();
-    dispatch(addInView(dataItem.type, rect.y));
-  })*/
-
   const { bun, ingredients } = useSelector(store => store.burger);
 
   function CollapsableTextContent({ quantity }) {
@@ -58,7 +45,7 @@ const BurgerContent = ({ dataItem, children }) => {
   return (
     <>
       <section className={isDragging ? `${Styles.item} ${Styles.itemDrag}` : `${Styles.item}`} onClick={handleOpen} ref={dragRef} >
-        <div className={Styles.image} ref={ref}>
+        <div className={Styles.image}> {/*} ref={ref}> */}
           {children}
         </div>
         <div className={Styles.price}>
