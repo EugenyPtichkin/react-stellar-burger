@@ -1,13 +1,12 @@
-export const ADD_Y_COORDINATE = 'ADD_Y_COORDINATE';
+export const ADD_IN_VIEW = 'ADD_IN_VIEW';
 
-export function addYCoordinate(item, coordinate) {
+export function addInView(item, inView) {
     return function(dispatch) {
-      console.log(item.type);
-      console.log(coordinate);
+      console.log('Item:', item, ' InView:', inView);      
       dispatch({
-        type: ADD_Y_COORDINATE,
+        type: ADD_IN_VIEW,
         item: item,
-        coordinate: coordinate
+        inView: inView
       })
     }
   }

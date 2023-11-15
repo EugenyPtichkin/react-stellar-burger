@@ -20,5 +20,5 @@ export const rootReducer = combineReducers({
     burger: burgerReducer,
     ingredient: ingredientReducer,
     order: orderReducer,
-    coordinates: positionReducer
+    inview: positionReducer
 }) 

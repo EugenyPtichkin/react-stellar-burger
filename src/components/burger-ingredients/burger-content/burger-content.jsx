@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo, useEffect} from 'react'; 
+import { useRef, useState, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { sglDataPropType } from './../../../utils/prop-types';
 import Styles from './burger-content.module.css';
@@ -9,10 +9,10 @@ import IngredientDetails from './../../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { fillItem, clearItem } from './../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
-//import { useInView } from 'react-intersection-observer';
-//import { addYCoordinate } from './../../services/actions/position';
+import { useInView } from 'react-intersection-observer';
+import { addInView } from './../../services/actions/position';
 
-const BurgerContent = ({ dataItem, children}) => {   {/* setCurrentTab */}
+const BurgerContent = ({ dataItem, children }) => {
   const [modalActive, setModalActive] = useState(false);
 
   const dispatch = useDispatch();
@@ -35,40 +35,16 @@ const BurgerContent = ({ dataItem, children}) => {   {/* setCurrentTab */}
     setModalActive(false);
   };
 
-  /*const ref = useRef();
-  const [positionY, setPositionY] = useState(0);
-  useEffect(() => {
-    setPositionY(ref.current.getBoundingClientRect().top)
-  },[ref.current]);
-  console.log(positionY); */
-
-
-  /*const ref = useRef();
-  const [bbox, setBbox] = useState({});
-  const set = () => setBbox(ref && ref.current ? ref.current.getBoundingClientRect() : {});
-    useEffect(() => {
-    set();
-    window.addEventListener('resize', set);
-    return () => window.removeEventListener('resize', set);
-  }, []);
-  console.log(bbox.top);*/
-  
-  
-/*  const [prevEntry, setPrevEntry] = useState({});
-  const {ref, entry} = useInView();  
-  if (entry && entry !== prevEntry) {
-    setPrevEntry(entry);
-//console.log(entry.boundingClientRect.y);  
-//dispatch(addYCoordinate(dataItem, entry.boundingClientRect.y));
-  if (dataItem.type === 'bun') {
-     setCurrentTab('Булки'); 
-  } else if (dataItem.type === 'sauce') {
-    setCurrentTab('Соусы');   
-  } else if (dataItem.type === 'main') {
-    setCurrentTab('Начинки');       
+  const { ref, inView, entry } = useInView({ threshold: 0 });
+  if (entry) {
+    dispatch(addInView(dataItem.type, inView));
   }
-  else {}
-};*/
+
+  /* const ref = useRef();
+  useEffect(() => {
+    const rect = ref.current.getBoundingClientRect();
+    dispatch(addInView(dataItem.type, rect.y));
+  })*/
 
   const { bun, ingredients } = useSelector(store => store.burger);
 
@@ -82,7 +58,7 @@ const BurgerContent = ({ dataItem, children}) => {   {/* setCurrentTab */}
   return (
     <>
       <section className={isDragging ? `${Styles.item} ${Styles.itemDrag}` : `${Styles.item}`} onClick={handleOpen} ref={dragRef} >
-        <div className={Styles.image} > {/*ref={ref}> */}
+        <div className={Styles.image} ref={ref}>
           {children}
         </div>
         <div className={Styles.price}>
@@ -94,7 +70,7 @@ const BurgerContent = ({ dataItem, children}) => {   {/* setCurrentTab */}
         <p className={Styles.name}>{dataItem.name}</p>
         <CollapsableTextContent quantity={
           (dataItem.type === 'bun') && bun && (dataItem._id === bun._id) ? 2 : 0 +
-          (dataItem.type !== 'bun') && ingredients.filter(item => item._id === dataItem._id).length} />
+            (dataItem.type !== 'bun') && ingredients.filter(item => item._id === dataItem._id).length} />
       </section>
       {modalActive &&
         <div > {/*  onClick={handleAdd} > */}

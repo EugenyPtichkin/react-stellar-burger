@@ -1,5 +1,5 @@
 import {
-  ADD_Y_COORDINATE
+  ADD_IN_VIEW
  } from '../actions/position';
   
 const initialState = {
@@ -8,12 +8,13 @@ const initialState = {
   
 export const positionReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_Y_COORDINATE:
+  case ADD_IN_VIEW:
       return {
         ...state,
-        items: [...state.items, { ...action.item, coordinate: action.coordinate }]
+        //items: [...state.items, { ...action.item, inView: action.inView }]
+        items: [...state.items, { [action.item] : action.inView }]
       }  
-  default:
+  default:    
     return state
   }
 }

@@ -8,7 +8,9 @@ import { useSelector } from 'react-redux';
 
 function BurgerIngredients() {
   const { ingredients } = useSelector(store => store.ingredients);
-  const [currentTab, setCurrentTab] = useState('Булки')
+  //const { items } = useSelector(store => store.inview);
+
+  const [currentTab, setCurrentTab] = useState('Булки');
 
   function ShowTab() {    
     return (
@@ -32,7 +34,7 @@ function BurgerIngredients() {
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
         <div className={Styles.layout}>  {
           dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
-            <BurgerContent key={dataItem._id} dataItem={dataItem} > {/* setCurrentTab={setCurrentTab} */}
+            <BurgerContent key={dataItem._id} dataItem={dataItem} >
               <img src={dataItem.image} alt={dataItem.name} />
             </BurgerContent>
           ))
