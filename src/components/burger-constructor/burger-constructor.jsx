@@ -10,12 +10,11 @@ import Modal from './../modal/modal';
 import { useSelector, useDispatch } from 'react-redux';
 import { deleteIngredient, updateIngredients } from './../services/actions/burger';
 import { getOrder } from './../services/actions/order';
-import { useDrop} from 'react-dnd';
+import { useDrop } from 'react-dnd';
 import { addBuns, addIngredient } from './../services/actions/burger';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
-  const [modalErrorActive, setErrorActive] = useState(false); //Обработка ошибки - заказ без булки
   const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
 
   const dispatch = useDispatch();
@@ -46,14 +45,9 @@ function BurgerConstructor() {
   const { orderIsError, orderErrorType } = useSelector(store => store.order);
 
   const handleSubmit = () => {
-    if (!burgerIngredients.bun) {//Проверка на наличие булки в заказе - сервер не принимает заказы без кода булки
-      handleErrorOpen();
-    }
-    else {
-      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
-      dispatch(getOrder(burgerIngredientsIds));
-      handleOpen();
-    }
+    const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
+    dispatch(getOrder(burgerIngredientsIds));
+    handleOpen();
   };
 
   useEffect(() => {
@@ -70,14 +64,6 @@ function BurgerConstructor() {
 
   const handleClose = () => {
     setModalActive(false);
-  };
-
-  const handleErrorOpen = () => {
-    setErrorActive(true);
-  };
-
-  const handleErrorClose = () => {
-    setErrorActive(false);
   };
 
   const handleServerErrorOpen = () => {
@@ -118,8 +104,8 @@ function BurgerConstructor() {
   const handleSwitchItems = useCallback((dragIndex, hoverIndex) => {
     const dragItem = ingredients[dragIndex];
     const updatedIngredients = [...ingredients];
-    updatedIngredients.splice(dragIndex,1);          //удалить переносимый
-    updatedIngredients.splice(hoverIndex,0,dragItem);//вставить внутрь
+    updatedIngredients.splice(dragIndex, 1);          //удалить переносимый
+    updatedIngredients.splice(hoverIndex, 0, dragItem);//вставить внутрь
     dispatch(updateIngredients(updatedIngredients));
   }, [dispatch, ingredients]);
 
@@ -170,8 +156,8 @@ function BurgerConstructor() {
           <p className={Styles.price_value}>{burgerPrice}</p>
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit} 
-        disabled={!burgerIngredients.bun} >
+        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}
+          disabled={!burgerIngredients.bun} >
           Оформить заказ
         </Button>
       </section>
@@ -179,12 +165,6 @@ function BurgerConstructor() {
       {modalActive && //модальное окно с номером заказа
         <Modal title='' handleClose={handleClose} >
           <OrderDetails />
-        </Modal>
-      }
-
-      {modalErrorActive && //модальное окно с сообщением об ошибке заказа
-        <Modal title='Пожалуйста, добавьте булку в заказ!' handleClose={handleErrorClose} >
-          <p></p>
         </Modal>
       }
 
