@@ -4,19 +4,13 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  gap: 16px;
   composes: pl-4 pt-25 from global;    
   position: relative;
 }
 
 .isOver {
   border: solid darkblue 1px;
-}
-
-.notOver {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  position: relative;
 }
 
 .scrolbarList {

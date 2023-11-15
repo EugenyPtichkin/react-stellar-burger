@@ -110,46 +110,44 @@ function BurgerConstructor() {
   }, [dispatch, ingredients]);
 
   return (
-    <section className={Styles.contents}>
-      <section className={isOver ? `${Styles.notOver} ${Styles.isOver}` : `${Styles.notOver}`} ref={dropRef}>
-        {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
-          <p className={`text text_type_main-large ${Styles.empty_text}`}>Перетяните сюда булку!</p>
+    <section className={isOver ? `${Styles.contents} ${Styles.isOver}` : `${Styles.contents}`} ref={dropRef}>
+      {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
+        <p className={`text text_type_main-large ${Styles.empty_text}`}>Перетяните сюда булку!</p>
+      }
+      {burgerIngredients.bun &&
+        <section className={Styles.layout_first_last}> {
+          <BunItem
+            key={burgerIngredients.bun.uuid}
+            dataItem={burgerIngredients.bun}
+            style={"top"}
+          />
         }
-        {burgerIngredients.bun &&
-          <section className={Styles.layout_first_last}> {
-            <BunItem
-              key={burgerIngredients.bun.uuid}
-              dataItem={burgerIngredients.bun}
-              style={"top"}
-            />
-          }
-          </section>
+        </section>
+      }
+      {burgerIngredients.ingredients.length !== 0 &&
+        <section className={Styles.scrolbarList}>
+          <ul className={Styles.itemsList} >
+            {burgerIngredients.ingredients.map((dataItem, index) =>
+              <BurgerItem
+                key={dataItem.uuid}
+                dataItem={dataItem}
+                index={index}
+                handleSwitchItems={handleSwitchItems}
+              />
+            )}
+          </ul>
+        </section>
+      }
+      {burgerIngredients.bun &&
+        <section className={Styles.layout_first_last}> {
+          <BunItem
+            key={burgerIngredients.bun.uuid}
+            dataItem={burgerIngredients.bun}
+            style={"bottom"}
+          />
         }
-        {burgerIngredients.ingredients.length !== 0 &&
-          <section className={Styles.scrolbarList}>
-            <ul className={Styles.itemsList} >
-              {burgerIngredients.ingredients.map((dataItem, index) =>
-                <BurgerItem
-                  key={dataItem.uuid}
-                  dataItem={dataItem}
-                  index={index}
-                  handleSwitchItems={handleSwitchItems}
-                />
-              )}
-            </ul>
-          </section>
-        }
-        {burgerIngredients.bun &&
-          <section className={Styles.layout_first_last}> {
-            <BunItem
-              key={burgerIngredients.bun.uuid}
-              dataItem={burgerIngredients.bun}
-              style={"bottom"}
-            />
-          }
-          </section>
-        }
-      </section>
+        </section>
+      }
 
       <section className={Styles.info}>
         <div className={Styles.price}>
