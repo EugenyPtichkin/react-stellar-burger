@@ -1,67 +1,70 @@
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react'; //useContext
 import Styles from './burger-constructor.module.css';
 import ModalStyles from './../modal/modal.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { CurrencyIcon, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
+import { BurgerItem } from './../burger-item/burger-item';
+import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
-import { ConstructorContext, PriceContext } from '../../utils/ingredientsContext';
-import getOrderNumber from '../../utils/order-api';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteIngredient, updateIngredients, deleteAllIngredients } from '../../services/actions/burger';
+import { getOrder } from '../../services/actions/order';
+import { useDrop } from 'react-dnd';
+import { addBuns, addIngredient } from '../../services/actions/burger';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
-  const [modalErrorActive, setErrorActive] = useState(false); //Обработка ошибки - заказ без булки
   const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
-  const { burgerIngredients, setBurgerIngredients } = useContext(ConstructorContext);
-  const { state, dispatch } = useContext(PriceContext);
 
-  //cостояние заказа используется только в BurgerConstructor
-  const [orderData, setOrderData] = useState({
-    ids: [],
-    name: '',
-    order: 0,
-    success: false,
-    isError: false,
-    errorType: ''
-  });
+  const dispatch = useDispatch();
+
+  const [{ isOver }, dropRef] = useDrop({
+    accept: 'ingredient',
+    drop(item) {
+      //console.log(item);
+      if (item.type === 'bun') {
+        dispatch(addBuns(item))
+      } else {
+        dispatch(addIngredient(item))
+      }
+    },
+    collect: monitor => ({
+      isOver: monitor.isOver()
+    })
+  })
+
+  const { bun, ingredients } = useSelector(store => store.burger);
+  const burgerIngredients = { bun, ingredients };
+
+  const burgerPrice = useMemo(() => {
+    return (bun && bun.price * 2) + ingredients.reduce((acc, item) => acc + item.price, 0);
+  }, [bun, ingredients]);
+
+  //cостояние заказа
+  const { orderIsError, orderErrorType } = useSelector(store => store.order);
 
   const handleSubmit = () => {
-    if (!burgerIngredients.bun) {//Проверка на наличие булки в заказе - сервер не принимает заказы без кода булки
-      handleErrorOpen(); 
-    }
-    else
-    {
-      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
-      orderData.ids = burgerIngredientsIds;
-      console.log(orderData.ids);
-      getOrderNumber(orderData, setOrderData);
-      handleOpen();
-    }
+    const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
+    dispatch(getOrder(burgerIngredientsIds));
+    handleModalOpen();
   };
 
   useEffect(() => {
-    if ( orderData.isError ) {
-      handleClose();
+    if (orderIsError) {
+      handleModalClose();
       handleServerErrorOpen();
     }
-  }, [orderData]);
+  }, [orderIsError]);
 
 
-  const handleOpen = () => {
+  const handleModalOpen = () => {
     setModalActive(true);
   };
 
-  const handleClose = () => {
+  const handleModalClose = () => {
     setModalActive(false);
-  };
-
-  const handleErrorOpen = () => {
-    setErrorActive(true);
-  };
-
-  const handleErrorClose = () => {
-    setErrorActive(false);
+    dispatch(deleteAllIngredients());
   };
 
   const handleServerErrorOpen = () => {
@@ -72,18 +75,10 @@ function BurgerConstructor() {
     setServerErrorActive(false);
   };
 
-  //вычисление суммы заказа перебором через массив
-  /*const bunsPrice = burgerIngredients.bun ? burgerIngredients.bun.price * 2 : 0;
-    const totalPrice = burgerIngredients.ingredients ? burgerIngredients.ingredients.reduce((acc, dataItem) => acc + dataItem.price, bunsPrice) : 0;*/
-
   // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
-  function DisplayConstructorElement({ dataItem, style, lock }) {
+  function DisplayElement({ dataItem, style, lock }) {
     function handleDeleteItem() {
-      const copySet = Object.assign({}, burgerIngredients);
-      const index = copySet.ingredients.findLastIndex(item => item.uniqueKey === dataItem.uniqueKey);
-      dispatch({ type: 'deleteMeal', productPrice: copySet.ingredients[index].price });
-      copySet.ingredients.splice(index, 1);
-      setBurgerIngredients(copySet);
+      dispatch(deleteIngredient(dataItem.uuid));
     }
     const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
       (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
@@ -98,55 +93,58 @@ function BurgerConstructor() {
       />
     )
   }
-
-  // Добавить к разметке иконку перетаскивания
-  function DisplayItem({ dataItem, style, lock }) {
+  // Добавить к разметке иконку перетаскивания 
+  function BunItem({ dataItem, style }) {
     return (
       <section className={Styles.chosableItem}>
-        {!lock && < DragIcon />}
-        <DisplayConstructorElement dataItem={dataItem} style={style} lock={lock} />
+        <DisplayElement dataItem={dataItem} style={style} lock={true} />
       </section>
     );
   };
 
+  const handleSwitchItems = useCallback((dragIndex, hoverIndex) => {
+    const dragItem = ingredients[dragIndex];
+    const updatedIngredients = [...ingredients];
+    updatedIngredients.splice(dragIndex, 1);          //удалить переносимый
+    updatedIngredients.splice(hoverIndex, 0, dragItem);//вставить внутрь
+    dispatch(updateIngredients(updatedIngredients));
+  }, [dispatch, ingredients]);
+
   return (
-    <section className={Styles.contents}>
+    <section className={isOver ? `${Styles.contents} ${Styles.isOver}` : `${Styles.contents}`} ref={dropRef}>
       {!burgerIngredients.bun && burgerIngredients.ingredients.length === 0 &&
-        <p className={`text text_type_main-large ${Styles.empty_text}`}>Пусто</p>
+        <p className={`text text_type_main-large ${Styles.empty_text}`}>Перетяните сюда булку!</p>
       }
       {burgerIngredients.bun &&
         <section className={Styles.layout_first_last}> {
-          <DisplayItem
-            key={burgerIngredients.bun.uniqueKey}
+          <BunItem
+            key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
             style={"top"}
-            lock={true}
           />
         }
         </section>
       }
       {burgerIngredients.ingredients.length !== 0 &&
         <section className={Styles.scrolbarList}>
-          <ul className={Styles.itemsList}>
-            <li className={Styles.layout}>
-              {burgerIngredients.ingredients.map((dataItem) =>
-                <DisplayItem
-                  key={dataItem.uniqueKey}
-                  dataItem={dataItem}
-                  lock={false}
-                />
-              )}
-            </li>
+          <ul className={Styles.itemsList} >
+            {burgerIngredients.ingredients.map((dataItem, index) =>
+              <BurgerItem
+                key={dataItem.uuid}
+                dataItem={dataItem}
+                index={index}
+                handleSwitchItems={handleSwitchItems}
+              />
+            )}
           </ul>
         </section>
       }
       {burgerIngredients.bun &&
         <section className={Styles.layout_first_last}> {
-          <DisplayItem
-            key={burgerIngredients.bun.uniqueKey}
+          <BunItem
+            key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
             style={"bottom"}
-            lock={true}
           />
         }
         </section>
@@ -154,29 +152,24 @@ function BurgerConstructor() {
 
       <section className={Styles.info}>
         <div className={Styles.price}>
-          <p className={Styles.price_value}>{state.totalPrice}</p>
+          <p className={Styles.price_value}>{burgerPrice}</p>
           <div className={Styles.price_icon}><CurrencyIcon /></div>
         </div>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}>
+        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}
+          disabled={!burgerIngredients.bun} >
           Оформить заказ
         </Button>
       </section>
 
       {modalActive && //модальное окно с номером заказа
-        <Modal title='' handleClose={handleClose} >
-          <OrderDetails orderNumber={orderData.order} />
-        </Modal>
-      }
-
-      {modalErrorActive && //модальное окно с сообщением об ошибке заказа
-        <Modal title='Пожалуйста, добавьте булку в заказ!' handleClose={handleErrorClose} >
-          <p></p>
+        <Modal title='' handleClose={handleModalClose} >
+          <OrderDetails />
         </Modal>
       }
 
       {modalServerErrorActive && //модальное окно с сообщением об ошибке сервера
         <Modal title='Ошибка запроса на сервер' handleClose={handleServerErrorClose} >
-          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderData.errorType}</p>
+          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderErrorType}</p>
         </Modal>
       }
 

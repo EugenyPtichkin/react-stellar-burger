@@ -1,26 +1,30 @@
-import { useState, useContext }  from 'react';
+import { useState, useEffect }  from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
-import { sglDataPropType } from './../../utils/prop-types';
-import { IngredientsContext } from '../../utils/ingredientsContext';
+import { useSelector } from 'react-redux';
+import { bunPosition, saucePosition } from './../../utils/data';
 
 function BurgerIngredients() {
-  const ingredientsObject = useContext(IngredientsContext);
-  const ingredients = ingredientsObject.allIngredients;  
-  
-  function ShowTab() {
-    const [current, setCurrent] = useState('Булки')
+
+  const [bunsCategoryActive, setBunsCategoryActive] = useState(true);
+  const [saucesCategoryActive, setSaucesCategoryActive] = useState(false);
+  const [mainsCategoryActive, setMainsCategoryActive] = useState(false);
+  const [categories, setCategories] = useState();
+
+  const { ingredients } = useSelector(store => store.ingredients);
+
+  function ShowTab() {    
     return (
-      <div style={{ display: 'flex' }}>
-        <Tab value='Булки' active={current === 'Булки'} onClick={setCurrent} >
+      <div className={Styles.tab}> 
+        <Tab value='Булки' active={bunsCategoryActive}  >  {/* onClick={setBunsCategoryActive} */}
           {bunsName[1]}
         </Tab>
-        <Tab value='Соусы' active={current === 'Соусы'} onClick={setCurrent}>
+        <Tab value='Соусы' active={saucesCategoryActive} > {/*  onClick={setSaucesCategoryActive}> */}
           {saucesName[1]}
         </Tab>
-        <Tab value='Начинки' active={current === 'Начинки'} onClick={setCurrent}>
+        <Tab value='Начинки' active={mainsCategoryActive} > {/*  onClick={setMainsCategoryActive}> */}
           {mainsName[1]}
         </Tab>
       </div>
@@ -43,23 +47,49 @@ function BurgerIngredients() {
     );
   }
 
+  useEffect(() => {
+    setCategories(document.getElementById("categories"));
+    function check() {
+      if (categories === null || categories === undefined) {
+        return;
+      } else {
+        categories.addEventListener("scroll", (evt) => {        
+          const scrollPosition = evt.target.scrollTop;
+          //console.log('scrollPosition:', scrollPosition)
+          if (scrollPosition < bunPosition) {
+            setBunsCategoryActive(true);
+            setSaucesCategoryActive(false);
+            setMainsCategoryActive(false);
+          }
+          else if (scrollPosition < saucePosition) {
+            setBunsCategoryActive(false);
+            setSaucesCategoryActive(true);
+            setMainsCategoryActive(false);
+          }
+          else {
+            setBunsCategoryActive(false);
+            setSaucesCategoryActive(false);
+            setMainsCategoryActive(true);
+          }
+        });
+      }
+    }
+    check();
+  }, [categories]);
+
   return (
     <section className={Styles.contents}>
       <h1 className={Styles.title}>Соберите бургер</h1>
       <section className={Styles.tab}>
         <ShowTab />
       </section>
-      <section className={Styles.scrollbar}>
+      <ul className={Styles.scrollbar} id="categories" >
         <DisplayItem dataSet={ingredients} productName={bunsName} />
         <DisplayItem dataSet={ingredients} productName={saucesName} />
         <DisplayItem dataSet={ingredients} productName={mainsName} />
-      </section>
+      </ul>
     </section>
   );
 };
-
-BurgerContent.propTypes = {
-  dataItem: sglDataPropType.isRequired
-}
 
 export default BurgerIngredients;

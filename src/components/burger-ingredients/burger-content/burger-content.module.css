@@ -7,6 +7,10 @@
   position: relative;
   cursor: pointer;
 }
+.itemDrag {
+  opacity: 0.3;
+}
+
 .image {
   width: 240px;
   height: 120px;   
