@@ -1,10 +1,9 @@
-import { useState, useEffect }  from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
 import { useSelector } from 'react-redux';
-import { bunPosition, saucePosition } from './../../utils/data';
 
 function BurgerIngredients() {
 
@@ -15,23 +14,55 @@ function BurgerIngredients() {
 
   const { ingredients } = useSelector(store => store.ingredients);
 
-  function ShowTab() {    
+  const bunNum = ingredients.filter(item => item.type === 'bun').length;
+  const bunPosition = 54 + 208 * Math.trunc((bunNum + 1) / 2) + 32 * Math.trunc((bunNum - 1) / 2) + 40 //title+208*items+32*gaps+bottomPadding
+  console.log('bunsNum=', bunNum, ' bunPosition=', bunPosition);
+
+  const sauceNum = ingredients.filter(item => item.type === 'sauce').length;
+  const saucePosition = bunPosition + 54 + 208 * Math.trunc((sauceNum + 1) / 2) + 32 * Math.trunc((sauceNum - 1) / 2) + 40;//bunPos+title+208*items+32*gaps+bottomPadding
+  console.log('sauceNum=', sauceNum, ' saucePosition=', saucePosition);
+
+  const scrollToBunCategory = () => {
+    categories.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+
+  const scrollToSauceCategory = () => {
+    categories.scrollTo({
+      top: bunPosition,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+
+  const scrollToMainCategory = () => {
+    categories.scrollTo({
+      top: saucePosition,
+      left: 0,
+      behavior: "smooth",
+    });
+  }
+
+  function ShowTab() {
     return (
-      <div className={Styles.tab}> 
-        <Tab value='Булки' active={bunsCategoryActive}  >  {/* onClick={setBunsCategoryActive} */}
+      <div className={Styles.tab}>
+        <Tab value='Булки' active={bunsCategoryActive} onClick={scrollToBunCategory} >
           {bunsName[1]}
         </Tab>
-        <Tab value='Соусы' active={saucesCategoryActive} > {/*  onClick={setSaucesCategoryActive}> */}
+        <Tab value='Соусы' active={saucesCategoryActive} onClick={scrollToSauceCategory}>
           {saucesName[1]}
         </Tab>
-        <Tab value='Начинки' active={mainsCategoryActive} > {/*  onClick={setMainsCategoryActive}> */}
+        <Tab value='Начинки' active={mainsCategoryActive} onClick={scrollToMainCategory}>
           {mainsName[1]}
         </Tab>
       </div>
     )
   }
 
-  function DisplayItem({ dataSet, productName}) {
+  function DisplayItem({ dataSet, productName }) {
     return (
       <>
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
@@ -53,7 +84,7 @@ function BurgerIngredients() {
       if (categories === null || categories === undefined) {
         return;
       } else {
-        categories.addEventListener("scroll", (evt) => {        
+        categories.addEventListener("scroll", (evt) => {
           const scrollPosition = evt.target.scrollTop;
           //console.log('scrollPosition:', scrollPosition)
           if (scrollPosition < bunPosition) {
