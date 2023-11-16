@@ -9,24 +9,17 @@ export function getIngredients() {
     dispatch({
       type: INGREDIENTS_REQUEST
     })
-
     getIngredientsData()
-    .then(res => {
-      if (res && res.success) {
-        dispatch( {
+    .then((res) => {
+      dispatch( {
           type: SET_INGREDIENTS_SUCCESS,
           ingredients: res.data
         })            
-      } else {
-        dispatch({
-          type : SET_INGREDIENTS_ERROR,
-          errorType : res.status
-        })
-      }})
-    .catch(() =>  {
+      })
+    .catch((res) =>  {
       dispatch({
         type : SET_INGREDIENTS_ERROR,
-        errorType : 'unknown'
+        errorType : res.status
       })
     })
   }

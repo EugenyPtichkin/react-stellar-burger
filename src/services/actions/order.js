@@ -11,25 +11,18 @@ export function getOrder(data) {
       })
   
       getOrderNumber(data)
-      .then(res => {
-        if (res && res.success) {
-          //console.log(res);
+      .then((res) => {
           dispatch( {
             type: SET_ORDER_SUCCESS,
             name: res.name,
             order: res.order.number,
             success: true
           })    
-        } else {
-          dispatch({
-            type : SET_ORDER_ERROR,
-            errorType : res.status
-          })
-        }})
-      .catch(() =>  {
+        }) 
+      .catch((res) =>  {
         dispatch({
           type : SET_ORDER_ERROR,
-          errorType : 'unknown'
+          errorType : res.status
         })
       })
     }
