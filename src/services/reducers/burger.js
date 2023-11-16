@@ -2,7 +2,8 @@ import {
   ADD_INGREDIENT,
   ADD_BUNS,
   DELETE_INGREDIENT,
-  UPDATE_INGREDIENTS
+  UPDATE_INGREDIENTS,
+  DELETE_ALL_INGREDIENTS,
 } from '../actions/burger';
 
 const initialState = {
@@ -31,6 +32,12 @@ export const burgerReducer = (state = initialState, action) => {
       return {
         ...state,
         ingredients: action.data
+      }
+    case DELETE_ALL_INGREDIENTS:
+      return {
+        ...state,
+        bun: null,
+        ingredients: []
       }
     default:
       return state

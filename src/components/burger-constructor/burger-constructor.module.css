@@ -1,5 +1,5 @@
 .contents {
-  width: 600px;
+  min-width: 600px;
   height: 912px;
   box-sizing: border-box;
   display: flex;

@@ -4,10 +4,10 @@ import BurgerConstructor from './../burger-constructor/burger-constructor';
 
 const Main = () => {
   return (
-    <div className={Styles.main}>
+    <main className={Styles.main}>
       <BurgerIngredients />
       <BurgerConstructor />
-    </div>
+    </main>
   )
 }
 

@@ -7,7 +7,7 @@ function IngredientDetails() { //data
 
   return (
     <div className={Styles.ingredient_details}>
-      <img className="pl-5 pr-5 pb-4" src={image_large}/>  {/*data.data.image_large*/}
+      <img className="pl-5 pr-5 pb-4" src={image_large} alt={name}/>  {/*data.data.image_large*/}
       <h2 className={Styles.ingredient_name}>{name}</h2>
       <ul className={Styles.nutrition_values}>
         <li className={Styles.nutrition_value}>

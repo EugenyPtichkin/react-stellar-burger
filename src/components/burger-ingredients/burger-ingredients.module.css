@@ -2,6 +2,9 @@
   width: 600px;
   height: 912px;
 }
+.tab {
+  display: flex;
+}
 
 .scrollbar {
   margin: 0;

@@ -1,4 +1,4 @@
-export const baseUrl = "https://norma.nomoreparties.space/api";
+export const baseUrl = "https://norma.nomoreparties.space/api/";
 export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];

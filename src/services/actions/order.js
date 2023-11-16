@@ -1,4 +1,4 @@
-import { getOrderNumber } from './../../../utils/order-api';
+import { getOrderNumber } from '../../utils/burger-api';
 
 export const ORDER_REQUEST = 'ORDER_REQUEST';
 export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
@@ -19,7 +19,7 @@ export function getOrder(data) {
             name: res.name,
             order: res.order.number,
             success: true
-          })            
+          })    
         } else {
           dispatch({
             type : SET_ORDER_ERROR,

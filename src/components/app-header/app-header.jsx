@@ -8,7 +8,7 @@ import { isActive } from '../app/app';
 
 function AppHeader() {
   return (
-    <>
+    <header>
       <section className={Styles.header}>
         <nav className={Styles.header_nav}>
           <div className={Styles.header_nav_first}>
@@ -29,7 +29,7 @@ function AppHeader() {
           </NavigationLink>
         </nav>
       </section>
-    </>
+    </header>
   );
 };
 

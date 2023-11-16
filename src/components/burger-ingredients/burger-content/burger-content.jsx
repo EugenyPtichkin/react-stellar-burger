@@ -7,7 +7,7 @@ import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
 import Modal from './../../modal/modal';
 import IngredientDetails from './../../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
-import { fillItem, clearItem } from './../../services/actions/ingredient';
+import { fillItem, clearItem } from '../../../services/actions/ingredient';
 import { useDrag } from 'react-dnd';
 
 const BurgerContent = ({ dataItem, children }) => {
@@ -60,7 +60,7 @@ const BurgerContent = ({ dataItem, children }) => {
             (dataItem.type !== 'bun') && ingredients.filter(item => item._id === dataItem._id).length} />
       </section>
       {modalActive &&
-        <div > {/*  onClick={handleAdd} > */}
+        <div >
           <Modal title="Детали ингредиента" handleClose={handleClose}>
             <IngredientDetails />
           </Modal>
@@ -73,6 +73,7 @@ const BurgerContent = ({ dataItem, children }) => {
 BurgerContent.propTypes = {
   dataItem: sglDataPropType.isRequired,
   children: PropTypes.node.isRequired,
+//handleModal: PropTypes.func.isRequired,
 };
 
 export default BurgerContent;

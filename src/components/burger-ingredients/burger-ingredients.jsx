@@ -3,7 +3,6 @@ import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
-import { sglDataPropType } from './../../utils/prop-types';
 import { useSelector } from 'react-redux';
 import { bunPosition, saucePosition } from './../../utils/data';
 
@@ -18,7 +17,7 @@ function BurgerIngredients() {
 
   function ShowTab() {    
     return (
-      <div style={{ display: 'flex' }}>
+      <div className={Styles.tab}> 
         <Tab value='Булки' active={bunsCategoryActive}  >  {/* onClick={setBunsCategoryActive} */}
           {bunsName[1]}
         </Tab>
@@ -92,9 +91,5 @@ function BurgerIngredients() {
     </section>
   );
 };
-
-BurgerContent.propTypes = {
-  dataItem: sglDataPropType.isRequired
-}
 
 export default BurgerIngredients;

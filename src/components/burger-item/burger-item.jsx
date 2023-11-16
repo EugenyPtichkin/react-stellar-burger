@@ -4,9 +4,11 @@ import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-comp
 import { useRef } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
-import { deleteIngredient } from '../services/actions/burger';
+import { deleteIngredient } from '../../services/actions/burger';
+import PropTypes from 'prop-types';
+import { sglDataPropType } from './../../utils/prop-types';
 
-export const BurgerItem = ({ dataItem, style, lock, index, handleSwitchItems}) => {
+export const BurgerItem = ({ dataItem, index, handleSwitchItems}) => {
 
   const ref = useRef(null);
   const dispatch = useDispatch();  
@@ -41,10 +43,9 @@ export const BurgerItem = ({ dataItem, style, lock, index, handleSwitchItems}) =
     <li className={Styles.layout} ref={ref}>
       <div className={isMoving ? `${Styles.chosableItem} ${Styles.isMoving}` :
                       isHover ? `${Styles.chosableItem} ${Styles.isHover}` : `${Styles.chosableItem}`}>
-        {!lock && < DragIcon />}
+          <DragIcon/>
           <ConstructorElement
-            type={style}
-            isLocked={lock}
+            isLocked={false}
             text={dataItem.name}
             price={dataItem.price}
             thumbnail={dataItem.image}
@@ -55,3 +56,8 @@ export const BurgerItem = ({ dataItem, style, lock, index, handleSwitchItems}) =
   );
 };
 
+BurgerItem.propTypes = {
+  dataItem: sglDataPropType.isRequired,
+  index: PropTypes.number.isRequired,
+  handleSwitchItems: PropTypes.func.isRequired
+};
