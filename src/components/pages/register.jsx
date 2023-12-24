@@ -33,11 +33,6 @@ return (
         placeholder={'Имя'}
         value= {name}
         onChange={onChangeName}
-        //error={false}        
-        //ref={inputRef}
-        //onIconClick={onIconClick}
-        //icon={'CurrencyIcon'}        
-        //errorText={'Ошибка'}
         size={'default'}
         extraClass={"mb-6"}
       />

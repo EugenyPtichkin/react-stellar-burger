@@ -8,8 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { BrowserRouter, Router, Route } from 'react-router-dom';
-import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '../pages';
+import { Route, Routes } from 'react-router-dom';
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, NotFound404Page } from '../pages';
 
 export const isActive = false;
 
@@ -24,12 +24,23 @@ const App = () => {
 
   return (
     <ErrorBoundary>
+
       <div className={Styles.app}>
         <AppHeader />
-        < RegisterPage />        
+
+        <Routes>
+          {/* <Route path='/' element={<Main />} /> */}
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+          <Route path='/reset-password' element={<ResetPasswordPage />} />
+          <Route path='*' element={<NotFound404Page />} />
+        </Routes>
+
         {/*        
         <LoginPage />        
         <ForgotPasswordPage />
+        <RegisterPage />
         <ResetPasswordPage/> 
         */}
 
@@ -41,18 +52,6 @@ const App = () => {
         </DndProvider>
         */}
       </div>
-      
-      {/*
-      <BrowserRouter>
-          <Router>
-            <Route path='/' element={<Main />} />
-            <Route path='/login' element={<LoginPage />} />
-            <Route path='/register' element={<RegisterPage />} />
-            <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-            <Route path='/reset-password' element={<ResetPasswordPage />} />
-          </Router>
-        </BrowserRouter>
-      */}
 
     </ErrorBoundary>
   );

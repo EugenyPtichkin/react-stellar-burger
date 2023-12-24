@@ -1,0 +1,27 @@
+.content {
+    width: 480px;
+    margin: 180px calc((1280px - 480px)/2) 0px;  
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #131316;  
+    /*border: 1px solid blue;*/
+  }
+  
+  .title {  
+    margin: 0;
+    color: #F2F2F3;
+    height: 30px;
+    text-align: center;
+    composes: text_type_main-medium pb-6 from global;
+  }
+        
+  .additionalActions {
+    margin: 0;
+    composes: text_type_main-small text_color_inactive pb-4 from global;
+  }
+    
+  .link {
+    text-decoration: none;
+    color: #4C4CFF;
+  }
