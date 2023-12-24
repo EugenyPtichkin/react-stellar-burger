@@ -5,8 +5,8 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 
 export const LoginPage = () => {
 
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('')
   
   const onChangeEmail = e => {
     setEmail(e.target.value)

@@ -5,9 +5,9 @@ import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-de
 
 export const RegisterPage = () => {
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
   const onChangeName = e => {
     setName(e.target.value)

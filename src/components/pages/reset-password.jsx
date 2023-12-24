@@ -5,8 +5,8 @@ import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burg
 
 export const ResetPasswordPage = () => {
 
-  const [password, setPassword] = useState();
-  const [code, setCode] = useState();
+  const [password, setPassword] = useState('');
+  const [code, setCode] = useState('');
   
   const onChangePassword = e => {
     setPassword(e.target.value)
