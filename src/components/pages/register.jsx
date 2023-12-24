@@ -1,5 +1,5 @@
 import { useState } from 'react';
-//import { Link, Navigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Styles from './register.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -20,7 +20,6 @@ export const RegisterPage = () => {
   }
 
   const handleRegister = () => {
-//  <Navigate to='/register' />
   }
 
 return (
@@ -59,10 +58,9 @@ return (
       </div>
       <p className={Styles.additionalActions}>
         Уже зарегистрированы? 
-        {/* <Link to='/login' className={Styles.link} >
-            Войти
-        </Link> */}
-        <a href='/login' className={Styles.link}> Войти</a>
+        <Link to='/login' className={Styles.link} > Войти
+        </Link>
+        {/* <a href='/login' className={Styles.link}> Войти</a> */}
       </p>        
     </div>
   </>

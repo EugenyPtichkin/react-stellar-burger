@@ -24,35 +24,23 @@ const App = () => {
 
   return (
     <ErrorBoundary>
-
       <div className={Styles.app}>
         <AppHeader />
-
-        <Routes>
-          {/* <Route path='/' element={<Main />} /> */}
-          <Route path='/login' element={<LoginPage />} />
-          <Route path='/register' element={<RegisterPage />} />
-          <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-          <Route path='/reset-password' element={<ResetPasswordPage />} />
-          <Route path='*' element={<NotFound404Page />} />
-        </Routes>
-
-        {/*        
-        <LoginPage />        
-        <ForgotPasswordPage />
-        <RegisterPage />
-        <ResetPasswordPage/> 
-        */}
-
-        {/* 
         <DndProvider backend={HTML5Backend}>
-          {!ingredientsLoading && !ingredientsError && <Main/>}
           {ingredientsLoading && !ingredientsError && <p className={`text text_type_main-large ${Styles.loading_text}`}>Данные загружаются</p>}
-          {ingredientsError && <p className={`text text_type_main-large ${Styles.loading_text}`}>{`Ошибка сервера: ${ingredientsErrorType}`}</p>}         
+          {ingredientsError && <p className={`text text_type_main-large ${Styles.loading_text}`}>{`Ошибка сервера: ${ingredientsErrorType}`}</p>}
+          {!ingredientsLoading && !ingredientsError &&
+            <Routes>
+              <Route path='/' element={<Main />} />
+              <Route path='/login' element={<LoginPage />} />
+              <Route path='/register' element={<RegisterPage />} />
+              <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+              <Route path='/reset-password' element={<ResetPasswordPage />} />
+              <Route path='*' element={<NotFound404Page />} />
+            </Routes>
+          }
         </DndProvider>
-        */}
       </div>
-
     </ErrorBoundary>
   );
 }

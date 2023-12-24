@@ -21,6 +21,10 @@
     composes: text_type_main-small text_color_inactive pb-4 from global;
   }
     
+  .button {  
+    width : 128px; 
+  }
+  
   .link {
     text-decoration: none;
     color: #4C4CFF;

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Styles from './reset-password.module.css';
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 
@@ -15,7 +15,7 @@ export const ResetPasswordPage = () => {
     setCode(e.target.value)
   }
 
-  const handleSubmit = () => {
+  const handleResetPassword = () => {
   }
 
 return (
@@ -40,16 +40,15 @@ return (
         extraClass={"mb-6"}
       />
       <div className={Styles.button}>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit} extraClass="mb-20">
+        <Button htmlType="button" type="primary" size="medium" onClick={handleResetPassword} extraClass="mb-20">
           Сохранить      
         </Button>
       </div>
       <p className={Styles.additionalActions}>
-        Вспомнили пароль? 
-        {/* <Link to='/login' className={Styles.link} >
-            Войти
-        </Link> */}
-        <a href='/login' className={Styles.link}> Войти</a>
+        Вспомнили пароль?
+        <Link to='/login' className={Styles.link} > Войти
+        </Link> 
+        {/* <a href='/login' className={Styles.link}> Войти</a> */}
       </p>      
     </div>
   </>
