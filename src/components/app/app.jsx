@@ -8,27 +8,46 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from "react-dnd-html5-backend";
 
+import { BrowserRouter, Router, Route } from 'react-router-dom';
+import { LoginPage, RegisterPage } from '../pages';
+
 export const isActive = false;
 
-const App = () => {  
+const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch]);
 
-  const {ingredientsLoading, ingredientsError, ingredientsErrorType}  = useSelector(store => store.ingredients);
+  const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
 
   return (
     <ErrorBoundary>
       <div className={Styles.app}>
         <AppHeader />
+        <LoginPage />
+        {/*  <RegisterPage/>  */}
+
+        {/* 
         <DndProvider backend={HTML5Backend}>
           {!ingredientsLoading && !ingredientsError && <Main/>}
           {ingredientsLoading && !ingredientsError && <p className={`text text_type_main-large ${Styles.loading_text}`}>Данные загружаются</p>}
           {ingredientsError && <p className={`text text_type_main-large ${Styles.loading_text}`}>{`Ошибка сервера: ${ingredientsErrorType}`}</p>}         
         </DndProvider>
+        */}
       </div>
+      
+      {/*
+      <BrowserRouter>
+          <Router>
+            <Route path='/' element={<Main />} />
+            <Route path='/login' element={<LoginPage />} />
+            <Route path='/register' element={<RegisterPage />} />
+          </Router>
+        </BrowserRouter>
+      */}
+
     </ErrorBoundary>
   );
 }
