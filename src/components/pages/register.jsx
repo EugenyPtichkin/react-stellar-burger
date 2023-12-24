@@ -28,32 +28,32 @@ return (
     <div className={Styles.content}>
       <p className={Styles.title}>Регистрация</p>
       <Input 
-        type={'text'}
-        placeholder={'Имя'}
-        onChange={onChangeName}
-        value= {name}
+        type={'text'}       
         name={'Имя'}
-        error={false}        
+        placeholder={'Имя'}
+        value= {name}
+        onChange={onChangeName}
+        //error={false}        
         //ref={inputRef}
         //onIconClick={onIconClick}
         //icon={'CurrencyIcon'}        
-        errorText={'Ошибка'}
+        //errorText={'Ошибка'}
         size={'default'}
         extraClass={"mb-6"}
       />
-      <EmailInput 
-        onChange={onChangeEmail}
-        value= {email}
+      <EmailInput        
         name={'E-mail'}
         placeholder={"E-mail"}
+        value= {email}
+        onChange={onChangeEmail}
         isIcon={false}
         extraClass={"mb-6"}
       />
       <PasswordInput 
-        onChange={onChangePassword}
-        value= {password}
         name={'Пароль'}
         placeholder={"Пароль"}
+        value= {password}
+        onChange={onChangePassword}
         icon={"ShowIcon"}
         extraClass={"mb-6"}
       />

@@ -5,8 +5,8 @@ import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer
 
 export const LoginPage = () => {
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState()
   
   const onChangeEmail = e => {
     setEmail(e.target.value)
@@ -23,20 +23,20 @@ return (
     <div className={Styles.content}>
       <p className={Styles.title}>Вход</p>
       <EmailInput 
-        onChange={onChangeEmail}
-        value= {email}
         name={'email'}
         placeholder={"E-mail"}
+        value= {email}
+        onChange={onChangeEmail}
         isIcon={false}
-        extraClass="mb-6"
+        extraClass={"mb-6"}
       />
       <PasswordInput 
-        onChange={onChangePassword}
-        value= {password}
         name={'password'}
         placeholder={"Пароль"}
-        icon="ShowIcon"
-        extraClass="mb-6"
+        value= {password}
+        onChange={onChangePassword}
+        icon={"ShowIcon"}
+        extraClass={"mb-6"}
       />
       <div className={Styles.button}>
         <Button htmlType="button" type="primary" size="medium" onClick={handleLogin} extraClass="mb-20">

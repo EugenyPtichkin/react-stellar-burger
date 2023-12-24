@@ -9,7 +9,7 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from "react-dnd-html5-backend";
 
 import { BrowserRouter, Router, Route } from 'react-router-dom';
-import { LoginPage, RegisterPage } from '../pages';
+import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage } from '../pages';
 
 export const isActive = false;
 
@@ -26,8 +26,12 @@ const App = () => {
     <ErrorBoundary>
       <div className={Styles.app}>
         <AppHeader />
-        <LoginPage />
-        {/*  <RegisterPage/>  */}
+        < RegisterPage />        
+        {/*        
+        <LoginPage />        
+        <ForgotPasswordPage />
+        <ResetPasswordPage/> 
+        */}
 
         {/* 
         <DndProvider backend={HTML5Backend}>
@@ -44,6 +48,8 @@ const App = () => {
             <Route path='/' element={<Main />} />
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
+            <Route path='/forgot-password' element={<ForgotPasswordPage />} />
+            <Route path='/reset-password' element={<ResetPasswordPage />} />
           </Router>
         </BrowserRouter>
       */}
