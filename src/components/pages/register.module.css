@@ -1,0 +1,15 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  background-color: #131316;  
+  max-width: 480px;
+  margin: 0 auto;
+  }
+
+.title {
+  margin: 0;
+  padding: 0;
+  color: #F2F2F3;
+  height: 30px;
+  composes: text_type_main-default pb-6 from global;
+}
