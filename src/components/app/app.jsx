@@ -11,7 +11,10 @@ import { HTML5Backend } from "react-dnd-html5-backend";
 import { Route, Routes } from 'react-router-dom';
 import { LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, NotFound404Page } from '../pages';
 
-export const isActive = false;
+import { checkUserAuth } from "../../services/actions/user";
+import { OnlyAuth, OnlyUnAuth } from "../protected-route";
+
+export const isActive = true;
 
 const App = () => {
   const dispatch = useDispatch();
@@ -19,6 +22,10 @@ const App = () => {
   useEffect(() => {
     dispatch(getIngredients())
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(checkUserAuth());
+  }, []);
 
   const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
 
@@ -32,10 +39,11 @@ const App = () => {
           {!ingredientsLoading && !ingredientsError &&
             <Routes>
               <Route path='/' element={<Main />} />
-              <Route path='/login' element={<LoginPage />} />
-              <Route path='/register' element={<RegisterPage />} />
-              <Route path='/forgot-password' element={<ForgotPasswordPage />} />
-              <Route path='/reset-password' element={<ResetPasswordPage />} />
+              <Route path="/login" element={<OnlyUnAuth component={<LoginPage/>} />} />
+              <Route path="/register" element={<OnlyUnAuth component={<RegisterPage/>} />} />
+              <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
+              <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
+{/*           <Route path="/profile" element={<OnlyAuth component={<Profile/>} />} />  */}
               <Route path='*' element={<NotFound404Page />} />
             </Routes>
           }

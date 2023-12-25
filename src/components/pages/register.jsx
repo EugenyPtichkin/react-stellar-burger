@@ -60,7 +60,6 @@ return (
         Уже зарегистрированы? 
         <Link to='/login' className={Styles.link} > Войти
         </Link>
-        {/* <a href='/login' className={Styles.link}> Войти</a> */}
       </p>        
     </div>
   </>

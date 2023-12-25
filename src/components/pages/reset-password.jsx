@@ -48,7 +48,6 @@ return (
         Вспомнили пароль?
         <Link to='/login' className={Styles.link} > Войти
         </Link> 
-        {/* <a href='/login' className={Styles.link}> Войти</a> */}
       </p>      
     </div>
   </>
