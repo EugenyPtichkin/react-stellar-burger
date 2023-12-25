@@ -16,11 +16,11 @@ function BurgerIngredients() {
 
   const bunNum = ingredients.filter(item => item.type === 'bun').length;
   const bunPosition = 54 + 208 * Math.trunc((bunNum + 1) / 2) + 32 * Math.trunc((bunNum - 1) / 2) + 40 //title+208*items+32*gaps+bottomPadding
-  console.log('bunsNum=', bunNum, ' bunPosition=', bunPosition);
+  //console.log('bunsNum=', bunNum, ' bunPosition=', bunPosition);
 
   const sauceNum = ingredients.filter(item => item.type === 'sauce').length;
   const saucePosition = bunPosition + 54 + 208 * Math.trunc((sauceNum + 1) / 2) + 32 * Math.trunc((sauceNum - 1) / 2) + 40;//bunPos+title+208*items+32*gaps+bottomPadding
-  console.log('sauceNum=', sauceNum, ' saucePosition=', saucePosition);
+  //console.log('sauceNum=', sauceNum, ' saucePosition=', saucePosition);
 
   const scrollToBunCategory = () => {
     categories.scrollTo({
