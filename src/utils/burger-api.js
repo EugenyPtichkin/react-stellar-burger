@@ -18,17 +18,15 @@ const checkSuccess = (res) => {
 };
 
 // создаем универсальную фукнцию запроса с проверкой ответа и `success`
-// В вызов приходит `endpoint`(часть урла, которая идет после базового) и опции
-const request = (endpoint, options) => {
-  // а также в ней базовый урл сразу прописывается, чтобы не дублировать в каждом запросе
-  return fetch(`${baseUrl}${endpoint}`, options)
+const request =  async (endpoint, options) => {
+  return await fetch(`${baseUrl}${endpoint}`, options)
     .then(checkResponse)
     .then(checkSuccess);
 };
 
-export const getIngredientsData = () => request('ingredients');
+const getIngredientsData = () => request('ingredients');
 
-export const getOrderNumber = (data) => request('orders', {
+const getOrderNumber = (data) => request('orders', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -58,3 +56,40 @@ export const getOrderNumber = (data) => {
     })
   })    
 }*/
+
+const getUser = () => request('auth/user', {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorisation: localStorage.getItem("accessToken"),
+  }
+});
+
+const login = (data) => request('auth/login', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'    
+  },
+  body: JSON.stringify({
+    'email': data.email,
+    'password': data.password
+  })
+});
+
+const logout = () => request('auth/logout', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    'token': localStorage.getItem("refreshToken"),
+  })
+});
+
+export const api = {
+  getIngredientsData,
+  getOrderNumber,
+  getUser,
+  login,
+  logout
+};

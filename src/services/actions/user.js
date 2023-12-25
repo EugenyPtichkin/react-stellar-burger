@@ -1,4 +1,4 @@
-import { api } from "../utils/burger-api";
+import { api } from "../../utils/burger-api";
 
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const SET_USER = "SET_USER";
@@ -14,16 +14,16 @@ export const setUser = (user) => ({
 });
 
 export const getUser = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     return api.getUser().then((res) => {
       dispatch(setUser(res.user));
     });
   };
 };
 
-export const login = () => {
-  return (dispatch) => {
-    return api.login().then((res) => {
+export const login = (data) => {
+  return async (dispatch) => {
+    return api.login(data).then((res) => {
       localStorage.setItem("accessToken", res.accessToken);
       localStorage.setItem("refreshToken", res.refreshToken);
       dispatch(setUser(res.user));
@@ -48,9 +48,8 @@ export const checkUserAuth = () => {
     };
 };
 
-
 export const logout = () => {
-  return (dispatch) => {
+  return async (dispatch) => {
     return api.logout().then(() => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
