@@ -35,7 +35,8 @@ const App = () => {
         {ingredientsError && <p className={`text text_type_main-large ${Styles.loading_text}`}>{`Ошибка сервера: ${ingredientsErrorType}`}</p>}
         {!ingredientsLoading && !ingredientsError &&
           <Routes>
-            <Route path='/' element={<HomePage />} />
+            {/*<Route path='/' element={<HomePage />} /> */}
+            <Route path="/" element={<OnlyAuth component={<HomePage/>} />} /> 
             <Route path="/login" element={<OnlyUnAuth component={<LoginPage />} />} />
             <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
             <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />

@@ -28,13 +28,14 @@ export const getUser = () => {
 };
 
 export const login = (data) => {
-  return async dispatch => {
+  return async (dispatch) => {
     return await api.login(data).then((res) => {
       if (res && res.success) {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch(setUser(res.user));
         dispatch(setAuthChecked(true));
+        console.log(res);
       }
       else {
         dispatch(setAuthError(true));
@@ -47,13 +48,14 @@ export const login = (data) => {
 };
 
 export const register = (data) => {
-  return async dispatch => {
+  return async (dispatch) => {
     return await api.register(data).then((res) => {
       if (res && res.success) {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch(setUser(res.user));
         dispatch(setAuthChecked(true));
+        console.log(res);
       }
       else {
         dispatch(setAuthError(true));
@@ -89,4 +91,14 @@ export const logout = () => {
       dispatch(setUser(null));
     }).catch(res => console.log(res));
   };
+};
+
+export const passwordReset = async (data) => {
+  return async (data) => {
+    return await api.passwordReset(data).then((res) => {
+      if (res && res.success) {
+        console.log(res);
+      }
+    }).catch(res => console.log(res));
+  }
 };

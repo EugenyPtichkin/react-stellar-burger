@@ -24,16 +24,16 @@ return (
     <div className={Styles.content}>
       <p className={Styles.title}>Вход</p>
       <EmailInput 
-        name={'email'}
-        placeholder={"E-mail"}
+        placeholder='E-mail'
+        name='email'
         value= {form.email}
         onChange={onChange}
         isIcon={false}
         extraClass={"mb-6"}
       />
       <PasswordInput 
-        name={'password'}
-        placeholder={"Пароль"}
+        placeholder='Пароль'
+        name='password'        
         value= {form.password}
         onChange={onChange}
         icon={"ShowIcon"}

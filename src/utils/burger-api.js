@@ -57,27 +57,6 @@ const getOrderNumber = (data) => request('orders', {
   })
 });
 
-/*
-function request(url, options) {
-  return fetch(url, options).then(checkResponse)
-}
-
-export const getIngredientsData = () => {
-  return request(`${baseUrl}/ingredients`)    
-}
-
-export const getOrderNumber = (data) => {
-  return request(`${baseUrl}/orders`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      'ingredients': data
-    })
-  })    
-}*/
-
 const getUser = () => request('auth/user', {
   method: 'GET',
   headers: {
@@ -119,11 +98,22 @@ const register = (data) => request('auth/register', {
   })
 });
 
+const passwordReset = (email) => request('password-reset', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    'email': email,
+  })
+});
+
 export const api = {
   getIngredientsData,
   getOrderNumber,
   getUser,
   login,
   logout,
-  register
+  register,
+  passwordReset
 };
