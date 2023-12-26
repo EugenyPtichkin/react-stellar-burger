@@ -98,13 +98,24 @@ const register = (data) => request('auth/register', {
   })
 });
 
-const passwordReset = (email) => request('password-reset', {
+const askPasswordReset = (email) => request('password-reset', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
     'email': email,
+  })
+});
+
+const resetPassword = (data) => request('password-reset/reset', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    'password': data.password,
+    'token': data.code
   })
 });
 
@@ -115,5 +126,6 @@ export const api = {
   login,
   logout,
   register,
-  passwordReset
+  askPasswordReset,
+  resetPassword
 };

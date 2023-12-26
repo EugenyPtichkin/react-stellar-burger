@@ -93,9 +93,19 @@ export const logout = () => {
   };
 };
 
-export const passwordReset = async (data) => {
+export const askPasswordReset = async (data) => {
   return async (data) => {
-    return await api.passwordReset(data).then((res) => {
+    return await api.askPasswordReset(data).then((res) => {
+      if (res && res.success) {
+        console.log(res);
+      }
+    }).catch(res => console.log(res));
+  }
+};
+
+export const resetPassword = async (data) => {
+  return async (data) => {
+    return await api.resetPassword(data).then((res) => {
       if (res && res.success) {
         console.log(res);
       }

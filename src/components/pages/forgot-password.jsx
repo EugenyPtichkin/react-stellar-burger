@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Styles from './forgot-password.module.css';
 import { EmailInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { passwordReset } from './../../services/actions/user';
+import { askPasswordReset } from './../../services/actions/user';
 
 export const ForgotPasswordPage = () => {
   const [email, setEmail] = useState('');
@@ -14,7 +14,7 @@ export const ForgotPasswordPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    passwordReset(email).then((res) => {
+    askPasswordReset(email).then((res) => {
       navigate('/reset-password', { replace: true });
     });
   };
