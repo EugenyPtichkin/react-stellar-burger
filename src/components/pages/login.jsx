@@ -1,20 +1,22 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Styles from './login.module.css';
 import { EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
+import { login } from '../../services/actions/user';
 
 export const LoginPage = () => {
-
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
+  const [form, setForm] = useState({email: '', password: ''});
+  const dispatch = useDispatch();
   
-  const onChangeEmail = e => {
-    setEmail(e.target.value)
+  const onChange = e => {
+    e.preventDefault();
+    setForm({...form, [e.target.name]: e.target.value});
   }
-  const onChangePassword = e => {
-    setPassword(e.target.value)
-  }
-  const handleLogin = () => {
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(login(form));
   }
 
 return (
@@ -24,21 +26,21 @@ return (
       <EmailInput 
         name={'email'}
         placeholder={"E-mail"}
-        value= {email}
-        onChange={onChangeEmail}
+        value= {form.email}
+        onChange={onChange}
         isIcon={false}
         extraClass={"mb-6"}
       />
       <PasswordInput 
         name={'password'}
         placeholder={"Пароль"}
-        value= {password}
-        onChange={onChangePassword}
+        value= {form.password}
+        onChange={onChange}
         icon={"ShowIcon"}
         extraClass={"mb-6"}
       />
       <div className={Styles.button}>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleLogin} extraClass="mb-20">
+        <Button htmlType="button" type="primary" size="medium" onClick={onSubmit} extraClass="mb-20">
           Войти      
         </Button>
       </div>

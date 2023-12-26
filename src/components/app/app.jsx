@@ -11,18 +11,19 @@ import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPag
 import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route";
 
+
 export const isActive = true;
 
 const App = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getIngredients())
-  }, [dispatch]);
+    dispatch(getIngredients());
+    }, [dispatch]);
 
   useEffect(() => {
-    dispatch(checkUserAuth());
-  }, []);
+    dispatch(checkUserAuth());  
+  }, [dispatch]);
 
   const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
 

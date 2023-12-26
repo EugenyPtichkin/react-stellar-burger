@@ -6,11 +6,11 @@ import BurgerConstructor from '../burger-constructor/burger-constructor';
 
 export const HomePage = () => {
   return (
-    <DndProvider backend={HTML5Backend} >
-      <main className={Styles.home}>
+    <main className={Styles.home}>
+      <DndProvider backend={HTML5Backend} >
         <BurgerIngredients />
         <BurgerConstructor />
-      </main>
-    </DndProvider>
-    )
+      </DndProvider>
+    </main>
+  )
 }

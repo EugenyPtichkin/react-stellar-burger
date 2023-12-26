@@ -1,27 +1,43 @@
 import { baseUrl } from "./data";
 
-// создаем функцию проверки ответа на `ok`
-const checkResponse = (res) => {
+// создаем функцию проверки ответа на `ok` и на 'success'
+/*const checkResponse = (res) => {
   if (res.ok) {
     return res.json();
   }
-  return Promise.reject(`Код ошибки HTTP: ${res.status}`)
-}
-
-// создаем функцию проверки на `success`
-const checkSuccess = (res) => {
-  if (res && res.success) {
-    return res;
+  else { //!res.ok
+    let status = res.status; //запомнить статус ошибки от сервера в переменной
+    res.json().then((res) => { //распарсить ответ - вытащить поля success и message
+      if (!res.success) {      //!res.success
+        return Promise.reject(`Код ошибки HTTP: ${status} Сообщение сервера: ${res.message}`);
+      }
+      else {  //а вдруг res.success, все равно здесь присутствует код ошибки с сервера
+        return Promise.reject(`Код ошибки HTTP: ${status}`);
+      }
+    })
   }
-  // не забываем выкидывать ошибку, чтобы она попала в `catch`
-  return Promise.reject(`Ответ не success: ${res}`);
+}*/
+
+// создаем функцию проверки ответа на `ok`
+const checkResponse = (res) => {
+  if (!res.ok) {
+    Promise.reject(`Код ошибки HTTP: ${res.status}`);    
+  }
+  return res.json();
+}
+// создаем функцию проверки на `success` 
+const checkSuccess = (res) => {
+  if (!(res && res.success)) {// не забываем выкидывать ошибку, чтобы она попала в `catch`
+    Promise.reject(`Ответ не success: ${res.message}`);
+  }  
+  return res;  
 };
 
-// создаем универсальную фукнцию запроса с проверкой ответа и `success`
-const request =  async (endpoint, options) => {
+// создаем универсальную фукнцию запроса с проверкой ответа `ok` и `success`
+const request = async (endpoint, options) => {
   return await fetch(`${baseUrl}${endpoint}`, options)
     .then(checkResponse)
-    .then(checkSuccess);
+    .then(checkSuccess)
 };
 
 const getIngredientsData = () => request('ingredients');
@@ -68,7 +84,7 @@ const getUser = () => request('auth/user', {
 const login = (data) => request('auth/login', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'    
+    'Content-Type': 'application/json'
   },
   body: JSON.stringify({
     'email': data.email,
@@ -86,10 +102,23 @@ const logout = () => request('auth/logout', {
   })
 });
 
+const register = (data) => request('auth/register', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    'email': data.email,
+    'password': data.password,
+    'name': data.name,
+  })
+});
+
 export const api = {
   getIngredientsData,
   getOrderNumber,
   getUser,
   login,
-  logout
+  logout,
+  register
 };
