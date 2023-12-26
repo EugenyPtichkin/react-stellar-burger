@@ -29,44 +29,56 @@ export const getUser = () => {
 
 export const login = (data) => {
   return async dispatch => {
-    return await api.login(data).then((res) => {      
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-      dispatch(setUser(res.user));
-      dispatch(setAuthChecked(true));
-    }).catch(
-      dispatch(setAuthError(true))
-      );
+    return await api.login(data).then((res) => {
+      if (res && res.success) {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        dispatch(setUser(res.user));
+        dispatch(setAuthChecked(true));
+      }
+      else {
+        dispatch(setAuthError(true));
+      }
+    }).catch(res => {
+      console.log(res);
+      dispatch(setAuthError(true));
+    });
   };
 };
 
 export const register = (data) => {
   return async dispatch => {
     return await api.register(data).then((res) => {
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
-      dispatch(setUser(res.user));
-      dispatch(setAuthChecked(true));
-    }).catch(
-      dispatch(setAuthError(true))
-      );
-    }
-  };
+      if (res && res.success) {
+        localStorage.setItem("accessToken", res.accessToken);
+        localStorage.setItem("refreshToken", res.refreshToken);
+        dispatch(setUser(res.user));
+        dispatch(setAuthChecked(true));
+      }
+      else {
+        dispatch(setAuthError(true));
+      }
+    }).catch(res => {
+      console.log(res);
+      dispatch(setAuthError(true));
+    });
+  }
+};
 
 export const checkUserAuth = () => {
-    return (dispatch) => {
-        if (localStorage.getItem("accessToken")) {
-            dispatch(getUser())
-              .catch(() => {
-                  localStorage.removeItem("accessToken");
-                  localStorage.removeItem("refreshToken");
-                  dispatch(setUser(null));
-               })
-              .finally(() => dispatch(setAuthChecked(true)));
-        } else {
-            dispatch(setAuthChecked(true));
-        }
-    };
+  return (dispatch) => {
+    if (localStorage.getItem("accessToken")) {
+      dispatch(getUser())
+        .catch(() => {
+          localStorage.removeItem("accessToken");
+          localStorage.removeItem("refreshToken");
+          dispatch(setUser(null));
+        })
+        .finally(() => dispatch(setAuthChecked(true)));
+    } else {
+      dispatch(setAuthChecked(true));
+    }
+  };
 };
 
 export const logout = () => {

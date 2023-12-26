@@ -1,5 +1,10 @@
 import { baseUrl } from "./data";
 
+// создаем функцию проверки ответа на `ok`, не анализирую success, т.к. нужен выше для анализа нагрузки
+const checkResponse = (res) => { //возвращается либо res.json либо Promise.reject(res.json())
+ return res.ok ? res.json() : res.json().then(res => Promise.reject(res));
+}
+
 // создаем функцию проверки ответа на `ok` и на 'success'
 /*const checkResponse = (res) => {
   if (res.ok) {
@@ -9,35 +14,35 @@ import { baseUrl } from "./data";
     let status = res.status; //запомнить статус ошибки от сервера в переменной
     res.json().then((res) => { //распарсить ответ - вытащить поля success и message
       if (!res.success) {      //!res.success
-        return Promise.reject(`Код ошибки HTTP: ${status} Сообщение сервера: ${res.message}`);
+        throw new Error(`Код ошибки HTTP: ${status} Сообщение сервера: ${res.message}`);
       }
       else {  //а вдруг res.success, все равно здесь присутствует код ошибки с сервера
-        return Promise.reject(`Код ошибки HTTP: ${status}`);
+        throw new Error(`Код ошибки HTTP: ${status}`);
       }
     })
   }
 }*/
 
 // создаем функцию проверки ответа на `ok`
-const checkResponse = (res) => {
+/*const checkResponse = (res) => {
   if (!res.ok) {
-    Promise.reject(`Код ошибки HTTP: ${res.status}`);    
+    throw new Error(`Код ошибки HTTP: ${res.status}`);
   }
   return res.json();
 }
-// создаем функцию проверки на `success` 
+// создаем функцию проверки на `success`
 const checkSuccess = (res) => {
   if (!(res && res.success)) {// не забываем выкидывать ошибку, чтобы она попала в `catch`
-    Promise.reject(`Ответ не success: ${res.message}`);
+    throw new Error(`Ответ не success: ${res.message}`);
   }  
   return res;  
-};
+};*/
 
 // создаем универсальную фукнцию запроса с проверкой ответа `ok` и `success`
 const request = async (endpoint, options) => {
   return await fetch(`${baseUrl}${endpoint}`, options)
     .then(checkResponse)
-    .then(checkSuccess)
+    //.then(checkSuccess)
 };
 
 const getIngredientsData = () => request('ingredients');
