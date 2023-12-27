@@ -1,0 +1,39 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 320px;
+  padding-top: 120px;
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  composes: pb-20 from global;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  height: 64px;
+  text-decoration: none;
+  composes: text_type_main-medium text_color_inactive from global;
+}
+
+.link:hover {
+  color: #4C4CFF;
+}
+
+.active {
+  color: #F2F2F3;
+}
+
+.caption {
+  margin: 0;
+  color: #8585AD;
+  opacity: 0.4;
+  composes: text_type_main-default from global;
+}

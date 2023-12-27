@@ -6,7 +6,7 @@ import { getIngredients } from '../../services/actions/ingredients';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Route, Routes } from 'react-router-dom';
-import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, NotFound404Page } from '../pages';
+import { HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage, NotFound404Page, ProfilePage } from '../pages';
 
 import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route";
@@ -41,7 +41,7 @@ const App = () => {
             <Route path="/register" element={<OnlyUnAuth component={<RegisterPage />} />} />
             <Route path="/forgot-password" element={<OnlyUnAuth component={<ForgotPasswordPage />} />} />
             <Route path="/reset-password" element={<OnlyUnAuth component={<ResetPasswordPage />} />} />
-         {/*<Route path="/profile" element={<OnlyAuth component={<Profile/>} />} />  */}
+            <Route path="/profile" element={<OnlyAuth component={<ProfilePage/>} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>
         }
