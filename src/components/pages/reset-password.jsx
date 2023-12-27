@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Fragment, useState, useEffect } from 'react';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 import Styles from './reset-password.module.css';
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { api } from './../../utils/burger-api';
@@ -7,6 +7,14 @@ import { api } from './../../utils/burger-api';
 export const ResetPasswordPage = () => {
   const [form, setForm] = useState({ password: '', code: '' });
   const navigate = useNavigate();
+  const isForgotPasswordPageVisited = sessionStorage.getItem('forgotPasswordPageVisited');
+  console.log(isForgotPasswordPageVisited);
+
+  useEffect(() => {
+    if (!isForgotPasswordPageVisited) {
+      navigate('/forgot-password', { replace: true });
+    }
+  }, [isForgotPasswordPageVisited]);
 
   const onChange = e => {
     e.preventDefault();
@@ -17,10 +25,10 @@ export const ResetPasswordPage = () => {
     e.preventDefault();
     api.resetPassword(form).then((res) => {
       console.log(res);
+      sessionStorage.removeItem('forgotPasswordPageVisited');
       navigate('/login', { replace: false });
     }).catch(res => console.log(res));
   }
-
   return (
     <>
       <div className={Styles.content}>
@@ -54,5 +62,6 @@ export const ResetPasswordPage = () => {
         </p>
       </div>
     </>
+
   )
 };

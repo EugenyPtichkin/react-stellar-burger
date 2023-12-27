@@ -16,7 +16,8 @@ export const ForgotPasswordPage = () => {
     e.preventDefault();
     api.askPasswordReset(email).then((res) => {
       console.log(res);
-      navigate('/reset-password', { replace: true });
+      sessionStorage.setItem('forgotPasswordPageVisited', true);
+      navigate('/reset-password', { replace: false });
     }).catch(res => console.log(res));
   };
 
