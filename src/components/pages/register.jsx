@@ -31,7 +31,6 @@ export const RegisterPage = () => {
             value={form.name}
             onChange={onChange}
             size={'default'}
-            extraClass={"mb-6"}
           />
           <EmailInput
             placeholder='E-mail'
@@ -39,7 +38,6 @@ export const RegisterPage = () => {
             value={form.email}
             onChange={onChange}
             isIcon={false}
-            extraClass={"mb-6"}
           />
           <PasswordInput
             placeholder="Пароль"
@@ -47,7 +45,6 @@ export const RegisterPage = () => {
             value={form.password}
             onChange={onChange}
             icon={"ShowIcon"}
-            extraClass={"mb-6"}
           />
           <div className={Styles.button}>
             <Button htmlType="submit" type="primary" size="medium">

@@ -8,7 +8,7 @@ export const ResetPasswordPage = () => {
   const [form, setForm] = useState({ password: '', code: '' });
   const navigate = useNavigate();
   const isForgotPasswordPageVisited = sessionStorage.getItem('forgotPasswordPageVisited');
-  console.log(isForgotPasswordPageVisited);
+  console.log(`Страница сброса пароля посещена: ${isForgotPasswordPageVisited}`);
 
   useEffect(() => {
     if (!isForgotPasswordPageVisited) {
