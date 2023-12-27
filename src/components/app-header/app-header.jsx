@@ -24,9 +24,7 @@ function AppHeader() {
           </NavigationLink>
         </nav>
 
-        <NavigationLink className='header_logo' link='/'>
-          <Logo />
-        </NavigationLink>
+        <Logo className='header_logo'/>
 
         <nav className={Styles.profile}>
           <NavigationLink text='Личный кабинет' link='/profile' isActive={location.pathname === '/profile'}>

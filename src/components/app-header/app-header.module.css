@@ -24,3 +24,13 @@
 .nav_first {
   composes: mr-2 from global;  
 }
+
+.header_logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+/*  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);*/
+}
