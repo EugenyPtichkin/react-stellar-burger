@@ -6,7 +6,7 @@ export const NotFound404Page = () => {
   
   const navigate = useNavigate();
   
-  const handleLogin = () => {
+  const onClick = () => {
     navigate('/login', {replace: true});
   }
 
@@ -15,7 +15,7 @@ return (
     <div className={Styles.content}>
       <p className={Styles.title}>Такой страницы нет</p>
       <div className={Styles.button}>
-        <Button htmlType="button" type="primary" size="medium" onClick={handleLogin} extraClass="mb-20">
+        <Button htmlType="button" type="primary" size="medium" onClick={onClick} extraClass="mb-20">
           Войти      
         </Button>
       </div>

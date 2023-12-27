@@ -23,20 +23,21 @@ export const ForgotPasswordPage = () => {
   return (
     <>
       <div className={Styles.content}>
-        <p className={Styles.title}>Восстановление пароля</p>
-        <EmailInput
-          placeholder='Укажите e-mail'
-          name='email'
-          value={email}
-          onChange={onChange}
-          isIcon={false}
-          extraClass={"mb-6"}
-        />
-        <div className={Styles.button}>
-          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit} extraClass="mb-20">
-            Восстановить
-          </Button>
-        </div>
+        <h1 className={Styles.title}>Восстановление пароля</h1>
+        <form className={Styles.form} onSubmit={onSubmit}>
+          <EmailInput
+            placeholder='Укажите e-mail'
+            name='email'
+            value={email}
+            onChange={onChange}
+            isIcon={false}
+          />
+          <div className={Styles.button}>
+            <Button htmlType="submit" type="primary" size="medium">
+              Восстановить
+            </Button>
+          </div>
+        </form>
         <p className={Styles.additionalActions}>
           Вспомнили пароль?
           <Link to='/login' className={Styles.link} > Войти

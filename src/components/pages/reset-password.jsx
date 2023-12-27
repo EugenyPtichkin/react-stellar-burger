@@ -24,29 +24,29 @@ export const ResetPasswordPage = () => {
   return (
     <>
       <div className={Styles.content}>
-        <p className={Styles.title}>Восстановление пароля</p>
-        <PasswordInput
-          placeholder='Введите новый пароль'
-          name='password'
-          value={form.password}
-          onChange={onChange}
-          icon={"ShowIcon"}
-          extraClass={"mb-6"}
-        />
-        <Input
-          type={'text'}
-          placeholder='Введите код из письма'
-          name='code'
-          value={form.code}
-          onChange={onChange}
-          size={'default'}
-          extraClass={"mb-6"}
-        />
-        <div className={Styles.button}>
-          <Button htmlType="button" type="primary" size="medium" onClick={onSubmit} extraClass="mb-20">
-            Сохранить
-          </Button>
-        </div>
+        <h1 className={Styles.title}>Восстановление пароля</h1>
+        <form className={Styles.form} onSubmit={onSubmit}>
+          <PasswordInput
+            placeholder='Введите новый пароль'
+            name='password'
+            value={form.password}
+            onChange={onChange}
+            icon={"ShowIcon"}
+          />
+          <Input
+            type={'text'}
+            placeholder='Введите код из письма'
+            name='code'
+            value={form.code}
+            onChange={onChange}
+            size={'default'}
+          />
+          <div className={Styles.button}>
+            <Button htmlType="submit" type="primary" size="medium">
+              Сохранить
+            </Button>
+          </div>
+        </form>
         <p className={Styles.additionalActions}>
           Вспомнили пароль?
           <Link to='/login' className={Styles.link} > Войти
