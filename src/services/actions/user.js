@@ -21,7 +21,7 @@ export const setUser = (user) => ({
 
 export const getUser = () => {
   return async (dispatch) => {
-    return await api.getUser().then((res) => {
+    return api.getUser().then((res) => {
       dispatch(setUser(res.user));
     }).catch(res => console.log(res));
   };
@@ -31,6 +31,7 @@ export const updateUser = (data) => {
   return async (dispatch) => {
     return await api.updateUser(data).then((res) => {
       dispatch(setUser(res.user));
+      dispatch(setAuthChecked(true));
     }).catch(res => console.log(res));
   };
 };

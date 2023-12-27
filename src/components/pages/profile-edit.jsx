@@ -1,12 +1,17 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Styles from './profile-edit.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { updateUser } from '../../services/actions/user';
+import { getUser, updateUser } from '../../services/actions/user';
 
 export const ProfileEditPage = () => {
-  const [form, setForm] = useState({ email: '', password: '', name: '' });
+  const user = useSelector(store => store.user.user);
+  const [form, setForm] = useState({ email: user.email, password: '', name: user.name });
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getUser());
+  },[dispatch]);
 
   const onChange = e => {
     e.preventDefault();
@@ -21,6 +26,7 @@ export const ProfileEditPage = () => {
 
   const onReset = (e) => {
     e.preventDefault();
+    setForm({...form,  email: user.email, password: '', name: user.name });
   }
 
   return (

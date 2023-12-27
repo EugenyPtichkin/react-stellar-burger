@@ -40,7 +40,7 @@ const refreshToken = () => request('auth/token', {
 const fetchWithRefresh = async (endpoint, options) => {
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, options);
-    //console.log(res);
+    console.log(res);
     return await checkResponse(res);
   } catch (err) {
     if (err.message === 'jwt expired') {
@@ -73,11 +73,11 @@ const getOrderNumber = (data) => request('orders', {
   })
 });
 
-const getUser = () => fetchWithRefresh('auth/user', {
+const getUser = async () => fetchWithRefresh('auth/user', {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
-    Authorisation: localStorage.getItem("accessToken"),
+    'Authorization': localStorage.getItem("accessToken")
   }
 });
 
@@ -85,7 +85,7 @@ const updateUser = (data) => fetchWithRefresh('auth/user', {
   method: 'PATCH',
   headers: {
     'Content-Type': 'application/json',
-    Authorisation: localStorage.getItem("accessToken"),
+    'Authorization': localStorage.getItem("accessToken")
   },
   body: JSON.stringify({
     'email': data.email,
