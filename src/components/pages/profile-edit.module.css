@@ -1,0 +1,25 @@
+.content {
+  width: 480px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+/*  border: 1px dotted blue;*/
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  margin: 0;
+}
+
+.buttons {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+/*column-gap: 20px;*/
+}
+
+.cancel_button {
+  /*width: 74px;*/
+}

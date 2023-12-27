@@ -1,8 +1,8 @@
-import { baseUrl } from "./data";
+import { baseUrl } from './data';
 
 // создаем функцию проверки ответа на `ok`, не анализирую success, т.к. нужен выше для анализа нагрузки
 const checkResponse = (res) => { //возвращается либо res.json либо Promise.reject(res.json())
- return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
+  return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
 }
 
 // создаем функцию проверки ответа на `ok`
@@ -24,37 +24,37 @@ const checkSuccess = (res) => {
 const request = async (endpoint, options) => {
   return await fetch(`${baseUrl}${endpoint}`, options)
     .then(checkResponse)
-    //.then(checkSuccess)
+  //.then(checkSuccess)
 };
 
 const refreshToken = () => request('auth/token', {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json;charset=utf-8",
-    },
-    body: JSON.stringify({
-      token: localStorage.getItem("refreshToken"),
-    }),
-  });
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json;charset=utf-8',
+  },
+  body: JSON.stringify({
+    token: localStorage.getItem('refreshToken'),
+  }),
+});
 
 const fetchWithRefresh = async (endpoint, options) => {
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, options);
-    console.log(res);
-    return await api.checkReponse(res);
+    //console.log(res);
+    return await checkResponse(res);
   } catch (err) {
-    if (err.message === "jwt expired") {
+    if (err.message === 'jwt expired') {
       const refreshData = await refreshToken(); //обновляем токен
       console.log(refreshData);
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
-      localStorage.setItem("refreshToken", refreshData.refreshToken);
-      localStorage.setItem("accessToken", refreshData.accessToken);
+      localStorage.setItem('refreshToken', refreshData.refreshToken);
+      localStorage.setItem('accessToken', refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(`${baseUrl}${endpoint}`, options); //повторяем запрос
-      console.log(res);
-      return await api.checkReponse(res);
+      //console.log(res);
+      return await checkResponse(res);
     } else {
       return Promise.reject(err);
     }
@@ -77,8 +77,21 @@ const getUser = () => fetchWithRefresh('auth/user', {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
-    Authorisation: localStorage.getItem("accessToken"),
+    Authorisation: localStorage.getItem('accessToken'),
   }
+});
+
+const updateUser = (data) => fetchWithRefresh('auth/user', {
+  method: 'PATCH',
+  headers: {
+    'Content-Type': 'application/json',
+    Authorisation: localStorage.getItem('accessToken'),
+  },
+  body: JSON.stringify({
+    'email': data.email,
+    'password': data.password,
+    'name': data.name,
+  })
 });
 
 const login = (data) => request('auth/login', {
@@ -98,7 +111,7 @@ const logout = () => request('auth/logout', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    'token': localStorage.getItem("refreshToken"),
+    'token': localStorage.getItem('refreshToken'),
   })
 });
 
@@ -139,6 +152,7 @@ export const api = {
   getIngredientsData,
   getOrderNumber,
   getUser,
+  updateUser,
   login,
   logout,
   register,

@@ -27,6 +27,14 @@ export const getUser = () => {
   };
 };
 
+export const updateUser = () => {
+  return async (dispatch) => {
+    return await api.updateUser().then((res) => {
+      dispatch(setUser(res.user));
+    }).catch(res => console.log(res));
+  };
+};
+
 export const login = (data) => {
   return async (dispatch) => {
     return await api.login(data).then((res) => {
