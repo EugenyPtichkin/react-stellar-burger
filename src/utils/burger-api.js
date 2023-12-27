@@ -33,7 +33,7 @@ const refreshToken = () => request('auth/token', {
     'Content-Type': 'application/json;charset=utf-8',
   },
   body: JSON.stringify({
-    token: localStorage.getItem('refreshToken'),
+    token: localStorage.getItem("refreshToken"),
   }),
 });
 
@@ -49,8 +49,8 @@ const fetchWithRefresh = async (endpoint, options) => {
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
-      localStorage.setItem('refreshToken', refreshData.refreshToken);
-      localStorage.setItem('accessToken', refreshData.accessToken);
+      localStorage.setItem("refreshToken", refreshData.refreshToken);
+      localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(`${baseUrl}${endpoint}`, options); //повторяем запрос
       //console.log(res);
@@ -77,7 +77,7 @@ const getUser = () => fetchWithRefresh('auth/user', {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
-    Authorisation: localStorage.getItem('accessToken'),
+    Authorisation: localStorage.getItem("accessToken"),
   }
 });
 
@@ -85,7 +85,7 @@ const updateUser = (data) => fetchWithRefresh('auth/user', {
   method: 'PATCH',
   headers: {
     'Content-Type': 'application/json',
-    Authorisation: localStorage.getItem('accessToken'),
+    Authorisation: localStorage.getItem("accessToken"),
   },
   body: JSON.stringify({
     'email': data.email,
@@ -111,7 +111,7 @@ const logout = () => request('auth/logout', {
     'Content-Type': 'application/json'
   },
   body: JSON.stringify({
-    'token': localStorage.getItem('refreshToken'),
+    'token': localStorage.getItem("refreshToken"),
   })
 });
 

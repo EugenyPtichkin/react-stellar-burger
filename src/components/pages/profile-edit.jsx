@@ -15,6 +15,7 @@ export const ProfileEditPage = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    console.log(form);
     dispatch(updateUser(form));
   }
 
