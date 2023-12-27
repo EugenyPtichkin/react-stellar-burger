@@ -1,12 +1,13 @@
 import Styles from './navigation-link.module.css';
 import PropTypes from "prop-types";
+import { Link } from 'react-router-dom';
 
 function NavigationLink(props) {
   return (
-    <a href="#" className={Styles.navigation_link}>
+    <Link to={props.link} className={Styles.navigation_link}>
       {props.children}
       <p className={Styles.navigation_link_text}>{props.text}</p>     
-    </a>
+    </Link>
   );
 }
 NavigationLink.propTypes = {

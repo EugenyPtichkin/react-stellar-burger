@@ -11,16 +11,20 @@
   justify-items: center;
 }
 
-.header_nav {
+.nav {
   justify-self: start;
   display: flex;
   flex-direction: row;
 }
 
-.header_profile {
+.profile {
   justify-self: end;
 }
 
-.header_nav_first {
+.nav_first {
   composes: mr-2 from global;  
+}
+
+.acitve {
+  color: #F3F3F3;
 }

@@ -12,7 +12,7 @@ import { checkUserAuth } from "../../services/actions/user";
 import { OnlyAuth, OnlyUnAuth } from "../protected-route";
 
 
-export const isActive = true;
+export const isActive = false;
 
 const App = () => {
   const dispatch = useDispatch();
