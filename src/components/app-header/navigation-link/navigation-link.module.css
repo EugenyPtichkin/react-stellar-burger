@@ -3,14 +3,18 @@
     text-decoration: none; 
     display: flex;
     flex-direction: row;
-    color: var(--text-inactive-color); 
   }
   
-.navigation_link_text { 
+.navlink { 
     margin: 0;    
-    composes: text_type_main-default pl-2 from global; 
-    display:flex; 
+    padding-left: 8px;    
+    display: flex; 
     flex-direction: row; 
     justify-content: left; 
+    composes: text_type_main-default from global;
     color: var(--text-inactive-color); 
+}
+
+.active {
+  color: #F3F3F3;
 }

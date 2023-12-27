@@ -24,7 +24,3 @@
 .nav_first {
   composes: mr-2 from global;  
 }
-
-.acitve {
-  color: #F3F3F3;
-}
