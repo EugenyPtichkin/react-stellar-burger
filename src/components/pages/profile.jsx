@@ -16,12 +16,12 @@ export const ProfilePage = () => {
       <div className={Styles.container}>
         <section className={Styles.profile}>
           <nav className={Styles.nav}>
-            <NavLink to={'#'} className={Styles.link} end>
+            <NavLink to={''} className={Styles.link} end>
               {({ isActive }) => (
                 <span className={isActive ? Styles.active : ''}>Профиль</span>
               )}
             </NavLink>
-            <NavLink to={'/orders'} className={Styles.link} end>
+            <NavLink to={'orders'} className={Styles.link} end>
               {({ isActive }) => (
                 <span className={isActive ? Styles.active : ''}>История заказов</span>
               )}
