@@ -1,6 +1,7 @@
 .contents {
   width: 600px;
   height: 912px;
+  color: #F2F2F3;  
 }
 .tab {
   display: flex;
@@ -23,7 +24,6 @@
   height: 40px;
   top: 40px;
   border: 1px;
-  color: rgba(242, 242, 243, 1);
   composes: text_type_main-large pt-10 pb-5 from global;
 }
 
@@ -45,5 +45,9 @@
   column-gap: 24px;
   row-gap: 32px;
   composes: pl-4 pr-4 pb-10 from global;
-  /*border: dotted magenta 1px; */
+}
+
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
 }

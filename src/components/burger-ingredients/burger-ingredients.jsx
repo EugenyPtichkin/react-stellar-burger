@@ -4,9 +4,10 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from './../../utils/data';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function BurgerIngredients() {
-
   const [bunsCategoryActive, setBunsCategoryActive] = useState(true);
   const [saucesCategoryActive, setSaucesCategoryActive] = useState(false);
   const [mainsCategoryActive, setMainsCategoryActive] = useState(false);
@@ -63,17 +64,25 @@ function BurgerIngredients() {
   }
 
   function DisplayItem({ dataSet, productName }) {
+    const location = useLocation();
+    
     return (
       <>
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
         <div className={Styles.layout}>  {
-          dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&             
-            <BurgerContent key={dataItem._id} dataItem={dataItem}>
-              <img src={dataItem.image} alt={dataItem.name} />
-            </BurgerContent>          
+          dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
+            < Link
+              key={dataItem._id}
+              to={`/ingredients/${dataItem._id}`}
+              state={{ background: location }}
+              className={Styles.link}>                    
+              <BurgerContent key={dataItem._id} dataItem={dataItem} >
+                <img src={dataItem.image} alt={dataItem.name} />
+              </BurgerContent>
+            </Link>
           ))
         }
-        </div>
+        </div >
       </>
     );
   }
