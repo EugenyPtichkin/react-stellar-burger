@@ -32,3 +32,8 @@
   composes: text_type_main-default from global;  
   text-align: center;
 }
+
+.link {
+  text-decoration: none;
+  composes: text_type_main-default from global;  
+}

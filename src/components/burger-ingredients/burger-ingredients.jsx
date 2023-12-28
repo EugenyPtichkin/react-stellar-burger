@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
@@ -67,10 +67,10 @@ function BurgerIngredients() {
       <>
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
         <div className={Styles.layout}>  {
-          dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&
+          dataSet.map((dataItem) => ((dataItem.type === productName[0]) &&             
             <BurgerContent key={dataItem._id} dataItem={dataItem}>
               <img src={dataItem.image} alt={dataItem.name} />
-            </BurgerContent>
+            </BurgerContent>          
           ))
         }
         </div>
