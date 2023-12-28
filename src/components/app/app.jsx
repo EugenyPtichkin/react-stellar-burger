@@ -55,7 +55,7 @@ const App = () => {
               <Route path='orders' element={<OrdersPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
-            <Route path='/ingredients/:ingredientId' element={<IngredientDetails />} />
+            <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>
         }
@@ -64,8 +64,8 @@ const App = () => {
             <Route
               path='/ingredients/:ingredientId'
               element={
-                <Modal title="Детали ингредиента" handleClose={handleModalClose}>
-                  <IngredientDetails />
+                <Modal handleClose={handleModalClose}>
+                  <IngredientDetails isModal={true} />
                 </Modal>
               }
             />

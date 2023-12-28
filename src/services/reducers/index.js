@@ -7,7 +7,7 @@ import {ingredientsReducer} from './ingredients';
 import {burgerReducer} from './burger';
 
 // Редьюсер просматриваемого ингредиента
-import {ingredientReducer} from './ingredient';
+//import {ingredientReducer} from './ingredient';
 
 // Редьюсер созданного заказа
 import {orderReducer} from './order';
@@ -19,7 +19,7 @@ import {userReducer} from './user';
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
     burger: burgerReducer,
-    ingredient: ingredientReducer,
+//  ingredient: ingredientReducer,
     order: orderReducer,
     user: userReducer,
 }) 

@@ -24,7 +24,6 @@ const Modal = ({ title, children, handleClose}) => {
     <>
       <div className={Styles.modal}>
         <div className={Styles.title}>
-          <p className={Styles.title_text}>{title}</p>
           <div className={Styles.close_button} onClick={handleClose}>
             <CloseIcon type="primary"/>
           </div>
