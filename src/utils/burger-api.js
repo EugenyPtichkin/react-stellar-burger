@@ -40,12 +40,12 @@ const refreshToken = () => request('auth/token', {
 const fetchWithRefresh = async (endpoint, options) => {
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, options);
-    console.log(res);
+    //console.log(res);
     return await checkResponse(res);
   } catch (err) {
     if (err.message === 'jwt expired') {
       const refreshData = await refreshToken(); //обновляем токен
-      console.log(refreshData);
+      //console.log(refreshData);
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }

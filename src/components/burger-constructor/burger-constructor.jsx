@@ -12,10 +12,13 @@ import { deleteIngredient, updateIngredients, deleteAllIngredients } from '../..
 import { getOrder } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import { addBuns, addIngredient } from '../../services/actions/burger';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
   const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
+  const user = useSelector(store => store.user.user);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -45,9 +48,14 @@ function BurgerConstructor() {
   const { orderIsError, orderErrorType } = useSelector(store => store.order);
 
   const handleSubmit = () => {
-    const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
-    dispatch(getOrder(burgerIngredientsIds));
-    handleModalOpen();
+    if (user) {
+      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
+      dispatch(getOrder(burgerIngredientsIds));
+      handleModalOpen();
+    }
+    else {
+      navigate('/login');
+    }
   };
 
   useEffect(() => {

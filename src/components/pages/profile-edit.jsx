@@ -8,10 +8,11 @@ export const ProfileEditPage = () => {
   const user = useSelector(store => store.user.user);
   const [form, setForm] = useState({ email: user.email, password: '', name: user.name });
   const dispatch = useDispatch();
+  const enableButtonsDisplay = (form.email !== user.email) || (form.name !== user.name) || (form.password !== '');
 
   useEffect(() => {
     dispatch(getUser());
-  },[dispatch]);
+  }, [dispatch]);
 
   const onChange = e => {
     e.preventDefault();
@@ -26,7 +27,7 @@ export const ProfileEditPage = () => {
 
   const onReset = (e) => {
     e.preventDefault();
-    setForm({...form,  email: user.email, password: '', name: user.name });
+    setForm({ ...form, email: user.email, password: '', name: user.name });
   }
 
   return (
@@ -57,16 +58,18 @@ export const ProfileEditPage = () => {
             onChange={onChange}
             icon={"EditIcon"}
           />
-          <div className={Styles.buttons}>
-            <div className={Styles.cancel_button}>
-              <Button htmlType="reset" type="secondary" size="medium" >
-                Отмена
+          {enableButtonsDisplay &&
+            <div className={Styles.buttons}>
+              <div className={Styles.cancel_button}>
+                <Button htmlType="reset" type="secondary" size="medium" >
+                  Отмена
+                </Button>
+              </div>
+              <Button htmlType="submit" type="primary" size="medium">
+                Сохранить
               </Button>
             </div>
-            <Button htmlType="submit" type="primary" size="medium">
-              Сохранить
-            </Button>
-          </div>
+          }
         </form >
       </div >
     </>
