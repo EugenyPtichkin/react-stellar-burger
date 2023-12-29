@@ -40,12 +40,10 @@ const refreshToken = () => request('auth/token', {
 const fetchWithRefresh = async (endpoint, options) => {
   try {
     const res = await fetch(`${baseUrl}${endpoint}`, options);
-    //console.log(res);
     return await checkResponse(res);
   } catch (err) {
     if (err.message === 'jwt expired') {
       const refreshData = await refreshToken(); //обновляем токен
-      //console.log(refreshData);
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
@@ -53,7 +51,6 @@ const fetchWithRefresh = async (endpoint, options) => {
       localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.authorization = refreshData.accessToken;
       const res = await fetch(`${baseUrl}${endpoint}`, options); //повторяем запрос
-      //console.log(res);
       return await checkResponse(res);
     } else {
       return Promise.reject(err);

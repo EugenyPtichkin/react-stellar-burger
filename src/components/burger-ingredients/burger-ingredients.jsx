@@ -95,7 +95,6 @@ function BurgerIngredients() {
       } else {
         categories.addEventListener("scroll", (evt) => {
           const scrollPosition = evt.target.scrollTop;
-          //console.log('scrollPosition:', scrollPosition)
           if (scrollPosition < bunPosition) {
             setBunsCategoryActive(true);
             setSaucesCategoryActive(false);
