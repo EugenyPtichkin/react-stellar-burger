@@ -76,7 +76,7 @@ function BurgerIngredients() {
               to={`/ingredients/${dataItem._id}`}
               state={{ background: location }}
               className={Styles.link}>                    
-              <BurgerContent key={dataItem._id} dataItem={dataItem} >
+              <BurgerContent dataItem={dataItem} >
                 <img src={dataItem.image} alt={dataItem.name} />
               </BurgerContent>
             </Link>

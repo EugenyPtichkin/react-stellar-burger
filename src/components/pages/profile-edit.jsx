@@ -1,18 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Styles from './profile-edit.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { getUser, updateUser } from '../../services/actions/user';
+import { updateUser } from '../../services/actions/user';
 
 export const ProfileEditPage = () => {
   const user = useSelector(store => store.user.user);
   const [form, setForm] = useState({ email: user.email, password: '', name: user.name });
   const dispatch = useDispatch();
   const enableButtonsDisplay = (form.email !== user.email) || (form.name !== user.name) || (form.password !== '');
-
-  useEffect(() => {
-    dispatch(getUser());
-  }, [dispatch]);
 
   const onChange = e => {
     e.preventDefault();

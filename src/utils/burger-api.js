@@ -60,10 +60,11 @@ const fetchWithRefresh = async (endpoint, options) => {
 
 const getIngredientsData = () => request('ingredients');
 
-const getOrderNumber = (data) => request('orders', {
+const getOrderNumber = (data) => fetchWithRefresh('orders', {
   method: 'POST',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem("accessToken")
   },
   body: JSON.stringify({
     'ingredients': data

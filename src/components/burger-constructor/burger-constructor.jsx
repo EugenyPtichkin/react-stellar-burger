@@ -49,7 +49,7 @@ function BurgerConstructor() {
 
   const handleSubmit = () => {
     if (user) {
-      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
+      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id), burgerIngredients.bun._id];
       dispatch(getOrder(burgerIngredientsIds));
       handleModalOpen();
     }

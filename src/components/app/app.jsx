@@ -29,10 +29,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(checkUserAuth());
+    dispatch(checkUserAuth());    
   }, [dispatch]);
 
   const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
