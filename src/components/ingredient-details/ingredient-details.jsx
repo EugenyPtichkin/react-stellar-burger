@@ -14,7 +14,7 @@ function IngredientDetails(props) {
   return (
     <section className={props.isModal ? '' : Styles.ingredient_container}>
       <div className={Styles.ingredient_details}>
-        <p className={`${Styles.title} props.isModal? ${Styles.title_modal}:''`}>Детали ингредиента</p>
+        <p className={props.isModal? `${Styles.title} ${Styles.title_modal}`:Styles.title}>Детали ингредиента</p>
         <img className="pl-5 pr-5 pb-4" src={dataItem.image_large} alt={dataItem.name} />
         <h2 className={Styles.ingredient_name}>{dataItem.name}</h2>
         <ul className={Styles.nutrition_values}>
