@@ -30,6 +30,7 @@ export const LoginPage = () => {
             value={form.email}
             onChange={onChange}
             isIcon={false}
+            autoComplete="on"
           />
           <PasswordInput
             placeholder='Пароль'
@@ -37,6 +38,7 @@ export const LoginPage = () => {
             value={form.password}
             onChange={onChange}
             icon={"ShowIcon"}
+            autoComplete="off"
           />
           <div className={Styles.button}>
             <Button htmlType="submit" type="primary" size="medium">

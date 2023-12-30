@@ -114,7 +114,7 @@ function BurgerIngredients() {
       }
     }
     check();
-  }, [categories]);
+  }, [categories, bunPosition, saucePosition]);
 
   return (
     <section className={Styles.contents}>

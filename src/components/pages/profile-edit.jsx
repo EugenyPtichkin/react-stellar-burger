@@ -38,6 +38,7 @@ export const ProfileEditPage = () => {
             onChange={onChange}
             size={'default'}
             icon={"EditIcon"}
+            autoComplete="on"
           />
           <EmailInput
             placeholder='Логин'
@@ -46,6 +47,7 @@ export const ProfileEditPage = () => {
             onChange={onChange}
             isIcon={false}
             icon={"EditIcon"}
+            autoComplete="on"
           />
           <PasswordInput
             placeholder="Пароль"
@@ -53,6 +55,7 @@ export const ProfileEditPage = () => {
             value={form.password}
             onChange={onChange}
             icon={"EditIcon"}
+            autoComplete="off"
           />
           {enableButtonsDisplay &&
             <div className={Styles.buttons}>

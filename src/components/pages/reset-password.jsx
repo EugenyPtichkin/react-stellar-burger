@@ -1,5 +1,5 @@
-import { Fragment, useState, useEffect } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Styles from './reset-password.module.css';
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { api } from './../../utils/burger-api';
@@ -14,7 +14,7 @@ export const ResetPasswordPage = () => {
     if (!isForgotPasswordPageVisited) {
       navigate('/forgot-password', { replace: true });
     }
-  }, [isForgotPasswordPageVisited]);
+  }, [isForgotPasswordPageVisited, navigate]);
 
   const onChange = e => {
     e.preventDefault();

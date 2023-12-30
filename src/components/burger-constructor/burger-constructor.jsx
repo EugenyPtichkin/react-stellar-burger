@@ -47,6 +47,15 @@ function BurgerConstructor() {
   //cостояние заказа
   const { orderIsError, orderErrorType } = useSelector(store => store.order);
 
+  const handleModalClose = useCallback(() => {
+    setModalActive(false);
+    dispatch(deleteAllIngredients());
+  },[dispatch]);
+
+  const handleServerErrorOpen = useCallback(() => {
+    setServerErrorActive(true);
+  },[]);
+
   const handleSubmit = () => {
     if (user) {
       const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id), burgerIngredients.bun._id];
@@ -63,20 +72,11 @@ function BurgerConstructor() {
       handleModalClose();
       handleServerErrorOpen();
     }
-  }, [orderIsError]);
+  }, [orderIsError, handleModalClose, handleServerErrorOpen]);
 
 
   const handleModalOpen = () => {
     setModalActive(true);
-  };
-
-  const handleModalClose = () => {
-    setModalActive(false);
-    dispatch(deleteAllIngredients());
-  };
-
-  const handleServerErrorOpen = () => {
-    setServerErrorActive(true);
   };
 
   const handleServerErrorClose = () => {
@@ -128,7 +128,8 @@ function BurgerConstructor() {
           <BunItem
             key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
-            style={"top"}
+            // eslint-disable-next-line
+            style={'top'} /*TODO: (style является внутренним пропсом BunItem)*/
           />
         }
         </section>
@@ -152,7 +153,8 @@ function BurgerConstructor() {
           <BunItem
             key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
-            style={"bottom"}
+            // eslint-disable-next-line
+            style={'bottom'} /*TODO: (style является внутренним пропсом BunItem)*/
           />
         }
         </section>

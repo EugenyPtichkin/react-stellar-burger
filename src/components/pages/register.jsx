@@ -31,6 +31,7 @@ export const RegisterPage = () => {
             value={form.name}
             onChange={onChange}
             size={'default'}
+            autoComplete="on"
           />
           <EmailInput
             placeholder='E-mail'
@@ -38,6 +39,7 @@ export const RegisterPage = () => {
             value={form.email}
             onChange={onChange}
             isIcon={false}
+            autoComplete="on"
           />
           <PasswordInput
             placeholder="Пароль"
@@ -45,6 +47,7 @@ export const RegisterPage = () => {
             value={form.password}
             onChange={onChange}
             icon={"ShowIcon"}
+            autoComplete="off"
           />
           <div className={Styles.button}>
             <Button htmlType="submit" type="primary" size="medium">
