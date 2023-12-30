@@ -3,7 +3,7 @@
  flex-direction: column;
  justify-content: flex-start;
  align-items: center;
- composes: pt-4 pb-30 from global;
+ composes: pt-30 pb-30 from global;
  width: 520px;
 /* button/glow */
 text-shadow: 0px 4px 32px rgba(51, 51, 255, 0.50), 0px 0px 8px rgba(51, 51, 255, 0.25), 0px 0px 16px rgba(51, 51, 255, 0.25);

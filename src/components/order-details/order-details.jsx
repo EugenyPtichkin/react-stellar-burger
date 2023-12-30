@@ -11,7 +11,7 @@ function OrderDetails() {
       {!orderRequest && <p className='text text_type_digits-large pb-8'> {orderNumber.toString().padStart(6, '0')} </p>}
       {!orderRequest && <p className='text text_type_main-medium pb-15'>идентификатор заказа</p>}
       {orderRequest ?
-        <img className='pb-15' src={loader} alt={'Загружается...'} /> :
+        <img className='pt-7 pb-8' src={loader} alt={'Загружается...'} /> :
         <img className='pb-15' src={imageDone} alt={'Загружено'} />
       }
       {!orderRequest && <p className='text text_type_main-small pb-2'> Ваш заказ начали готовить</p>}

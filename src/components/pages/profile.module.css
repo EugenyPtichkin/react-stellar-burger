@@ -1,0 +1,49 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  width: 1280px;
+  padding-top: 120px;
+  padding-left: calc(20px + 16px);  
+  column-gap: calc(1280px/2 - 480px/2 - 320px - 20px - 16px); /*44px*/
+}
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  width: 320px;
+  /*border: 1px dotted blue;*/
+}
+
+.nav {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  composes: pb-20 from global;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  align-items: left;
+  justify-content: center;
+  height: 64px;
+  text-decoration: none;
+  composes: text_type_main-medium text_color_inactive from global;
+}
+
+.link:hover {
+  color: #4C4CFF;
+}
+
+.active {
+  color: #F2F2F3;
+}
+
+.caption {
+  margin: 0;
+  color: #8585AD;
+  opacity: 0.4;
+  composes: text_type_main-default from global;
+}

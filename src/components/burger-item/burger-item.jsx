@@ -29,7 +29,7 @@ export const BurgerItem = ({ dataItem, index, handleSwitchItems}) => {
     drop(item) {
       const dragIndex = item.index;
       const hoverIndex = index;
-      console.log(dragIndex, hoverIndex);
+      //console.log(dragIndex, hoverIndex);
       handleSwitchItems(dragIndex, hoverIndex);
     },
     collect: monitor => ({

@@ -12,10 +12,13 @@ import { deleteIngredient, updateIngredients, deleteAllIngredients } from '../..
 import { getOrder } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import { addBuns, addIngredient } from '../../services/actions/burger';
+import { useNavigate } from 'react-router-dom';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
   const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
+  const user = useSelector(store => store.user.user);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -44,10 +47,24 @@ function BurgerConstructor() {
   //cостояние заказа
   const { orderIsError, orderErrorType } = useSelector(store => store.order);
 
+  const handleModalClose = useCallback(() => {
+    setModalActive(false);
+    dispatch(deleteAllIngredients());
+  },[dispatch]);
+
+  const handleServerErrorOpen = useCallback(() => {
+    setServerErrorActive(true);
+  },[]);
+
   const handleSubmit = () => {
-    const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id)];
-    dispatch(getOrder(burgerIngredientsIds));
-    handleModalOpen();
+    if (user) {
+      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id), burgerIngredients.bun._id];
+      dispatch(getOrder(burgerIngredientsIds));
+      handleModalOpen();
+    }
+    else {
+      navigate('/login');
+    }
   };
 
   useEffect(() => {
@@ -55,20 +72,11 @@ function BurgerConstructor() {
       handleModalClose();
       handleServerErrorOpen();
     }
-  }, [orderIsError]);
+  }, [orderIsError, handleModalClose, handleServerErrorOpen]);
 
 
   const handleModalOpen = () => {
     setModalActive(true);
-  };
-
-  const handleModalClose = () => {
-    setModalActive(false);
-    dispatch(deleteAllIngredients());
-  };
-
-  const handleServerErrorOpen = () => {
-    setServerErrorActive(true);
   };
 
   const handleServerErrorClose = () => {
@@ -120,7 +128,8 @@ function BurgerConstructor() {
           <BunItem
             key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
-            style={"top"}
+            // eslint-disable-next-line
+            style={'top'} /*TODO: (style является внутренним пропсом BunItem)*/
           />
         }
         </section>
@@ -144,7 +153,8 @@ function BurgerConstructor() {
           <BunItem
             key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
-            style={"bottom"}
+            // eslint-disable-next-line
+            style={'bottom'} /*TODO: (style является внутренним пропсом BunItem)*/
           />
         }
         </section>

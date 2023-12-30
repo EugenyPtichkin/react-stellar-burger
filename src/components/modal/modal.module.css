@@ -13,30 +13,10 @@
   z-index: 3;
 }
 
-.title {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 640px;
-  height: 64px;
-  composes: pt-10 pb-5 from global;
-  text-align: center; 
-}
-
-.title_text {
-  margin: 0;
-  padding: 0;
-  color: #F2F2F3;
-  max-width: 580px;
-  composes: text_type_main-large pl-10 pr-10 pt-10 from global;
-}
-
-.error_text {
-  margin: 20px 0 30px 0;
-}
-
 .close_button {
+  position: absolute;
+  top: 60px;
+  right: 40px;
   width: 48px;
   height: 48px;
   cursor: pointer;
