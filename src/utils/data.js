@@ -3,63 +3,101 @@ export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
 
-export const ready = ["034535", "034534", "034533", "034532","034531"];
-export const in_progress = ["034538","034541","034542"];
+export const completed = ["034535", "034534", "034533", "034532", "034531", "034530", "034529", "034528"];
+export const in_progress = ["034538", "034541", "034542", "1", "2", "3", "4", "5", "6", "7", "8"];
+export const all_time = "28752";
+export const today = "138";
 
 export const data = [
    {
-      "number":"034535",
-      "time":"Сегодня, 16:40 i-GMT+3",
-      "name":"Death Star Starship Main Бургер",
-      "price": 480,
-      "ids": ["60666c42cc7b410027a1a9b2",
-              "60666c42cc7b410027a1a9b6",
-              "60666c42cc7b410027a1a9b7",
-              "60666c42cc7b410027a1a9bc",
-              "60666c42cc7b410027a1a9b4",
-              "60666c42cc7b410027a1a9b9",
-              "60666c42cc7b410027a1a9b9"
-      ]
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "60666c42cc7b410027a1a9b2",
+               "60666c42cc7b410027a1a9b6",
+               "60666c42cc7b410027a1a9b7",
+               "60666c42cc7b410027a1a9bc",
+               "60666c42cc7b410027a1a9b4",
+               "60666c42cc7b410027a1a9b9",
+               "60666c42cc7b410027a1a9b9"
+            ],
+            "_id": "Death Star Starship Main Бургер",
+            "status": "done",
+            "number": "034535",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 1,
+      "totalToday": 0
    },
    {
-      "number":"034534",
-      "time":"Сегодня, 13:20 i-GMT+3",
-      "name":"Interstellar Бургер",
-      "price": 560,
-      "ids": ["60666c42cc7b410027a1a9b2",
-              "60666c42cc7b410027a1a9b6",
-              "60666c42cc7b410027a1a9b7",
-              "60666c42cc7b410027a1a9bc",
-              "60666c42cc7b410027a1a9b4",
-              "60666c42cc7b410027a1a9b9",
-              "60666c42cc7b410027a1a9b4",
-              "60666c42cc7b410027a1a9b4"
-      ]
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "60666c42cc7b410027a1a9b2",
+               "60666c42cc7b410027a1a9b6",
+               "60666c42cc7b410027a1a9b7",
+               "60666c42cc7b410027a1a9bc",
+               "60666c42cc7b410027a1a9b4",
+               "60666c42cc7b410027a1a9b9",
+               "60666c42cc7b410027a1a9b4",
+               "60666c42cc7b410027a1a9b4"
+            ],
+            "_id": "Interstellar Бургер",
+            "status": "done",
+            "number": "034534",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 2,
+      "totalToday": 0
    },
    {
-      "number":"034533",
-      "time":"Вчера, 13:50 i-GMT+3",
-      "name":"Black Hole Singularity острый бургер",
-      "price":530,
-      "ids": ["60666c42cc7b410027a1a9b2",
-              "60666c42cc7b410027a1a9b6",
-              "60666c42cc7b410027a1a9b7",
-              "60666c42cc7b410027a1a9bc",
-              "60666c42cc7b410027a1a9b4",
-              "60666c42cc7b410027a1a9b9"
-      ]
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "60666c42cc7b410027a1a9b2",
+               "60666c42cc7b410027a1a9b6",
+               "60666c42cc7b410027a1a9b7",
+               "60666c42cc7b410027a1a9bc",
+               "60666c42cc7b410027a1a9b4",
+               "60666c42cc7b410027a1a9b9"
+            ],
+            "_id": "Black Hole Singularity острый бургер",
+            "status": "done",
+            "number": "034533",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 3,
+      "totalToday": 1
    },
    {
-      "number":"034532",
-      "time":"Два дня назад, 21:53 i-GMT+3",
-      "name":"Supernova Infinity бургер",
-      "price":370,
-      "ids": ["60666c42cc7b410027a1a9b2",
-              "60666c42cc7b410027a1a9b6",
-              "60666c42cc7b410027a1a9b7",
-              "60666c42cc7b410027a1a9bc",
-              "60666c42cc7b410027a1a9b4"
-      ]
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "60666c42cc7b410027a1a9b2",
+               "60666c42cc7b410027a1a9b6",
+               "60666c42cc7b410027a1a9b7",
+               "60666c42cc7b410027a1a9bc",
+               "60666c42cc7b410027a1a9b4"
+            ],
+            "_id": "Supernova Infinity бургер",
+            "status": "done",
+            "number": "034532",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 4,
+      "totalToday": 2
    }
 ];
 /*

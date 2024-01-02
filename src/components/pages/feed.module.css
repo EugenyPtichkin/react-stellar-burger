@@ -28,7 +28,6 @@
 }
 
 .stats {
-  /*width: 580px;*/
   height: 626px;
   display: flex;
   flex-direction: column;
@@ -49,22 +48,23 @@
   composes: text_type_main-medium from global;
 }
 
-.done {
+.list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 20px;
   grid-template-rows: repeat(5, 24px);
   row-gap: 8px;
+  grid-auto-flow: column;
   color: #00CCCC;
-  composes: text_type_digits-default from global;
+  composes: text_type_digits-default from global;   
 }
 
 .in_progress {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 20px;
-  grid-template-rows: repeat(5, 24px);
-  row-gap: 8px;
   color: #F2F2F3;
-  composes: text_type_digits-default from global;
+}
+
+
+.digits {
+  margin: 0;
+  composes: text_type_digits-large from global;
 }
