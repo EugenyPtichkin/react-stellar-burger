@@ -1,0 +1,70 @@
+.title {  
+  margin: 0;  
+  color: #F2F2F3;
+  width: 1240px;   
+  height: 40px;
+  padding-left: calc(20px + 16px);  
+  composes: text_type_main-large pt-10 pb-5 from global;
+}     
+
+.content {
+  margin: 0;
+  width: 1280px;  
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  column-gap: 60px;
+  background-color: #131316;  
+  border: 1px dotted yellow;
+}
+
+.orders {
+  width: 608px;
+  height: 852px;
+  display: flex;
+  flex-direction: column;  
+  row-gap: 16px;
+  border: 1px solid blue;
+}
+
+.stats {
+  /*width: 580px;*/
+  height: 626px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 60px;
+  border: 1px solid blue;
+}
+
+.orders_numbers {
+  display: grid;
+  grid-template-rows: 32px 152px;
+  row-gap: 24px;
+  grid-template-columns: repeat(2, 280px);
+  column-gap: 36px;
+}
+
+.text {
+  margin: 0;
+  composes: text_type_main-medium from global;
+}
+
+.done {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  grid-template-rows: repeat(5, 24px);
+  row-gap: 8px;
+  color: #00CCCC;
+  composes: text_type_digits-default from global;
+}
+
+.in_progress {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 20px;
+  grid-template-rows: repeat(5, 24px);
+  row-gap: 8px;
+  color: #F2F2F3;
+  composes: text_type_digits-default from global;
+}

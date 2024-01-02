@@ -18,8 +18,8 @@ function AppHeader() {
               </BurgerIcon>
             </NavigationLink>
           </div>
-          <NavigationLink text='Лента заказов' link='/orders' isActive={location.pathname === '/orders'}>
-            <ListIcon type={(location.pathname === '/orders') ? "primary" : "secondary"}>
+          <NavigationLink text='Лента заказов' link='/feed' isActive={location.pathname === '/orders'}>
+            <ListIcon type={(location.pathname === '/feed') ? "primary" : "secondary"}>
             </ListIcon>
           </NavigationLink>
         </nav>

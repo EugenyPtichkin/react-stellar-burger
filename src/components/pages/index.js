@@ -7,8 +7,9 @@ import { NotFound404Page } from './not-found-404';
 import { ProfilePage } from './profile';
 import { ProfileEditPage } from './profile-edit';
 import { OrdersPage } from './orders';
+import { FeedPage } from './feed';
 
 export {
   HomePage, RegisterPage, LoginPage, ForgotPasswordPage, ResetPasswordPage,
-  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage
+  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage
 };
