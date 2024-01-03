@@ -110,8 +110,22 @@
   width: 64px;
   height: 64px;
   object-fit: cover;
+}
+
+.image_circle {
   border: 2px solid #4C4CFF;
   border-radius: 32px;
+  position: relative;
+}
+
+.image_last {
+  opacity: 0.4;
+}
+
+.text_last {
+  position: absolute;
+  left: 16px;
+  top: 16px;
 }
 
 .stats {

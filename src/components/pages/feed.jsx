@@ -36,10 +36,19 @@ export const FeedPage = () => {
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
             <div className={Styles.images}>
-              {dataImages.map((image, index) => 
-                <div key={index}  >
-                  <img className={Styles.image} src={image} alt='компонент бургера'  />
-                </div>
+              {dataImages.map((image, index) => {
+                if (index < 5) return (
+                  <div key={index} className={Styles.image_circle} >
+                    <img className={Styles.image} src={image} alt='компонент бургера' />
+                  </div>
+                )
+                if (index === 5) return (
+                  <div key={index} className={Styles.image_circle} >
+                    <img className={`${Styles.image} ${Styles.image_last}`} src={image} alt='компонент бургера' />
+                    <p className={`${Styles.text} ${Styles.text_last}`}>+{dataImages.length - 5}</p>
+                  </div>
+                )
+              }
               )}
             </div>
           </div>
