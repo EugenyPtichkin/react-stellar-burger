@@ -10,13 +10,10 @@ export const FeedPage = () => {
 
   const DisplayCard = (data) => {
     const data_ids = data.data.orders[0].ingredients;
-    //console.log(data_ids);
     const dataImages = [];
     const dataPrices = [];
     data_ids.forEach((ingredient_id) => {
-      //console.log(ingredient_id);
       const currentIngredient = ingredients.find(item => item._id === ingredient_id);
-      //console.log(currentIngredient);
       const currentImage = currentIngredient.image_mobile;
       const currentPrice = currentIngredient.price;
       //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
@@ -24,6 +21,9 @@ export const FeedPage = () => {
       dataPrices.push(...[currentPrice]);
     })
     console.log(`Images: ${dataImages} Prices: ${dataPrices}`);
+
+    const isRed=true;
+
     return (
       <div className={Styles.order_card}>
         <div className={Styles.details}>
@@ -32,19 +32,19 @@ export const FeedPage = () => {
             <FormattedDate date={new Date(data.data.orders[0].createdAt)} />
           </div>
         </div>
-        <p className={Styles.info}>{data.data.orders[0]._id}</p>
+        <p className={Styles.info} >{data.data.orders[0]._id}</p>
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
             <div className={Styles.images}>
               {dataImages.map((image, index) => {
                 if (index < 5) return (
-                  <div key={index}  >
-                    <img className={`${Styles.image} ${Styles.image_circle}`} src={image} alt='компонент бургера' />
+                  <div key={index} className={Styles.image_circle}>
+                    <img className={Styles.image} src={image} alt='компонент бургера' />
                   </div>
                 )
                 if (index === 5) return (
-                <div key={index} className={Styles.last_circle} >
-                    <img className={`${Styles.image} ${Styles.image_circle} ${Styles.image_last}`} src={image} alt='компонент бургера' />
+                <div key={index} className = {Styles.image_circle} >
+                    <img className={`${Styles.image} ${Styles.image_last}`} src={image} alt='компонент бургера' />
                     <p className={Styles.text_last}>+{dataImages.length - 5}</p>
                   </div>
                 )
