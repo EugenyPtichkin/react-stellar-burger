@@ -15,35 +15,36 @@
   align-items: flex-start;
   column-gap: 60px;
   background-color: #131316;
-  border: 1px dotted yellow;
-}
-
-.orders {
-  margin: 0;
-padding: 0;
-  width: 608px;
-  height: 852px;
-  display: flex;
-  flex-direction: column;
-  row-gap: 16px;
-  border: 1px solid blue;
-  max-height: 664px;
-  max-width: 608px;
-  overflow: auto;
-  composes: custom-scroll from global;
-  box-sizing: content-box;
 }
 
 .scrollbar {
   margin: 0;
-  padding: 0;
-  position: relative;
-  max-height: 664px;
-  max-width: 608px;
+  display: flex;
+  flex-direction: row;
+  column-gap: 8px;
+  width: 608px;
+  max-height: 852px;
   overflow: auto;
   composes: custom-scroll from global;
   box-sizing: content-box;
 }
+
+.orders {
+  margin: 0;
+  padding: 0;
+  width: calc(608px - 16px - 8px);
+  height: 852px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+  /* max-height: 870px;
+  max-width: 608px;
+  overflow: auto;
+  composes: custom-scroll from global;
+  box-sizing: content-box;*/
+}
+
+
 
 .order_card {
   padding: 24px;
@@ -69,30 +70,45 @@ padding: 0;
 .time {
   composes: text_type_main-default text_color_inactive from global;
 }
+
 .info {
   margin: 0;
   composes: text_type_main-medium from global;
 }
+
 .components {
- display: flex;
- flex-direction: row;
- justify-content: space-between;
- height: 64px;
- column-gap: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 64px;
+  column-gap: 24px;
 }
 
 .ingredients {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-width: 436px;
+  width: 304px;
 }
+
 .price {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   column-gap: 8px;
+}
+
+.images {
+  position: relative;
+  width: 488px;
+  height: 64px;
+}
+
+.image {
+  position: absolute;
+  width: 64px;
+  height: 64px;
 }
 
 .stats {

@@ -22,17 +22,20 @@ export const FeedPage = () => {
  */
   const DisplayCard = (data) => {
     const data_ids = data.data.orders[0].ingredients;
-    console.log(data_ids);
-    const data_images = {};
+    //console.log(data_ids);
+    const dataImages = [];
+    const dataPrices = [];
     data_ids.forEach((ingredient_id) => {
-      console.log(ingredient_id);
-      const current_ing = ingredients.find(item => item._id == ingredient_id);
-      console.log(current_ing);
-      const current_image= current_ing.image;
-      console.log(current_image);
-      data_images.push(current_image);
+      //console.log(ingredient_id);
+      const currentIngredient = ingredients.find(item => item._id === ingredient_id);
+      //console.log(currentIngredient);
+      const currentImage = currentIngredient.image;
+      const currentPrice = currentIngredient.price;
+      //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
+      dataImages.push(...[currentImage]);
+      dataPrices.push(...[currentPrice]);
     })
-    console.log(data_images);
+    console.log(`Images: ${dataImages} Prices: ${dataPrices}`);
     return (
       <div className={Styles.order_card}>
         <div className={Styles.details}>
@@ -45,11 +48,13 @@ export const FeedPage = () => {
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
             <div className={Styles.images}>
-              {/*<img href={findImages(data)} ></img> */}
+              {dataImages.forEach((image) =>
+                <img className={Styles.image} src={image} alt='компонент бургера' />
+              )}
             </div>
           </div>
           <div className={Styles.price}>
-            <p className={Styles.digit}>510</p>
+            <p className={Styles.digit}>{dataPrices.reduce((acc, current) => acc + current, 0)}</p>
             <CurrencyIcon></CurrencyIcon>
           </div>
         </div>
@@ -61,13 +66,13 @@ export const FeedPage = () => {
     <>
       <p className={Styles.title}>Лента заказов</p>
       <div className={Styles.content}>
-
-        <ul className={Styles.orders} id="order_cards" >
-          {
-            order_data.map((item, index) => <DisplayCard data={item} key={index} />)
-          }
-        </ul>
-
+        <div className={Styles.scrollbar}>
+          <ul className={Styles.orders} id="order_cards" >
+            {
+              order_data.map((item, index) => <DisplayCard data={item} key={index} />)
+            }
+          </ul>
+        </div>
         <section className={Styles.stats}>
           <div className={Styles.orders_numbers}>
             <p className={Styles.text}>Готовы:</p>
