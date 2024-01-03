@@ -1,30 +1,98 @@
-.title {  
-  margin: 0;  
+.title {
+  margin: 0;
   color: #F2F2F3;
-  width: 1240px;   
+  width: 1240px;
   height: 40px;
-  padding-left: calc(20px + 16px);  
+  padding-left: calc(20px + 16px);
   composes: text_type_main-large pt-10 pb-5 from global;
-}     
+}
 
 .content {
   margin: 0;
-  width: 1280px;  
+  width: 1280px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
   column-gap: 60px;
-  background-color: #131316;  
+  background-color: #131316;
   border: 1px dotted yellow;
 }
 
 .orders {
+  margin: 0;
+padding: 0;
   width: 608px;
   height: 852px;
   display: flex;
-  flex-direction: column;  
+  flex-direction: column;
   row-gap: 16px;
   border: 1px solid blue;
+  max-height: 664px;
+  max-width: 608px;
+  overflow: auto;
+  composes: custom-scroll from global;
+  box-sizing: content-box;
+}
+
+.scrollbar {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  max-height: 664px;
+  max-width: 608px;
+  overflow: auto;
+  composes: custom-scroll from global;
+  box-sizing: content-box;
+}
+
+.order_card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 24px;
+  min-width: 536px;
+  background-color: #1C1C21;
+  border-radius: 40px;
+}
+
+.details {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.digit {
+  margin: 0;
+  composes: text_type_digits-default from global;
+}
+
+.time {
+  composes: text_type_main-default text_color_inactive from global;
+}
+.info {
+  margin: 0;
+  composes: text_type_main-medium from global;
+}
+.components {
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
+ height: 64px;
+ column-gap: 24px;
+}
+
+.ingredients {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+width: 436px;
+}
+.price {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 8px;
 }
 
 .stats {
@@ -32,7 +100,6 @@
   display: flex;
   flex-direction: column;
   row-gap: 60px;
-  border: 1px solid blue;
 }
 
 .orders_numbers {
@@ -56,7 +123,7 @@
   row-gap: 8px;
   grid-auto-flow: column;
   color: #00CCCC;
-  composes: text_type_digits-default from global;   
+  composes: text_type_digits-default from global;
 }
 
 .in_progress {

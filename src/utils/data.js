@@ -8,7 +8,7 @@ export const in_progress = ["034538", "034541", "034542", "1", "2", "3", "4", "5
 export const all_time = "28752";
 export const today = "138";
 
-export const data = [
+export const order_data = [
    {
       "success": true,
       "orders": [
@@ -22,7 +22,7 @@ export const data = [
                "60666c42cc7b410027a1a9b9",
                "60666c42cc7b410027a1a9b9"
             ],
-            "_id": "Death Star Starship Main Бургер",
+            "_id": "Death Star Starship Main бургер",
             "status": "done",
             "number": "034535",
             "createdAt": "2021-06-23T14:43:22.587Z",
@@ -46,7 +46,7 @@ export const data = [
                "60666c42cc7b410027a1a9b4",
                "60666c42cc7b410027a1a9b4"
             ],
-            "_id": "Interstellar Бургер",
+            "_id": "Interstellar бургер",
             "status": "done",
             "number": "034534",
             "createdAt": "2021-06-23T14:43:22.587Z",
