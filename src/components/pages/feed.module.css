@@ -37,14 +37,7 @@
   display: flex;
   flex-direction: column;
   row-gap: 16px;
-  /* max-height: 870px;
-  max-width: 608px;
-  overflow: auto;
-  composes: custom-scroll from global;
-  box-sizing: content-box;*/
 }
-
-
 
 .order_card {
   padding: 24px;
@@ -100,8 +93,11 @@
 }
 
 .images {
-  display: flex;
-  flex-direction: row;
+  /*display: flex;
+  flex-direction: row;*/
+  display: grid;
+  grid-template-columns: repeat(8, 48px);
+  grid-template-rows: 1fr;
   width: 488px;
   height: 64px;
 }
@@ -115,17 +111,23 @@
 .image_circle {
   border: 2px solid #4C4CFF;
   border-radius: 32px;
-  position: relative;
+  background-color: #1C1C21;
 }
 
 .image_last {
   opacity: 0.4;
 }
 
+.last_circle {
+  position: relative;
+}
+
 .text_last {
+  margin: 0;
   position: absolute;
-  left: 16px;
-  top: 16px;
+  left: 28px;
+  top: 20px;
+  composes: text_type_main-default from global;
 }
 
 .stats {
