@@ -3,23 +3,11 @@ import { order_data, completed, in_progress, all_time, today } from './../../uti
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { useSelector } from 'react-redux';
-import { useEffect } from 'react';
 
 const maxListNum = 10;
 export const FeedPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
 
-  /*useEffect(() => {
-     findImage();
-   }, []);
- 
-   const findImage = () => {
-     const data_ids = order_data.orders[0].ingredients;
-     console.log(data_ids);
-    const items = ingredients.ingredients.filter(item => item._id === data.data.orders[0].ingredients[0]._id);
-     console.log(items);
-   };
- */
   const DisplayCard = (data) => {
     const data_ids = data.data.orders[0].ingredients;
     //console.log(data_ids);
@@ -29,7 +17,7 @@ export const FeedPage = () => {
       //console.log(ingredient_id);
       const currentIngredient = ingredients.find(item => item._id === ingredient_id);
       //console.log(currentIngredient);
-      const currentImage = currentIngredient.image;
+      const currentImage = currentIngredient.image_mobile;
       const currentPrice = currentIngredient.price;
       //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
       dataImages.push(...[currentImage]);
@@ -48,8 +36,10 @@ export const FeedPage = () => {
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
             <div className={Styles.images}>
-              {dataImages.forEach((image) =>
-                <img className={Styles.image} src={image} alt='компонент бургера' />
+              {dataImages.map((image, index) => 
+                <div key={index}  >
+                  <img className={Styles.image} src={image} alt='компонент бургера'  />
+                </div>
               )}
             </div>
           </div>

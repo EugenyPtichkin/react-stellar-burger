@@ -100,15 +100,18 @@
 }
 
 .images {
-  position: relative;
+  display: flex;
+  flex-direction: row;
   width: 488px;
   height: 64px;
 }
 
 .image {
-  position: absolute;
   width: 64px;
   height: 64px;
+  object-fit: cover;
+  border: 2px solid #4C4CFF;
+  border-radius: 32px;
 }
 
 .stats {
