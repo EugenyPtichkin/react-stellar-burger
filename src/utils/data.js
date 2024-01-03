@@ -14,13 +14,17 @@ export const order_data = [
       "orders": [
          {
             "ingredients": [
-               "60666c42cc7b410027a1a9b2",
-               "60666c42cc7b410027a1a9b6",
-               "60666c42cc7b410027a1a9b7",
-               "60666c42cc7b410027a1a9bc",
-               "60666c42cc7b410027a1a9b4",
-               "60666c42cc7b410027a1a9b9",
-               "60666c42cc7b410027a1a9b9"
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944",
+               "643d69a5c3f7b9001cfa0945",
+               "643d69a5c3f7b9001cfa0946",
+               "643d69a5c3f7b9001cfa0947",
+               "643d69a5c3f7b9001cfa0948",
+               "643d69a5c3f7b9001cfa0949",
+               "643d69a5c3f7b9001cfa094a"
             ],
             "_id": "Death Star Starship Main бургер",
             "status": "done",
@@ -37,14 +41,12 @@ export const order_data = [
       "orders": [
          {
             "ingredients": [
-               "60666c42cc7b410027a1a9b2",
-               "60666c42cc7b410027a1a9b6",
-               "60666c42cc7b410027a1a9b7",
-               "60666c42cc7b410027a1a9bc",
-               "60666c42cc7b410027a1a9b4",
-               "60666c42cc7b410027a1a9b9",
-               "60666c42cc7b410027a1a9b4",
-               "60666c42cc7b410027a1a9b4"
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944",
+               "643d69a5c3f7b9001cfa0945"
             ],
             "_id": "Interstellar бургер",
             "status": "done",
@@ -61,12 +63,11 @@ export const order_data = [
       "orders": [
          {
             "ingredients": [
-               "60666c42cc7b410027a1a9b2",
-               "60666c42cc7b410027a1a9b6",
-               "60666c42cc7b410027a1a9b7",
-               "60666c42cc7b410027a1a9bc",
-               "60666c42cc7b410027a1a9b4",
-               "60666c42cc7b410027a1a9b9"
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944"
             ],
             "_id": "Black Hole Singularity острый бургер",
             "status": "done",
@@ -83,11 +84,9 @@ export const order_data = [
       "orders": [
          {
             "ingredients": [
-               "60666c42cc7b410027a1a9b2",
-               "60666c42cc7b410027a1a9b6",
-               "60666c42cc7b410027a1a9b7",
-               "60666c42cc7b410027a1a9bc",
-               "60666c42cc7b410027a1a9b4"
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940"
             ],
             "_id": "Supernova Infinity бургер",
             "status": "done",
@@ -101,6 +100,20 @@ export const order_data = [
    }
 ];
 /*
+    "ingredients": [
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944",
+               "643d69a5c3f7b9001cfa0945",
+               "643d69a5c3f7b9001cfa0946",
+               "643d69a5c3f7b9001cfa0947",
+               "643d69a5c3f7b9001cfa0948",
+               "643d69a5c3f7b9001cfa0949",
+               "643d69a5c3f7b9001cfa094a"
+    ]
+               
 export const orderNumber = Number('034536');
 
 export const data = [
