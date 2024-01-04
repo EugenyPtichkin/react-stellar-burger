@@ -4,27 +4,21 @@ import { useParams } from 'react-router-dom';
 import { order_data } from './../../utils/data';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-
+import { translate, colorCalc } from './../../utils/data';
 
 export function InfoPage() {
   const { ingredients } = useSelector(store => store.ingredients);
   //  const order = useSelector(store => store.order.order);    
   const order = order_data[0];//жестко только первый номер заказа (пока)
   console.log(order);
-  const { id } = useParams();//текущий номер заказа из адреса страницы
-  console.log(id);
+  const { number } = useParams();//текущий номер заказа из адреса страницы
+  console.log(number);
 
   if (!order) {
     return null;
   }
-  const orderItem = order.orders.find(item => item.number === id);
+  const orderItem = order.orders.find(item => item.number === number);
   console.log(orderItem);
-
-  const translate = (item) => {
-    if (item === 'done') return ('Выполнен');
-    if (item === 'canceled') return ('Отменен');
-    if (item === 'inprogress') return ('Готовится');
-  }
 
   //список цен для вычисления суммы заказа
   const dataPrices = [];
@@ -75,7 +69,7 @@ export function InfoPage() {
         <p className={Styles.number}>#{orderItem.number}</p>
         <div className={Styles.info}>
           <p className={Styles.id}>{orderItem._id}</p>
-          <p className={Styles.status}>{translate(orderItem.status)}</p>
+          <p className={`${Styles.status} ${colorCalc(orderItem.status)}`}>{translate(orderItem.status)}</p>
         </div>
         <p className={Styles.text}>Состав:</p>
         <div className={Styles.scrollbar}>

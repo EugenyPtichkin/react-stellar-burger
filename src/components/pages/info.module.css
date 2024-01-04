@@ -149,3 +149,15 @@
 .time {
   composes: text_type_main-default text_color_inactive from global;
 }
+
+.white {
+  color: #F2F2F3;
+}
+
+.cyan {
+  color: #00CCCC;
+}
+
+.red {
+  color: #FF0000;
+}

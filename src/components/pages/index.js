@@ -9,8 +9,10 @@ import { ProfileEditPage } from './profile-edit';
 import { OrdersPage } from './orders';
 import { FeedPage } from './feed';
 import { InfoPage } from './info';
+import { UnderConstructionPage } from './under-construction';
 
 export {
   HomePage, RegisterPage, LoginPage, ForgotPasswordPage, ResetPasswordPage,
-  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage, InfoPage
+  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage, InfoPage,
+  UnderConstructionPage
 };

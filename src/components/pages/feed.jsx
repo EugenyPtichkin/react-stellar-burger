@@ -5,7 +5,7 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-const maxListNum = 10;
+const maxListNum = 10; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
 
@@ -26,12 +26,14 @@ export const FeedPage = () => {
     return (
       <div className={Styles.order_card}>
         <div className={Styles.details}>
-          <p className={Styles.digit}>{data.data.orders[0].number}</p>
+          <p className={Styles.digit}>#{data.data.orders[0].number}</p>
           <div className={Styles.time}>
             <FormattedDate date={new Date(data.data.orders[0].createdAt)} />
           </div>
         </div>
+        
         <p className={Styles.info} >{data.data.orders[0]._id}</p>
+
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
             <div className={Styles.images}>   

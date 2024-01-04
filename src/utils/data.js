@@ -8,6 +8,20 @@ export const in_progress = ["034538", "034541", "034542", "1", "2", "3", "4", "5
 export const all_time = "28752";
 export const today = "138";
 
+export const translate = (item) => {
+   if (item === 'created') return ('Создан');
+   if (item === 'inprogress') return ('Готовится');
+   if (item === 'done') return ('Выполнен');
+   if (item === 'canceled') return ('Отменен');    
+ }
+
+ export const colorCalc = (item) => {
+   if (item === 'created') return ('white');    //('#F2F2F3');
+   if (item === 'inprogress') return ('white'); //('#F2F2F3');
+   if (item === 'done') return ('cyan');        //('#00CCCC');
+   if (item === 'canceled') return ('red');     //('#FF0000');
+ }
+
 export const order_data = [
    {
       "success": true,
@@ -30,7 +44,7 @@ export const order_data = [
                "643d69a5c3f7b9001cfa093e"
             ],
             "_id": "Death Star Starship Main бургер",
-            "status": "done",
+            "status": "inprogress",
             "number": "034535",
             "createdAt": "2021-06-23T14:43:22.587Z",
             "updatedAt": "2021-06-23T14:43:22.603Z"
@@ -52,7 +66,7 @@ export const order_data = [
                "643d69a5c3f7b9001cfa0945"
             ],
             "_id": "Interstellar бургер",
-            "status": "done",
+            "status": "canceled",
             "number": "034534",
             "createdAt": "2021-06-23T14:43:22.587Z",
             "updatedAt": "2021-06-23T14:43:22.603Z"
@@ -92,7 +106,7 @@ export const order_data = [
                "643d69a5c3f7b9001cfa0940"
             ],
             "_id": "Supernova Infinity бургер",
-            "status": "done",
+            "status": "created",
             "number": "034532",
             "createdAt": "2021-06-23T14:43:22.587Z",
             "updatedAt": "2021-06-23T14:43:22.603Z"
