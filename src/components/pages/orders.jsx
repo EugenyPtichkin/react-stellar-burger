@@ -4,10 +4,13 @@ import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-component
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { translate, colorCalc } from './../../utils/data';
 
 export const OrdersPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
+  //const { current_order } = useSelector(store => store.order.order); 
+  const location = useLocation();
 
   const DisplayCard = (data) => {
     const current_order = data.data.orders[0];
@@ -31,7 +34,7 @@ export const OrdersPage = () => {
           <div className={Styles.time}>
             <FormattedDate date={new Date(current_order.createdAt)} />
           </div>
-        </div>               
+        </div>
         <div className={Styles.info}>
           <p className={Styles.id}>{current_order._id}</p>
           <p className={`${Styles.status} ${colorCalc(current_order.status)}`}>{translate(current_order.status)}</p>
@@ -67,7 +70,7 @@ export const OrdersPage = () => {
 
   return (
     <>
-     <div className={Styles.content}>
+      <div className={Styles.content}>
         <div className={Styles.scrollbar}>
           <ul className={Styles.orders} id="order_cards" >
             {
@@ -75,6 +78,7 @@ export const OrdersPage = () => {
                 <Link
                   key={index}
                   to={`/profile/orders/${item.orders[0].number}`}
+                  state={{ background: location }}
                   className={Styles.link}>
                   <DisplayCard data={item} />
                 </Link>

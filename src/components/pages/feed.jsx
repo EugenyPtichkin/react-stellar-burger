@@ -3,11 +3,14 @@ import { order_data, completed, in_progress, all_time, today } from './../../uti
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+
 
 const maxListNum = 10; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
+  const location = useLocation();
 
   const DisplayCard = (data) => {
     const data_ids = data.data.orders[0].ingredients;
@@ -74,6 +77,7 @@ export const FeedPage = () => {
                 <Link
                   key={index}
                   to={`/feed/${item.orders[0].number}`}
+                  state={{ background: location }}
                   className={Styles.link}>
                   <DisplayCard data={item}/>
                 </Link>

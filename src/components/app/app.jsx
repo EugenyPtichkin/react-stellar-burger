@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(checkUserAuth());    
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
@@ -53,10 +53,8 @@ const App = () => {
               <Route path='orders/:number' element={<InfoPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
-            <Route path='/feed'>
-              <Route index element={<FeedPage />} />
-              <Route path='/feed/:number' element={<InfoPage />} />
-            </Route>
+            <Route path='/feed' element={<FeedPage />} />
+            <Route path='/feed/:number' element={<InfoPage />} />  
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>
@@ -68,6 +66,22 @@ const App = () => {
               element={
                 <Modal handleClose={handleModalClose}>
                   <IngredientDetails isModal={true} />
+                </Modal>
+              }
+            />
+            <Route
+              path='/feed/:number'
+              element={
+                <Modal handleClose={handleModalClose}>
+                  <InfoPage isModal={true} />
+                </Modal>
+              }
+            />
+            <Route
+              path='/profile/orders/:number'
+              element={
+                <Modal handleClose={handleModalClose}>
+                  <InfoPage isModal={true} />
                 </Modal>
               }
             />

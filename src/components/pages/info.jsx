@@ -6,18 +6,18 @@ import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-component
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate, colorCalc } from './../../utils/data';
 
-export function InfoPage() {
+export function InfoPage(props) {
   const { ingredients } = useSelector(store => store.ingredients);
-  //  const order = useSelector(store => store.order.order);    
-  const order = order_data[0];//жестко только первый номер заказа (пока)
-  console.log(order);
+//const { current_order } = useSelector(store => store.order.order);    
+  const current_order = order_data[0];//жестко только первый номер заказа (пока)
+  console.log(current_order);
   const { number } = useParams();//текущий номер заказа из адреса страницы
   console.log(number);
 
-  if (!order) {
+  if (!current_order) {
     return null;
   }
-  const orderItem = order.orders.find(item => item.number === number);
+  const orderItem = current_order.orders.find(item => item.number === number);
   console.log(orderItem);
 
   //список цен для вычисления суммы заказа
@@ -64,7 +64,7 @@ export function InfoPage() {
   }
 
   return (
-    <section className={Styles.container}>
+    <section className={props.isModal ? `${Styles.container} ${Styles.modal}` : Styles.container}>
       <div className={Styles.details}>
         <p className={Styles.number}>#{orderItem.number}</p>
         <div className={Styles.info}>
