@@ -7,11 +7,11 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 
 
 export function InfoPage() {
-  //  const order = useSelector(store => store.order.order);
   const { ingredients } = useSelector(store => store.ingredients);
-  const order = order_data[0];
+  //  const order = useSelector(store => store.order.order);    
+  const order = order_data[0];//жестко только первый номер заказа (пока)
   console.log(order);
-  const { id } = useParams();
+  const { id } = useParams();//текущий номер заказа из адреса страницы
   console.log(id);
 
   if (!order) {
@@ -25,25 +25,33 @@ export function InfoPage() {
     if (item === 'canceled') return ('Отменен');
     if (item === 'inprogress') return ('Готовится');
   }
-  
+
+  //список цен для вычисления суммы заказа
   const dataPrices = [];
-  const currentOrder = order.orders[0];
-  //console.log(currentOrder);
-  currentOrder.ingredients.forEach((ingredient_id) => {
+  orderItem.ingredients.forEach((ingredient_id) => {
     const currentIngredient = ingredients.find(item => item._id === ingredient_id);
     const currentPrice = currentIngredient.price;
-    //console.log(`Price: ${currentPrice}`);
     dataPrices.push(...[currentPrice]);
-  })     
+  })
 
+  //список id ингредиентов с их количеством в заказе
+  const ingredientsPairs = [];
+  ingredients.forEach((ingredient) => {
+    const orderQuantity = orderItem.ingredients.filter(item => item === ingredient._id).length;
+    if (orderQuantity !== 0) {
+      ingredientsPairs.push({ ingredient: ingredient._id, quantity: orderQuantity });
+    }
+  })
+  //console.log(ingredientsPairs);
+
+  //отобразить одну строчку ингредиентов из заказа
   const DisplayIngredient = (ingredient) => {
-    const currentIngredient = ingredients.find(item => item._id === ingredient.ingredient);
-    //console.log(currentIngredient);
+    const currentIngredient = ingredients.find(item => item._id === ingredient.ingredient.ingredient);
     const ingredientImage = currentIngredient.image_mobile;
     const ingredientName = currentIngredient.name;
     const ingredientPrice = currentIngredient.price;
-    const ingredientNumber = (ingredients.filter(item => item._id === ingredient.ingredient)).length;
-    //console.log(`Image: ${ingredientImage} Price: ${ingredientPrice} Number: ${ingredientNumber}`);
+    const ingredientNumber = ingredient.ingredient.quantity;
+  //console.log(`Image: ${ingredientImage} Price: ${ingredientPrice} Number: ${ingredientNumber}`);
 
     return (
       <div className={Styles.ingredient}>
@@ -72,7 +80,7 @@ export function InfoPage() {
         <p className={Styles.text}>Состав:</p>
         <div className={Styles.scrollbar}>
           <ul className={Styles.orders} id="ingredient_items" > {
-            orderItem.ingredients.map((item, index) =>
+            ingredientsPairs.map((item, index) =>
               <DisplayIngredient ingredient={item} key={index} />
             )}
           </ul>
