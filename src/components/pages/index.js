@@ -8,8 +8,9 @@ import { ProfilePage } from './profile';
 import { ProfileEditPage } from './profile-edit';
 import { OrdersPage } from './orders';
 import { FeedPage } from './feed';
+import { InfoPage } from './info';
 
 export {
   HomePage, RegisterPage, LoginPage, ForgotPasswordPage, ResetPasswordPage,
-  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage
+  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage, InfoPage
 };

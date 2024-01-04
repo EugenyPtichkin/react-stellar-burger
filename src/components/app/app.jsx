@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
   HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage,
-  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage
+  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage, InfoPage
 } from '../pages';
 import Modal from './../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -52,7 +52,8 @@ const App = () => {
               <Route path='orders' element={<OrdersPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
-            <Route path='/feed' element={<FeedPage />} />            
+            <Route path='/feed' element={<FeedPage />} />
+            <Route path='/feed/:id' element={<InfoPage />} />
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>

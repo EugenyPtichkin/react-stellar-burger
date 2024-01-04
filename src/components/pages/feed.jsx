@@ -3,6 +3,7 @@ import { order_data, completed, in_progress, all_time, today } from './../../uti
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const maxListNum = 10;
 export const FeedPage = () => {
@@ -20,9 +21,7 @@ export const FeedPage = () => {
       dataImages.push(...[currentImage]);
       dataPrices.push(...[currentPrice]);
     })
-    console.log(`Images: ${dataImages} Prices: ${dataPrices}`);
-
-    const isRed=true;
+    //console.log(`Images: ${dataImages} Prices: ${dataPrices}`);
 
     return (
       <div className={Styles.order_card}>
@@ -35,19 +34,20 @@ export const FeedPage = () => {
         <p className={Styles.info} >{data.data.orders[0]._id}</p>
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
-            <div className={Styles.images}>
-              {dataImages.map((image, index) => {
+            <div className={Styles.images}>   
+              {dataImages.map((image, index) => { 
                 if (index < 5) return (
                   <div key={index} className={Styles.image_circle}>
                     <img className={Styles.image} src={image} alt='компонент бургера' />
                   </div>
                 )
-                if (index === 5) return (
-                <div key={index} className = {Styles.image_circle} >
+                else if (index === 5) return (
+                  <div key={index} className={Styles.image_circle} >
                     <img className={`${Styles.image} ${Styles.image_last}`} src={image} alt='компонент бургера' />
                     <p className={Styles.text_last}>+{dataImages.length - 5}</p>
                   </div>
                 )
+                else return (null);
               }
               )}
             </div>
@@ -68,7 +68,14 @@ export const FeedPage = () => {
         <div className={Styles.scrollbar}>
           <ul className={Styles.orders} id="order_cards" >
             {
-              order_data.map((item, index) => <DisplayCard data={item} key={index} />)
+              order_data.map((item, index) =>
+                <Link
+                  key={index}
+                  to={`/feed/${item.orders[0].number}`}
+                  className={Styles.link}>
+                  <DisplayCard data={item}/>
+                </Link>
+              )
             }
           </ul>
         </div>

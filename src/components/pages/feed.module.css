@@ -96,7 +96,7 @@
   display: grid;
   grid-template-columns: repeat(6, 48px);
   grid-template-rows: 1fr;
- /* direction: rtl; */
+  /* direction: rtl; */
   width: 488px;
   height: 64px;
 }
@@ -113,7 +113,7 @@
   border: 2px solid #4C4CFF;
   border-radius: 32px;
   background-color: #1C1C21;
-  position: relative;  
+  position: relative;
 }
 
 .image_last {
@@ -166,4 +166,9 @@
 .digits {
   margin: 0;
   composes: text_type_digits-large from global;
+}
+
+.link {
+  text-decoration: none;
+  color: #F2F2F3;
 }
