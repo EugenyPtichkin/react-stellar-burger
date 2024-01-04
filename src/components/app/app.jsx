@@ -52,8 +52,10 @@ const App = () => {
               <Route path='orders' element={<OrdersPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
-            <Route path='/feed' element={<FeedPage />} />
-            <Route path='/feed/:id' element={<InfoPage />} />
+            <Route path='/feed'>
+              <Route index element={<FeedPage />} />
+              <Route path='/feed/:id' element={<InfoPage />} />
+            </Route>
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>
