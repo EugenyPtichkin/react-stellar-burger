@@ -50,9 +50,9 @@ const App = () => {
             <Route path='/profile' element={<OnlyAuth component={<ProfilePage />} />} >
               <Route index element={<ProfileEditPage />} />
               <Route path='orders' element={<OrdersPage />} />
-              <Route path='orders/:number' element={<InfoPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
+            <Route path='/profile/orders/:number' element={<InfoPage />} />
             <Route path='/feed' element={<FeedPage />} />
             <Route path='/feed/:number' element={<InfoPage />} />  
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
