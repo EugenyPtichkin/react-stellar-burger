@@ -3,10 +3,8 @@ export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
 
-export const completed = ["034535", "034534", "034533", "034532", "034531", "034530", "034529", "034528"];
-export const in_progress = ["034538", "034541", "034542", "1", "2", "3", "4", "5", "6", "7", "8"];
-export const all_time = "28752";
-export const today = "138";
+export const done = ["034535", "034534", "034533", "034532", "034531", "034530", "034529", "034528"];
+export const pending = ["034538", "034541", "034542", "1", "2", "3", "4", "5", "6", "7", "8"];
 
 export const translate = (item) => {
    if (item === 'created') return ('Создан');

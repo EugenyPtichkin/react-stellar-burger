@@ -21,7 +21,7 @@ import {
   WS_SEND_MESSAGE
 } from './services/actions/wsActionTypes';
 
-const wsUrl = 'wss://norma.nomoreparties.space/api/';
+const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
 
 const wsActions = {
   wsInit: WS_CONNECTION_START,

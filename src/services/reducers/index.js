@@ -21,5 +21,5 @@ export const rootReducer = combineReducers({
     burger: burgerReducer,
     order: orderReducer,
     user: userReducer,
-    websock: wsReducer,
+    websocket: wsReducer,
 }) 

@@ -159,7 +159,7 @@
   composes: text_type_digits-default from global;
 }
 
-.in_progress {
+.pending {
   color: #F2F2F3;
 }
 

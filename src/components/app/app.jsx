@@ -16,6 +16,8 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { checkUserAuth } from '../../services/actions/user';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
 
+import { WS_CONNECTION_START, WS_CONNECTION_CLOSED } from '../../services/actions/wsActionTypes';
+
 const App = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -31,6 +33,22 @@ const App = () => {
     dispatch(getIngredients());
     dispatch(checkUserAuth());
   }, [dispatch]);
+
+  
+  //Открыть соединение по WS если появился зарегистрированный пользователь
+  const { isAuthChecked } = useSelector(store => store.user);
+  const { wsConnected } = useSelector(store => store.websocket);
+  useEffect(() => {
+    if (isAuthChecked && !wsConnected) {
+      console.log('WebSocket connection to be established');
+      dispatch({ type: WS_CONNECTION_START });
+    }
+    if (!isAuthChecked && wsConnected) {
+      console.log('WebSocket connection to be closed');
+      dispatch({ type: WS_CONNECTION_CLOSED });
+    }
+
+  }, [isAuthChecked, wsConnected]); // eslint-disable-line react-hooks/exhaustive-deps  
 
   const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
 
@@ -54,7 +72,7 @@ const App = () => {
             </Route>
             <Route path='/profile/orders/:number' element={<InfoPage />} />
             <Route path='/feed' element={<FeedPage />} />
-            <Route path='/feed/:number' element={<InfoPage />} />  
+            <Route path='/feed/:number' element={<InfoPage />} />
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>
