@@ -10,14 +10,14 @@ export const today = "138";
 
 export const translate = (item) => {
    if (item === 'created') return ('Создан');
-   if (item === 'inprogress') return ('Готовится');
+   if (item === 'pending') return ('Готовится');
    if (item === 'done') return ('Выполнен');
    if (item === 'canceled') return ('Отменен');    
  }
 
  export const colorCalc = (item) => {
    if (item === 'created') return ('white');    //('#F2F2F3');
-   if (item === 'inprogress') return ('white'); //('#F2F2F3');
+   if (item === 'pending') return ('white');    //('#F2F2F3');
    if (item === 'done') return ('cyan');        //('#00CCCC');
    if (item === 'canceled') return ('red');     //('#FF0000');
  }
