@@ -1,26 +1,39 @@
 import Styles from './info.module.css';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate, colorCalc } from './../../utils/data';
+import { getSingleIngredient } from '../../services/actions/ingredients';
+import { UnderConstructionPage } from './under-construction';
 
 export function InfoPage(props) {
   const { ingredients } = useSelector(store => store.ingredients);
   const { messages, wsConnected } = useSelector(store => store.websocket);
 
-  const { number } = useParams();//текущий номер заказа из адреса страницы
-//console.log(number);
+  const { number } = useParams();//текущий номер заказа из адреса страницы в текстовом виде
+  //console.log(number);
+
+  const dispatch = useDispatch();
+  //dispatch(getSingleIngredient(number)); //заранее считать параметры заказа
 
   let current_order = {};
-  if (wsConnected) {
+  if (wsConnected) { //отображать страницу только если есть соединение по webSocket
     current_order = messages[messages.length - 1];
-  //console.log(`#${messages.length}`);
-  //console.log(current_order);
+    //console.log(`#${messages.length}`);
+    //console.log(current_order);
 
-    if (current_order) {
+    if (current_order) {//отображать страницу только если получен текущий заказ по webSocket
       const orderItem = current_order.orders.find(item => item.number === Number(number));
-    //console.log(orderItem);
+      console.log(orderItem);
+      if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// но здесь (под условием) уже нельзя!
+        console.log('Не найден заказ!');
+        /*   dispatch(getSingleIngredient(number)); */
+        return (
+          <UnderConstructionPage />
+        );
+      }
+      console.log(orderItem);
 
       //список цен для вычисления суммы заказа
       const dataPrices = [];

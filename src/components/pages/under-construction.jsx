@@ -12,13 +12,13 @@ export const UnderConstructionPage = () => {
   }
 
   return (
-    <>
+    <section className={Styles.page}>
       <div className={Styles.content}>
         <p className={Styles.title}>Страница находится в&nbsp;стадии&nbsp;разработки</p>
         <Button htmlType="button" type="primary" size="medium" onClick={onClick}>
           Понятно
         </Button>
       </div>
-    </>
+    </section>
   )
 };

@@ -34,7 +34,7 @@ const App = () => {
     dispatch(checkUserAuth());
   }, [dispatch]);
 
-  
+
   //Открыть соединение по WS если появился зарегистрированный пользователь
   const { isAuthChecked } = useSelector(store => store.user);
   const { wsConnected } = useSelector(store => store.websocket);

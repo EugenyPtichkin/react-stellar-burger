@@ -1,6 +1,7 @@
 import {
     INGREDIENTS_REQUEST,
     SET_INGREDIENTS_SUCCESS,
+    ADD_INGREDIENT_SUCCESS,
     SET_INGREDIENTS_ERROR     
   } from '../actions/ingredients';
 
@@ -26,6 +27,15 @@ import {
         return {
           ...state,
           ingredients: action.ingredients,
+          ingredientsLoading: false,
+          ingredientsError: false,
+          ingredientsErrorType: ''
+        }
+      }
+      case ADD_INGREDIENT_SUCCESS: {
+        return {
+          ...state,
+          ingredients: [...state.ingredients, action.ingredients],
           ingredientsLoading: false,
           ingredientsError: false,
           ingredientsErrorType: ''
