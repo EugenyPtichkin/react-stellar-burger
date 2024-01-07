@@ -8,28 +8,31 @@ import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { translate, colorCalc } from './../../utils/data';
 import { WS_USER_SET_ENDPOINT, WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
-import  { wsUserNameUpdate } from '../../services/actions/wsUserActions';
 
 export const OrdersPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
-  const { user, isAuthChecked } = useSelector(store => store.user);
-  //const { current_order } = useSelector(store => store.order.order); 
+  const { wsConnected, messages } = useSelector(store => store.wsUser);
   const location = useLocation();
   const dispatch = useDispatch();
-  dispatch(wsUserNameUpdate(user));  
 
-  //Открыть соединение по WS если появился зарегистрированный пользователь
-  const { wsConnected, messages} = useSelector(store => store.wsUser);
+  //Открыть соединение по WS при переходе на страницу Orders
   useEffect(() => {
-    if (isAuthChecked && !wsConnected) {
-      console.log('WebSocket connection to be established');
+    if (!wsConnected) {
+      console.log('WebSocket USER connection to be established');
       dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders/' });
       dispatch({ type: WS_USER_CONNECTION_START });
     }
-    return ( 
-      dispatch({ type: WS_USER_CONNECTION_STOP })
-    )
-  }, [isAuthChecked, wsConnected]); // eslint-disable-line react-hooks/exhaustive-deps  
+    return () => {
+      console.log('WebSocket USER connection to be closed');
+    };
+  }, []);
+
+  let last_order = {};
+  if (messages) {
+    last_order = messages[messages.length - 1];
+    console.log(`#${messages.length}`);
+    console.log(last_order);
+  }
 
   const DisplayCard = (data) => {
     const current_order = data.data.orders[0];
@@ -87,25 +90,31 @@ export const OrdersPage = () => {
     )
   };
 
-  return (
-    <>
-      <div className={Styles.content}>
-        <div className={Styles.scrollbar}>
-          <ul className={Styles.orders} id="order_cards" >
-            {
-              order_data.map((item, index) =>
-                <Link
-                  key={index}
-                  to={`/profile/orders/${item.orders[0].number}`}
-                  state={{ background: location }}
-                  className={Styles.link}>
-                  <DisplayCard data={item} />
-                </Link>
-              )
-            }
-          </ul>
+  if (last_order) {
+    return (
+      <>
+        <div className={Styles.content}>
+          <div className={Styles.scrollbar}>
+            <ul className={Styles.orders} id="order_cards" >
+              {
+                last_order.map((item, index) =>
+                  <Link
+                    key={index}
+                    to={`/profile/orders/${item.orders[0].number}`}
+                    state={{ background: location }}
+                    className={Styles.link}>
+                    <DisplayCard data={item} />
+                  </Link>
+                )
+              }
+            </ul>
+          </div>
         </div>
-      </div>
-    </>
-  )
+      </>
+    )
+  }
+  else {
+    return null;
+
+  }
 };

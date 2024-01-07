@@ -9,19 +9,20 @@ import { WS_FEED_SET_ENDPOINT, WS_FEED_CONNECTION_START, WS_FEED_CONNECTION_STOP
 
 const maxListNum = 10; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
-  const dispatch = useDispatch();  
+  const { wsConnected, messages } = useSelector(store => store.wsFeed);
+  const dispatch = useDispatch();
 
   //Открыть соединение по WS при переходе на страницу Feed
-  const { wsConnected, messages} = useSelector(store => store.wsFeed);
   useEffect(() => {
     if (!wsConnected) {
+      console.log('WebSocket FEED connection to be established');
       dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '/orders/all' });
-      console.log('WebSocket connection to be established');
       dispatch({ type: WS_FEED_CONNECTION_START });
     }
-    return (
-      dispatch({ type: WS_FEED_CONNECTION_STOP })
-    )
+    return () => {
+      console.log('WebSocket FEED connection to be closed');
+      dispatch({ type: WS_FEED_CONNECTION_STOP });
+    }
   }, []);
 
   const { ingredients } = useSelector(store => store.ingredients);
@@ -29,12 +30,12 @@ export const FeedPage = () => {
 
   let last_order = {};
   let status_all, status_done, status_pending, status_canceled;
-  if (wsConnected) {
+  if (messages) {
     last_order = messages[messages.length - 1];
     console.log(`#${messages.length}`);
     console.log(last_order);
-    
-    if (last_order) {
+
+    if (last_order) { //отрисовать списки заказов если существует информация о последнем списке заказов
       status_all = last_order.orders.map((item) => {
         return ({ number: item.number, status: item.status });
       }).reverse();
@@ -99,64 +100,68 @@ export const FeedPage = () => {
     )
   };
 
-  return (
-    <>
-      <p className={Styles.title}>Лента заказов</p>
-      <div className={Styles.content}>
-        <div className={Styles.scrollbar}>
-          <ul className={Styles.orders} id="order_cards" >
-            {(wsConnected && last_order) &&
-              last_order.orders.map((item, index) =>
-                <Link
-                  key={index}
-                  to={`/feed/${item.number}`}
-                  state={{ background: location }}
-                  className={Styles.link}>
-                  <DisplayCard data={item} />
-                </Link>
-              )
-            }
-          </ul>
+  if (last_order) { //отрисовать списки заказов если существует информация о последнем списке заказов
+    return (
+      <>
+        <p className={Styles.title}>Лента заказов</p>
+        <div className={Styles.content}>
+          <div className={Styles.scrollbar}>
+            <ul className={Styles.orders} id="order_cards" >
+              {(wsConnected && last_order) &&
+                last_order.orders.map((item, index) =>
+                  <Link
+                    key={index}
+                    to={`/feed/${item.number}`}
+                    state={{ background: location }}
+                    className={Styles.link}>
+                    <DisplayCard data={item} />
+                  </Link>
+                )
+              }
+            </ul>
+          </div>
+          <section className={Styles.stats}>
+            <div className={Styles.orders_numbers}>
+              <p className={Styles.text}>Готовы:</p>
+              <p className={Styles.text}>В работе:</p>
+              {(wsConnected && last_order) &&
+                <>
+                  {status_done && status_done.length <= maxListNum &&
+                    <div className={Styles.list}>
+                      {status_done.map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)} </div>)}
+                    </div>
+                  }
+                  {status_done && status_done.length > maxListNum &&
+                    <div className={Styles.list}>
+                      {status_done.slice(-maxListNum).map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
+                    </div>
+                  }
+                  {status_pending && status_pending.length <= maxListNum &&
+                    <div className={`${Styles.list} ${Styles.pending}`}>
+                      {status_pending.map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
+                    </div>
+                  }
+                  {status_pending && status_pending.length > maxListNum &&
+                    <div className={`${Styles.list} ${Styles.pending}`}>
+                      {status_pending.slice(-maxListNum).map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
+                    </div>
+                  }
+                </>
+              }
+            </div>
+            <div>
+              <p className={Styles.text}>Выполнено за все время:</p>
+              <p className={Styles.digits}>{(wsConnected && last_order) ? last_order.total : 0}</p>
+            </div>
+            <div>
+              <p className={Styles.text}>Выполнено за сегодня:</p>
+              <p className={Styles.digits}>{(wsConnected && last_order) ? last_order.totalToday : 0}</p>
+            </div>
+          </section>
         </div>
-        <section className={Styles.stats}>
-          <div className={Styles.orders_numbers}>
-            <p className={Styles.text}>Готовы:</p>
-            <p className={Styles.text}>В работе:</p>
-            {(wsConnected && last_order) &&
-              <>
-                {status_done && status_done.length <= maxListNum &&
-                  <div className={Styles.list}>
-                    {status_done.map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)} </div>)}
-                  </div>
-                }
-                {status_done && status_done.length > maxListNum &&
-                  <div className={Styles.list}>
-                    {status_done.slice(-maxListNum).map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
-                  </div>
-                }
-                {status_pending && status_pending.length <= maxListNum &&
-                  <div className={`${Styles.list} ${Styles.pending}`}>
-                    {status_pending.map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
-                  </div>
-                }
-                {status_pending && status_pending.length > maxListNum &&
-                  <div className={`${Styles.list} ${Styles.pending}`}>
-                    {status_pending.slice(-maxListNum).map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
-                  </div>
-                }
-              </>
-            }
-          </div>
-          <div>
-            <p className={Styles.text}>Выполнено за все время:</p>
-            <p className={Styles.digits}>{(wsConnected && last_order) ? last_order.total : 0}</p>
-          </div>
-          <div>
-            <p className={Styles.text}>Выполнено за сегодня:</p>
-            <p className={Styles.digits}>{(wsConnected && last_order) ? last_order.totalToday : 0}</p>
-          </div>
-        </section>
-      </div>
-    </>
-  )
+      </>
+    )
+  } else {
+    return null;
+  }
 };

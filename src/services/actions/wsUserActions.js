@@ -3,9 +3,8 @@ import {
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_CLOSED,
   WS_USER_GET_MESSAGE,
-  WS_USER_SEND_MESSAGE,
-  WS_USER_USER_NAME_UPDATE
-} from './wsUserActionTypes';
+  WS_USER_SEND_MESSAGE
+  } from './wsUserActionTypes';
 
 export const wsConnectionSuccess = () => {
   return {
@@ -36,12 +35,5 @@ export const wsSendMessage = message => {
   return {
     type: WS_USER_SEND_MESSAGE,
     payload: message
-  };
-};
-
-export const wsUserNameUpdate = userName => {
-  return {
-    type: WS_USER_USER_NAME_UPDATE,
-    payload: userName
   };
 };

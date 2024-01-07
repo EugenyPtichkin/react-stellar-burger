@@ -30,7 +30,7 @@ export function InfoPage(props) {
   //dispatch(getOrderIngredientsData(number)); //заранее считать параметры заказа
 
   let current_order = {};
-  if (wsConnected) { //отображать страницу только если есть соединение по webSocket
+  if (messages) { //отображать страницу только если есть списки заказов
     current_order = messages[messages.length - 1];
     //console.log(`#${messages.length}`);
     //console.log(current_order);

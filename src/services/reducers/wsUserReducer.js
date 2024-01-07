@@ -1,6 +1,5 @@
 import {
   WS_USER_SET_ENDPOINT,
-  WS_USER_USER_NAME_UPDATE,
   WS_USER_CONNECTION_SUCCESS,
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_CLOSED,
@@ -45,12 +44,6 @@ export const wsUserReducer = (state = initialState, action) => {
           ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
           : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
       };
-    case WS_USER_USER_NAME_UPDATE:
-      return {
-        ...state,
-        user: action.payload
-      };
-
     default:
       return state;
   }

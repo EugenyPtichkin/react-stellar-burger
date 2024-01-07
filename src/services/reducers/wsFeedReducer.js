@@ -1,6 +1,5 @@
 import {
   WS_FEED_SET_ENDPOINT,
-  WS_FEED_USER_NAME_UPDATE,
   WS_FEED_CONNECTION_SUCCESS,
   WS_FEED_CONNECTION_ERROR,
   WS_FEED_CONNECTION_CLOSED,
@@ -45,12 +44,6 @@ export const wsFeedReducer = (state = initialState, action) => {
           ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
           : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
       };
-    case WS_FEED_USER_NAME_UPDATE:
-      return {
-        ...state,
-        user: action.payload
-      };
-
     default:
       return state;
   }

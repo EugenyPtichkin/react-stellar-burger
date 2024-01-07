@@ -7,13 +7,17 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       const { type, payload } = action;
       const { wsConnect, wsSendMessage, wsDisconnect, onOpen, onClose, onError, onMessage } = wsActions;
       const { user, token } = getState().user;
-      const { wsEndPoint } = getState().wsFeed;
-      console.log(`${wsUrl}${wsEndPoint}`);
-      console.log(`token=${token}`);
-      if (type === wsConnect) {
-          socket = new WebSocket(`${wsUrl}${wsEndPoint}?token=${token}`);
+      const wsFeed= getState().wsFeed;
+      const wsUser = getState().wsUser;
+      if (type === wsConnect) {//временная затычка пока не придумал как изменить
+        if (wsUser && wsUser.wsEndPoint) {
+          socket = new WebSocket(`${wsUrl}${wsUser.wsEndPoint}?token=${token}`);
+        }
+        else if (wsFeed&& wsFeed.wsEndPoint) { 
+          socket = new WebSocket(`${wsUrl}${wsFeed.wsEndPoint}`);
+        }
       }
-
+  
       if (socket) {
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });
