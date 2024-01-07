@@ -2,6 +2,7 @@ import { api } from "../../utils/burger-api";
 
 export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
 export const SET_USER = "SET_USER";
+export const SET_TOKEN = "SET_TOKEN";
 export const SET_AUTH_ERROR = "SET_AUTH_ERROR";
 
 export const setAuthChecked = (value) => ({
@@ -17,6 +18,11 @@ export const setAuthError = (value) => ({
 export const setUser = (user) => ({
   type: SET_USER,
   payload: user,
+});
+
+export const setToken = (token) => ({
+  type: SET_TOKEN,
+  payload: token,
 });
 
 export const getUser = () => {
@@ -43,6 +49,7 @@ export const login = (data) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch(setUser(res.user));
+        dispatch(setToken(res.accessToken.replace('Bearer ','')));
         dispatch(setAuthChecked(true));
         console.log(res);
       }
@@ -63,6 +70,7 @@ export const register = (data) => {
         localStorage.setItem("accessToken", res.accessToken);
         localStorage.setItem("refreshToken", res.refreshToken);
         dispatch(setUser(res.user));
+        dispatch(setToken(res.accessToken.replace('Bearer ','')));
         dispatch(setAuthChecked(true));
         console.log(res);
       }
@@ -84,6 +92,7 @@ export const checkUserAuth = () => {
           localStorage.removeItem("accessToken");
           localStorage.removeItem("refreshToken");
           dispatch(setUser(null));
+          dispatch(setToken(null));
         })
         .finally(() => dispatch(setAuthChecked(true)));
     } else {
@@ -98,6 +107,7 @@ export const logout = () => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       dispatch(setUser(null));
+      dispatch(setToken(null));
     }).catch(res => console.log(res));
   };
 };

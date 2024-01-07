@@ -1,44 +1,51 @@
 import {
-  WS_USER_NAME_UPDATE,
-  WS_CONNECTION_SUCCESS,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_CLOSED,
-  WS_GET_MESSAGE
-} from '../actions/wsActionTypes';
+  WS_FEED_SET_ENDPOINT,
+  WS_FEED_USER_NAME_UPDATE,
+  WS_FEED_CONNECTION_SUCCESS,
+  WS_FEED_CONNECTION_ERROR,
+  WS_FEED_CONNECTION_CLOSED,
+  WS_FEED_GET_MESSAGE
+} from '../actions/wsFeedActionTypes';
 
 const initialState = {
+  wsEndPoint: '',
   wsConnected: false,
   messages: []
 };
 
-export const wsReducer = (state = initialState, action) => {
+export const wsFeedReducer = (state = initialState, action) => {
   switch (action.type) {
-    case WS_CONNECTION_SUCCESS:
+    case WS_FEED_SET_ENDPOINT:
+      return {
+        ...state,
+        wsEndPoint: action.payload
+      };
+    case WS_FEED_CONNECTION_SUCCESS:
       return {
         ...state,
         wsConnected: true
       };
 
-    case WS_CONNECTION_ERROR:
+    case WS_FEED_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false
       };
 
-    case WS_CONNECTION_CLOSED:
+    case WS_FEED_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false
       };
 
-    case WS_GET_MESSAGE:
+    case WS_FEED_GET_MESSAGE:
       return {
         ...state,
         messages: state.messages.length
           ? [...state.messages, { ...action.payload, timestamp: new Date().getTime() / 1000 }]
           : [{ ...action.payload, timestamp: new Date().getTime() / 1000 }]
       };
-    case WS_USER_NAME_UPDATE:
+    case WS_FEED_USER_NAME_UPDATE:
       return {
         ...state,
         user: action.payload

@@ -1,14 +1,30 @@
 import Styles from './feed.module.css';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { WS_FEED_SET_ENDPOINT, WS_FEED_CONNECTION_START, WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
 
 const maxListNum = 10; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
+  const dispatch = useDispatch();  
+
+  //Открыть соединение по WS при переходе на страницу Feed
+  const { wsConnected, messages} = useSelector(store => store.wsFeed);
+  useEffect(() => {
+    if (!wsConnected) {
+      dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '/orders/all' });
+      console.log('WebSocket connection to be established');
+      dispatch({ type: WS_FEED_CONNECTION_START });
+    }
+    return (
+      dispatch({ type: WS_FEED_CONNECTION_STOP })
+    )
+  }, []);
+
   const { ingredients } = useSelector(store => store.ingredients);
-  const { messages, wsConnected } = useSelector(store => store.websocket);
   const location = useLocation();
 
   let last_order = {};

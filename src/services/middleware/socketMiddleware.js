@@ -5,11 +5,15 @@ export const socketMiddleware = (wsUrl, wsActions) => {
     return next => action => {
       const { dispatch, getState } = store;
       const { type, payload } = action;
-      const { wsInit, wsSendMessage, onOpen, onClose, onError, onMessage } = wsActions;
-      const { user } = getState().user;
-      if (type === wsInit && user) {
-        socket = new WebSocket(`${wsUrl}?token=${user.token}`);
+      const { wsConnect, wsSendMessage, wsDisconnect, onOpen, onClose, onError, onMessage } = wsActions;
+      const { user, token } = getState().user;
+      const { wsEndPoint } = getState().wsFeed;
+      console.log(`${wsUrl}${wsEndPoint}`);
+      console.log(`token=${token}`);
+      if (type === wsConnect) {
+          socket = new WebSocket(`${wsUrl}${wsEndPoint}?token=${token}`);
       }
+
       if (socket) {
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });
@@ -34,6 +38,11 @@ export const socketMiddleware = (wsUrl, wsActions) => {
         if (type === wsSendMessage) {
           const message = { ...payload, token: user.token };
           socket.send(JSON.stringify(message));
+        }
+
+        if (type === wsDisconnect && socket.readyState === 1) {
+          socket.close(1000, "работа закончена по умолчанию - нормальное закрытие")
+          socket = null
         }
       }
 

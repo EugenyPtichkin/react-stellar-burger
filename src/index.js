@@ -13,23 +13,45 @@ import { socketMiddleware } from './services/middleware/socketMiddleware';
 import { BrowserRouter } from 'react-router-dom';
 
 import {
-  WS_CONNECTION_CLOSED,
-  WS_CONNECTION_ERROR,
-  WS_CONNECTION_START,
-  WS_CONNECTION_SUCCESS,
-  WS_GET_MESSAGE,
-  WS_SEND_MESSAGE
-} from './services/actions/wsActionTypes';
+  WS_FEED_CONNECTION_CLOSED,
+  WS_FEED_CONNECTION_ERROR,
+  WS_FEED_CONNECTION_START,
+  WS_FEED_CONNECTION_STOP,
+  WS_FEED_CONNECTION_SUCCESS,
+  WS_FEED_GET_MESSAGE,
+  WS_FEED_SEND_MESSAGE
+} from './services/actions/wsFeedActionTypes';
 
-const wsUrl = 'wss://norma.nomoreparties.space/orders/all';
+import {
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_CONNECTION_ERROR,
+  WS_USER_CONNECTION_START,
+  WS_USER_CONNECTION_STOP,
+  WS_USER_CONNECTION_SUCCESS,
+  WS_USER_GET_MESSAGE,
+  WS_USER_SEND_MESSAGE
+} from './services/actions/wsUserActionTypes';
 
-const wsActions = {
-  wsInit: WS_CONNECTION_START,
-  wsSendMessage: WS_SEND_MESSAGE,
-  onOpen: WS_CONNECTION_SUCCESS,
-  onClose: WS_CONNECTION_CLOSED,
-  onError: WS_CONNECTION_ERROR,
-  onMessage: WS_GET_MESSAGE
+import { wsUrl } from './utils/data';
+
+const wsFeedActions = {
+  wsConnect: WS_FEED_CONNECTION_START,
+  wsSendMessage: WS_FEED_SEND_MESSAGE,
+  wsDisconnect: WS_FEED_CONNECTION_STOP,
+  onOpen: WS_FEED_CONNECTION_SUCCESS,
+  onClose: WS_FEED_CONNECTION_CLOSED,
+  onError: WS_FEED_CONNECTION_ERROR,
+  onMessage: WS_FEED_GET_MESSAGE
+};
+
+const wsUserActions = {
+  wsConnect: WS_USER_CONNECTION_START,
+  wsSendMessage: WS_USER_SEND_MESSAGE,
+  wsDisconnect: WS_USER_CONNECTION_STOP,
+  onOpen: WS_USER_CONNECTION_SUCCESS,
+  onClose: WS_USER_CONNECTION_CLOSED,
+  onError: WS_USER_CONNECTION_ERROR,
+  onMessage: WS_USER_GET_MESSAGE
 };
 
 const composeEnhancers =
@@ -37,8 +59,7 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsActions)));
-
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsFeedActions), socketMiddleware(wsUrl, wsUserActions)));
 const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(

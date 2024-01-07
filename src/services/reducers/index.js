@@ -13,7 +13,8 @@ import {orderReducer} from './order';
 import {userReducer} from './user';
 
 // Редьюсер для WebSocket
-import { wsReducer } from './wsReducer';
+import { wsFeedReducer } from './wsFeedReducer';
+import { wsUserReducer } from './wsUserReducer';
 
 // Корневой редьюсер
 export const rootReducer = combineReducers({
@@ -21,5 +22,6 @@ export const rootReducer = combineReducers({
     burger: burgerReducer,
     order: orderReducer,
     user: userReducer,
-    websocket: wsReducer,
+    wsFeed: wsFeedReducer,
+    wsUser: wsUserReducer,
 }) 

@@ -2,15 +2,34 @@ import Styles from './orders.module.css';
 import { order_data } from './../../utils/data';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { translate, colorCalc } from './../../utils/data';
+import { WS_USER_SET_ENDPOINT, WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
+import  { wsUserNameUpdate } from '../../services/actions/wsUserActions';
 
 export const OrdersPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
+  const { user, isAuthChecked } = useSelector(store => store.user);
   //const { current_order } = useSelector(store => store.order.order); 
   const location = useLocation();
+  const dispatch = useDispatch();
+  dispatch(wsUserNameUpdate(user));  
+
+  //Открыть соединение по WS если появился зарегистрированный пользователь
+  const { wsConnected, messages} = useSelector(store => store.wsUser);
+  useEffect(() => {
+    if (isAuthChecked && !wsConnected) {
+      console.log('WebSocket connection to be established');
+      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders/' });
+      dispatch({ type: WS_USER_CONNECTION_START });
+    }
+    return ( 
+      dispatch({ type: WS_USER_CONNECTION_STOP })
+    )
+  }, [isAuthChecked, wsConnected]); // eslint-disable-line react-hooks/exhaustive-deps  
 
   const DisplayCard = (data) => {
     const current_order = data.data.orders[0];

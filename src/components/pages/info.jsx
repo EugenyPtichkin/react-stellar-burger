@@ -4,18 +4,30 @@ import { useParams } from 'react-router-dom';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate, colorCalc } from './../../utils/data';
-import { getSingleIngredient } from '../../services/actions/ingredients';
+import { getOrderIngredientsData } from '../../services/actions/ingredients';
 import { UnderConstructionPage } from './under-construction';
 
 export function InfoPage(props) {
   const { ingredients } = useSelector(store => store.ingredients);
-  const { messages, wsConnected } = useSelector(store => store.websocket);
+  const wsFeed = useSelector(store => store.wsFeed);
+  const messagesFeed = wsFeed.messages;
+  const wsConnectedFeed = wsFeed.wsConnected;
+  console.log(wsConnectedFeed);
+
+  const wsUser = useSelector(store => store.wsUser);
+  const messagesUser = wsUser.messages;
+  const wsConnectedUser = wsUser.wsConnected;
+  console.log(wsConnectedUser);
+
+  const messages = (wsConnectedFeed ? messagesFeed : wsConnectedUser ? messagesUser : []);
+  const wsConnected = wsConnectedFeed || wsConnectedUser;
+  console.log(messages);
 
   const { number } = useParams();//текущий номер заказа из адреса страницы в текстовом виде
   //console.log(number);
 
   const dispatch = useDispatch();
-  //dispatch(getSingleIngredient(number)); //заранее считать параметры заказа
+  //dispatch(getOrderIngredientsData(number)); //заранее считать параметры заказа
 
   let current_order = {};
   if (wsConnected) { //отображать страницу только если есть соединение по webSocket
@@ -28,7 +40,7 @@ export function InfoPage(props) {
       console.log(orderItem);
       if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// но здесь (под условием) уже нельзя!
         console.log('Не найден заказ!');
-        /*   dispatch(getSingleIngredient(number)); */
+        /*dispatch(getOrderIngredientsData(number)); */
         return (
           <UnderConstructionPage />
         );
@@ -81,7 +93,7 @@ export function InfoPage(props) {
       return (
         <section className={props.isModal ? `${Styles.container} ${Styles.modal}` : Styles.container}>
           <div className={Styles.details}>
-            <p className={Styles.number}>#{orderItem.number}</p>
+            <p className={props.isModal ? `${Styles.number} ${Styles.number_modal}` : Styles.number}>#{orderItem.number}</p>
             <div className={Styles.info}>
               <p className={Styles.name}>{orderItem.name}</p>
               <p className={`${Styles.status} ${colorCalc(orderItem.status)}`}>{translate(orderItem.status)}</p>
