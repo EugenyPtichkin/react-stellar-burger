@@ -5,8 +5,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { translate, colorCalc } from './../../utils/data';
-import { WS_USER_SET_ENDPOINT, WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
+import { translate } from './../../utils/data';
+import { WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
+//import { wsUserConnectAction } from '../../services/actions/wsUserActions';
+import { wsUrl } from '../../utils/data';
+import { refreshToken } from '../../utils/burger-api';
 
 export const OrdersPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
@@ -18,14 +21,17 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket USER connection to be established');
-      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders' });
-      dispatch({ type: WS_USER_CONNECTION_START });
+      console.log(`${wsUrl}/orders/?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`);
+      /*dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));
+      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders' });*/
+      dispatch({ type: WS_USER_CONNECTION_START, payload: `${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}` });
     }
     return () => {
       console.log('WebSocket USER connection to be closed');
-      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '' });
+      /*dispatch({ type: WS_USER_SET_ENDPOINT, payload: '' });*/
       dispatch({ type: WS_USER_CONNECTION_STOP });
     };
+    // eslint-disable-next-line
   }, []);
 
   let last_order_list = {};
@@ -33,6 +39,12 @@ export const OrdersPage = () => {
     last_order_list = messages[messages.length - 1];
     console.log(`#${messages.length}`);
     console.log(last_order_list);
+    if (last_order_list && last_order_list.message === 'Invalid or missing token') {
+      console.log('Invalid or missing token');
+      dispatch(refreshToken);
+      /*dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));*/
+      dispatch({ type: WS_USER_CONNECTION_START, payload: `${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}` });
+    }
   }
 
   const DisplayCard = (props) => {
@@ -60,10 +72,10 @@ export const OrdersPage = () => {
         </div>
         <div className={Styles.info}>
           <p className={Styles.name}>{current_order.name}</p>
-          <p className={colorCalc(current_order.status)==='cyan'?`${Styles.status} ${Styles.cyan}`:
-                        colorCalc(current_order.status)==='blue'?`${Styles.status} ${Styles.blue}`:
-                        colorCalc(current_order.status)==='red'?`${Styles.status} ${Styles.red}`:
-                        Styles.status}>{translate(current_order.status)}</p>
+          <p className={current_order.status === 'done' ? `${Styles.status} ${Styles.cyan}` :
+            current_order.status === 'created' ? `${Styles.status} ${Styles.blue}` :
+              current_order.status === 'canceled' ? `${Styles.status} ${Styles.red}` :
+                Styles.status}>{translate(current_order.status)}</p>
         </div>
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
@@ -101,7 +113,7 @@ export const OrdersPage = () => {
           <div className={Styles.scrollbar}>
             <ul className={Styles.orders} id="order_cards" >
               {
-                last_order_list.orders.reverse().map((item, index) =>
+                (last_order_list.orders).map((item, index) =>
                   <Link
                     key={index}
                     to={`/profile/orders/${item.number}`}

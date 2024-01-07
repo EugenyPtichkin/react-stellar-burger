@@ -1,4 +1,5 @@
 import {
+  WS_USER_CONNECTION_START,
   WS_USER_CONNECTION_SUCCESS,
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_CLOSED,
@@ -6,34 +7,41 @@ import {
   WS_USER_SEND_MESSAGE
   } from './wsUserActionTypes';
 
-export const wsConnectionSuccess = () => {
+export const wsUserConnectionSuccess = () => {
   return {
     type: WS_USER_CONNECTION_SUCCESS
   };
 };
 
-export const wsConnectionError = () => {
+export const wsUserConnectionError = () => {
   return {
     type: WS_USER_CONNECTION_ERROR
   };
 };
 
-export const wsConnectionClosed = () => {
+export const wsUserConnectionClosed = () => {
   return {
     type: WS_USER_CONNECTION_CLOSED
   };
 };
 
-export const wsGetMessage = message => {
+export const wsUserGetMessage = message => {
   return {
     type: WS_USER_GET_MESSAGE,
     payload: message
   };
 };
 
-export const wsSendMessage = message => {
+export const wsUserSendMessage = message => {
   return {
     type: WS_USER_SEND_MESSAGE,
     payload: message
+  };
+};
+
+export const wsUserConnectAction = url => {
+  return {
+    type: WS_USER_CONNECTION_START,
+    payload: url
   };
 };

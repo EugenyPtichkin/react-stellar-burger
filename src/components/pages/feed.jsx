@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { WS_FEED_SET_ENDPOINT, WS_FEED_CONNECTION_START, WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
+import { wsFeedConnectAction } from '../../services/actions/wsFeedActions';
+import { wsUrl } from '../../utils/data';
 
 const maxListNum = 10; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
@@ -16,12 +18,14 @@ export const FeedPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket FEED connection to be established');
-      dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '/orders/all' });
-      dispatch({ type: WS_FEED_CONNECTION_START });
+      console.log(`${wsUrl}/orders/all`);
+      dispatch(wsFeedConnectAction(`${wsUrl}/orders/all`));
+      /*dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '/orders/all' });
+      dispatch({ type: WS_FEED_CONNECTION_START });*/
     }
     return () => {
       console.log('WebSocket FEED connection to be closed');
-      dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '' });
+      /*dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '' });*/
       dispatch({ type: WS_FEED_CONNECTION_STOP });
     }
   }, []);
@@ -30,20 +34,19 @@ export const FeedPage = () => {
   const location = useLocation();
 
   let last_order = {};
-  let status_all, status_done, status_pending, status_canceled;
+  let status_done, status_pending;
   if (messages) {
     last_order = messages[messages.length - 1];
-    console.log(`#${messages.length}`);
-    console.log(last_order);
-
+    //console.log(`#${messages.length}`);
+    //console.log(last_order);
     if (last_order) { //отрисовать списки заказов если существует информация о последнем списке заказов
-      status_all = last_order.orders.map((item) => {
-        return ({ number: item.number, status: item.status });
-      }).reverse();
       status_done = last_order.orders.filter(item => (item.status === 'done')).map(item => item.number).reverse();
       status_pending = last_order.orders.filter(item => (item.status === 'pending')).map(item => item.number).reverse();
-      status_canceled = last_order.orders.filter(item => (item.status === 'canceled')).map(item => item.number).reverse();
     }
+  }
+
+  const zerofill = (number, digits) => {
+    return ("0".repeat(digits) + number).slice(-digits);
   }
 
   const DisplayCard = (props) => {
@@ -64,9 +67,10 @@ export const FeedPage = () => {
     return (
       <div className={Styles.order_card}>
         <div className={Styles.details}>
-          <p className={Styles.digit}>#{current_order.number}</p>
+          <p className={Styles.digit}>#{zerofill(current_order.number, 6)}</p>
           <div className={Styles.time}>
             <FormattedDate date={new Date(current_order.createdAt)} />
+            <span> i-GMT+3</span>
           </div>
         </div>
 
@@ -108,7 +112,7 @@ export const FeedPage = () => {
         <div className={Styles.content}>
           <div className={Styles.scrollbar}>
             <ul className={Styles.orders} id="order_cards" >
-              {(wsConnected && last_order) &&
+              {
                 last_order.orders.map((item, index) =>
                   <Link
                     key={index}
@@ -129,22 +133,22 @@ export const FeedPage = () => {
                 <>
                   {status_done && status_done.length <= maxListNum &&
                     <div className={Styles.list}>
-                      {status_done.map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)} </div>)}
+                      {status_done.map((item, index) => <div key={index}>{zerofill(item, 6)} </div>)}
                     </div>
                   }
                   {status_done && status_done.length > maxListNum &&
                     <div className={Styles.list}>
-                      {status_done.slice(-maxListNum).map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
+                      {status_done.slice(-maxListNum).map((item, index) => <div key={index}>{zerofill(item, 6)}</div>)}
                     </div>
                   }
                   {status_pending && status_pending.length <= maxListNum &&
                     <div className={`${Styles.list} ${Styles.pending}`}>
-                      {status_pending.map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
+                      {status_pending.map((item, index) => <div key={index}>{zerofill(item, 6)}</div>)}
                     </div>
                   }
                   {status_pending && status_pending.length > maxListNum &&
                     <div className={`${Styles.list} ${Styles.pending}`}>
-                      {status_pending.slice(-maxListNum).map((item, index) => <div key={index}>{("0".repeat(6) + item).slice(-6)}</div>)}
+                      {status_pending.slice(-maxListNum).map((item, index) => <div key={index}>{zerofill(item, 6)}</div>)}
                     </div>
                   }
                 </>

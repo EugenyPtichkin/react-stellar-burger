@@ -1,4 +1,4 @@
-export const socketMiddleware = (wsUrl, wsActions) => {
+export const socketMiddleware = (wsActions) => {
   return store => {
     let socket = null;
 
@@ -7,7 +7,11 @@ export const socketMiddleware = (wsUrl, wsActions) => {
       const { type, payload } = action;
       const { wsConnect, wsSendMessage, wsDisconnect, onOpen, onClose, onError, onMessage } = wsActions;
       const { user, token } = getState().user;
-      const wsFeed= getState().wsFeed;
+      if (type === wsConnect) {
+        console.log(payload);
+          socket = new WebSocket(payload); //весь путь спрятан в payload
+        }
+  /*    const wsFeed= getState().wsFeed;
       const wsUser = getState().wsUser;
       if (type === wsConnect) {//временная затычка пока не придумал как изменить
         if (wsUser && wsUser.wsEndPoint) {
@@ -17,7 +21,7 @@ export const socketMiddleware = (wsUrl, wsActions) => {
           socket = new WebSocket(`${wsUrl}${wsFeed.wsEndPoint}`);
         }
       }
-  
+  */
       if (socket) {
         socket.onopen = event => {
           dispatch({ type: onOpen, payload: event });

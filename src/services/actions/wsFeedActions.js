@@ -1,39 +1,47 @@
 import {
+  WS_FEED_CONNECTION_START,
   WS_FEED_CONNECTION_SUCCESS,
   WS_FEED_CONNECTION_ERROR,
   WS_FEED_CONNECTION_CLOSED,
   WS_FEED_GET_MESSAGE,
   WS_FEED_SEND_MESSAGE
-  } from './wsFeedActionTypes';
+} from './wsFeedActionTypes';
 
-export const wsConnectionSuccess = () => {
+export const wsFeedConnectionSuccess = () => {
   return {
     type: WS_FEED_CONNECTION_SUCCESS
   };
 };
 
-export const wsConnectionError = () => {
+export const wsFeedConnectionError = () => {
   return {
     type: WS_FEED_CONNECTION_ERROR
   };
 };
 
-export const wsConnectionClosed = () => {
+export const wsFeedConnectionClosed = () => {
   return {
     type: WS_FEED_CONNECTION_CLOSED
   };
 };
 
-export const wsGetMessage = message => {
+export const wsFeedGetMessage = message => {
   return {
     type: WS_FEED_GET_MESSAGE,
     payload: message
   };
 };
 
-export const wsSendMessage = message => {
+export const wsFeedSendMessage = message => {
   return {
     type: WS_FEED_SEND_MESSAGE,
     payload: message
+  };
+};
+
+export const wsFeedConnectAction = url => {
+  return {
+    type: WS_FEED_CONNECTION_START,
+    payload: url
   };
 };

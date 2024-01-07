@@ -27,7 +27,7 @@ const request = async (endpoint, options) => {
   //.then(checkSuccess)
 };
 
-const refreshToken = () => request('auth/token', {
+export const refreshToken = () => request('auth/token', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8',

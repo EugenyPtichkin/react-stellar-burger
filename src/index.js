@@ -21,6 +21,7 @@ import {
   WS_FEED_GET_MESSAGE,
   WS_FEED_SEND_MESSAGE
 } from './services/actions/wsFeedActionTypes';
+import { wsFeedConnectAction } from './services/actions/wsFeedActions';
 
 import {
   WS_USER_CONNECTION_CLOSED,
@@ -31,8 +32,7 @@ import {
   WS_USER_GET_MESSAGE,
   WS_USER_SEND_MESSAGE
 } from './services/actions/wsUserActionTypes';
-
-import { wsUrl } from './utils/data';
+import { wsUserConnectAction } from './services/actions/wsUserActions';
 
 const wsFeedActions = {
   wsConnect: WS_FEED_CONNECTION_START,
@@ -59,7 +59,7 @@ const composeEnhancers =
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsUrl, wsFeedActions), socketMiddleware(wsUrl, wsUserActions)));
+const enhancer = composeEnhancers(applyMiddleware(thunk, socketMiddleware(wsFeedActions), socketMiddleware(wsUserActions)));
 const store = createStore(rootReducer, enhancer);
 
 ReactDOM.render(

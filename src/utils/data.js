@@ -10,14 +10,13 @@ export const translate = (item) => {
    if (item === 'done') return ('Выполнен');
    if (item === 'canceled') return ('Отменен');
 }
-
+/*
 export const colorCalc = (item) => {
    if (item === 'created') return ('blue');     //('#0000FF');
    if (item === 'pending') return ('white');    //('#F2F2F3');
    if (item === 'done') return ('cyan');        //('#00CCCC');
    if (item === 'canceled') return ('red');     //('#FF0000');
-}
-
+}*/
 /*
 export const done = ["034535", "034534", "034533", "034532", "034531", "034530", "034529", "034528"];
 export const pending = ["034538", "034541", "034542", "1", "2", "3", "4", "5", "6", "7", "8"];
