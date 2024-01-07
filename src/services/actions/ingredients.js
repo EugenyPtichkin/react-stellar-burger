@@ -26,12 +26,12 @@ export function getIngredients() {
   }
 }
 
-export function getSingleIngredient(number) {
+export function getOrderIngredientsData(number) {
   return function(dispatch) {
     dispatch({
       type: INGREDIENTS_REQUEST
     })
-    api.getSingleIngredientData(number)
+    api.getSingleIngredientsData(number)
     .then((res) => {
       dispatch( {
           type: ADD_INGREDIENT_SUCCESS,

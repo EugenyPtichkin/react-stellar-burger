@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate } from './../../utils/data';
-//import { getOrderIngredientsData } from '../../services/actions/ingredients';
+import { getOrderIngredientsData } from '../../services/actions/ingredients';
 import { UnderConstructionPage } from './under-construction';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
@@ -30,55 +30,57 @@ export function InfoPage(props) {
       console.log('WebSocket USER connection to be established');
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
-    if (location.pathname.includes('/feed')) { //выход со страницы feed
-      return () => {
-        console.log('WebSocket FEED connection to be closed');
-        dispatch({ type: WS_FEED_CONNECTION_STOP });
+    if (!props.isModal) { //если открыто модальное окно, то не закрывать соединение webSocket
+      if (location.pathname.includes('/feed')) { //выход со страницы feed
+        return () => {
+          console.log('WebSocket FEED connection to be closed');
+          dispatch({ type: WS_FEED_CONNECTION_STOP });
+        }
+      } else { //выход со страницы order
+        return () => {
+          console.log('WebSocket USER connection to be closed');
+          dispatch({ type: WS_USER_CONNECTION_STOP });
+        };
       }
-    } else { //выход со страницы order
-      return () => {
-        console.log('WebSocket USER connection to be closed');
-        dispatch({ type: WS_USER_CONNECTION_STOP });
-      };
     }
+    // eslint-disable-next-line
   }, [location]);
 
   const wsFeed = useSelector(store => store.wsFeed);
   const messagesFeed = wsFeed.messages;
   const wsConnectedFeed = wsFeed.wsConnected;
-  console.log(wsConnectedFeed);
+  //console.log(wsConnectedFeed);
 
   const wsUser = useSelector(store => store.wsUser);
   const messagesUser = wsUser.messages;
   const wsConnectedUser = wsUser.wsConnected;
-  console.log(wsConnectedUser);
+  //console.log(wsConnectedUser);
 
   const messages = (wsConnectedFeed ? messagesFeed : wsConnectedUser ? messagesUser : []);
-  console.log(messages);
+  //console.log(messages);
 
   //dispatch(getOrderIngredientsData(number)); //заранее считать параметры заказа
 
   let current_order = {};
   if (messages) { //отображать страницу только если есть списки заказов
     current_order = messages[messages.length - 1];
-    console.log(current_order);
+    //console.log(current_order);
     if (current_order && current_order.message === 'Invalid or missing token') {
-      console.log(current_order.message);
+      //console.log(current_order.message);
       dispatch(refreshToken);
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));    
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
 
     if (current_order) {//отображать страницу только если получен текущий заказ по webSocket
       const orderItem = current_order.orders.find(item => item.number === Number(number));
       console.log(orderItem);
-      if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// но здесь (под условием) уже нельзя!
+      if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// 
         console.log('Не найден заказ!');
-        /*dispatch(getOrderIngredientsData(number)); */
-        return (
-          <UnderConstructionPage />
-        );
+       // dispatch(getOrderIngredientsData(Number(number)));
+        console.log(orderItem);
+        return (<UnderConstructionPage />);
       }
-      console.log(orderItem);
+
 
       //список цен для вычисления суммы заказа
       const dataPrices = [];
