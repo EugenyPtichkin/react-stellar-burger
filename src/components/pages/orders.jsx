@@ -35,7 +35,7 @@ export const OrdersPage = () => {
     last_order_list = messages[messages.length - 1];
     //console.log(`#${messages.length}`);
     console.log(last_order_list);
-    if (last_order_list && last_order_list.message.includes('Invalid or missing token')) {
+    if (last_order_list && last_order_list.message === 'Invalid or missing token') {
       console.log(last_order_list.message);
       dispatch(refreshToken);
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));    

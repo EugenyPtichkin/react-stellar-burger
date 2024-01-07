@@ -28,7 +28,7 @@ export function InfoPage(props) {
     }
     else { //переход со страницы /orders - запустить websocket order
       console.log('WebSocket USER connection to be established');
-      dispatch(wsUserConnectAction((`${wsUrl}/orders/?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
     if (location.pathname.includes('/feed')) { //выход со страницы feed
       return () => {
@@ -62,7 +62,7 @@ export function InfoPage(props) {
   if (messages) { //отображать страницу только если есть списки заказов
     current_order = messages[messages.length - 1];
     console.log(current_order);
-    if (current_order && current_order.message.includes('Invalid or missing token')) {
+    if (current_order && current_order.message === 'Invalid or missing token') {
       console.log(current_order.message);
       dispatch(refreshToken);
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));    
