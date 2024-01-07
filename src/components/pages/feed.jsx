@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { WS_FEED_SET_ENDPOINT, WS_FEED_CONNECTION_START, WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
+import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
 import { wsFeedConnectAction } from '../../services/actions/wsFeedActions';
 import { wsUrl } from '../../utils/data';
 
@@ -18,16 +18,13 @@ export const FeedPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket FEED connection to be established');
-      console.log(`${wsUrl}/orders/all`);
       dispatch(wsFeedConnectAction(`${wsUrl}/orders/all`));
-      /*dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '/orders/all' });
-      dispatch({ type: WS_FEED_CONNECTION_START });*/
     }
     return () => {
       console.log('WebSocket FEED connection to be closed');
-      /*dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '' });*/
       dispatch({ type: WS_FEED_CONNECTION_STOP });
     }
+    // eslint-disable-next-line
   }, []);
 
   const { ingredients } = useSelector(store => store.ingredients);

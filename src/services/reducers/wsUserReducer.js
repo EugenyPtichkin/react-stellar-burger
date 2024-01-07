@@ -1,5 +1,4 @@
 import {
-  WS_USER_SET_ENDPOINT,
   WS_USER_CONNECTION_SUCCESS,
   WS_USER_CONNECTION_ERROR,
   WS_USER_CONNECTION_CLOSED,
@@ -7,18 +6,12 @@ import {
 } from '../actions/wsUserActionTypes';
 
 const initialState = {
-  wsEndPoint: '',
   wsConnected: false,
   messages: []
 };
 
 export const wsUserReducer = (state = initialState, action) => {
   switch (action.type) {
-    case WS_USER_SET_ENDPOINT:
-      return {
-        ...state,
-        wsEndPoint: action.payload
-      };
     case WS_USER_CONNECTION_SUCCESS:
       return {
         ...state,

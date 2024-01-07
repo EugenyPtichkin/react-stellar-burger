@@ -6,8 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { translate } from './../../utils/data';
-import { WS_USER_CONNECTION_START, WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
-//import { wsUserConnectAction } from '../../services/actions/wsUserActions';
+import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
+import { wsUserConnectAction } from '../../services/actions/wsUserActions';
 import { wsUrl } from '../../utils/data';
 import { refreshToken } from '../../utils/burger-api';
 
@@ -21,14 +21,10 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket USER connection to be established');
-      console.log(`${wsUrl}/orders/?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`);
-      /*dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));
-      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders' });*/
-      dispatch({ type: WS_USER_CONNECTION_START, payload: `${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}` });
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));
     }
     return () => {
       console.log('WebSocket USER connection to be closed');
-      /*dispatch({ type: WS_USER_SET_ENDPOINT, payload: '' });*/
       dispatch({ type: WS_USER_CONNECTION_STOP });
     };
     // eslint-disable-next-line
@@ -37,13 +33,12 @@ export const OrdersPage = () => {
   let last_order_list = {};
   if (messages) {
     last_order_list = messages[messages.length - 1];
-    console.log(`#${messages.length}`);
+    //console.log(`#${messages.length}`);
     console.log(last_order_list);
-    if (last_order_list && last_order_list.message === 'Invalid or missing token') {
-      console.log('Invalid or missing token');
+    if (last_order_list && last_order_list.message.includes('Invalid or missing token')) {
+      console.log(last_order_list.message);
       dispatch(refreshToken);
-      /*dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));*/
-      dispatch({ type: WS_USER_CONNECTION_START, payload: `${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}` });
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));    
     }
   }
 
