@@ -53,9 +53,9 @@ const App = () => {
               <Route path='orders' element={<OrdersPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
-            <Route path='/profile/orders/:number' element={<InfoPage />} />
+            <Route path='/profile/orders/:number' element={<InfoPage isModal={false} />} />
             <Route path='/feed' element={<FeedPage />} />
-            <Route path='/feed/:number' element={<InfoPage />} />
+            <Route path='/feed/:number' element={<InfoPage isModal={false} />} />
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>

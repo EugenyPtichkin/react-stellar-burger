@@ -19,7 +19,7 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket USER connection to be established');
-      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders/' });
+      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '/orders' });
       dispatch({ type: WS_USER_CONNECTION_START });
     }
     return () => {
@@ -34,8 +34,8 @@ export const OrdersPage = () => {
     console.log(last_order);
   }
 
-  const DisplayCard = (data) => {
-    const current_order = data.data.orders[0];
+  const DisplayCard = (props) => {
+    const current_order = props.data;
     const data_ids = current_order.ingredients;
     const dataImages = [];
     const dataPrices = [];
@@ -58,7 +58,7 @@ export const OrdersPage = () => {
           </div>
         </div>
         <div className={Styles.info}>
-          <p className={Styles.id}>{current_order._id}</p>
+          <p className={Styles.name}>{current_order.name}</p>
           <p className={`${Styles.status} ${colorCalc(current_order.status)}`}>{translate(current_order.status)}</p>
         </div>
         <div className={Styles.components}>
@@ -90,17 +90,17 @@ export const OrdersPage = () => {
     )
   };
 
-  if (last_order) {
+  if (messages && last_order) {
     return (
       <>
         <div className={Styles.content}>
           <div className={Styles.scrollbar}>
             <ul className={Styles.orders} id="order_cards" >
               {
-                last_order.map((item, index) =>
+                last_order.orders.map((item, index) =>
                   <Link
                     key={index}
-                    to={`/profile/orders/${item.orders[0].number}`}
+                    to={`/profile/orders/${item.number}`}
                     state={{ background: location }}
                     className={Styles.link}>
                     <DisplayCard data={item} />
