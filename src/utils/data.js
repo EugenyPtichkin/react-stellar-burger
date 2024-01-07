@@ -12,7 +12,7 @@ export const translate = (item) => {
 }
 
 export const colorCalc = (item) => {
-   if (item === 'created') return ('white');    //('#F2F2F3');
+   if (item === 'created') return ('blue');     //('#0000FF');
    if (item === 'pending') return ('white');    //('#F2F2F3');
    if (item === 'done') return ('cyan');        //('#00CCCC');
    if (item === 'canceled') return ('red');     //('#FF0000');
@@ -21,7 +21,7 @@ export const colorCalc = (item) => {
 /*
 export const done = ["034535", "034534", "034533", "034532", "034531", "034530", "034529", "034528"];
 export const pending = ["034538", "034541", "034542", "1", "2", "3", "4", "5", "6", "7", "8"];
-*/
+
 export const order_data = [
    {
       "success": true,
@@ -116,7 +116,7 @@ export const order_data = [
       "totalToday": 2
    }
 ];
-
+*/
 
 /*
     "ingredients": [

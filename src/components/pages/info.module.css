@@ -62,7 +62,7 @@
   flex-direction: row;
   justify-content: flex-start;
   composes: text_type_main-default from global;
-  color: #00CCCC;
+  color: #F2F2F3;
 }
 
 .text {
@@ -172,4 +172,8 @@
 
 .red {
   color: #FF0000;
+}
+
+.blue {
+  color: #0000FF;
 }

@@ -1,5 +1,4 @@
 import Styles from './orders.module.css';
-import { order_data } from './../../utils/data';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { useEffect } from 'react';
@@ -24,14 +23,16 @@ export const OrdersPage = () => {
     }
     return () => {
       console.log('WebSocket USER connection to be closed');
+      dispatch({ type: WS_USER_SET_ENDPOINT, payload: '' });
+      dispatch({ type: WS_USER_CONNECTION_STOP });
     };
   }, []);
 
-  let last_order = {};
+  let last_order_list = {};
   if (messages) {
-    last_order = messages[messages.length - 1];
+    last_order_list = messages[messages.length - 1];
     console.log(`#${messages.length}`);
-    console.log(last_order);
+    console.log(last_order_list);
   }
 
   const DisplayCard = (props) => {
@@ -59,7 +60,10 @@ export const OrdersPage = () => {
         </div>
         <div className={Styles.info}>
           <p className={Styles.name}>{current_order.name}</p>
-          <p className={`${Styles.status} ${colorCalc(current_order.status)}`}>{translate(current_order.status)}</p>
+          <p className={colorCalc(current_order.status)==='cyan'?`${Styles.status} ${Styles.cyan}`:
+                        colorCalc(current_order.status)==='blue'?`${Styles.status} ${Styles.blue}`:
+                        colorCalc(current_order.status)==='red'?`${Styles.status} ${Styles.red}`:
+                        Styles.status}>{translate(current_order.status)}</p>
         </div>
         <div className={Styles.components}>
           <div className={Styles.ingredients}>
@@ -90,14 +94,14 @@ export const OrdersPage = () => {
     )
   };
 
-  if (messages && last_order) {
+  if (messages && last_order_list) {
     return (
       <>
         <div className={Styles.content}>
           <div className={Styles.scrollbar}>
             <ul className={Styles.orders} id="order_cards" >
               {
-                last_order.orders.map((item, index) =>
+                last_order_list.orders.reverse().map((item, index) =>
                   <Link
                     key={index}
                     to={`/profile/orders/${item.number}`}

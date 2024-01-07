@@ -21,6 +21,7 @@ export const FeedPage = () => {
     }
     return () => {
       console.log('WebSocket FEED connection to be closed');
+      dispatch({ type: WS_FEED_SET_ENDPOINT, payload: '' });
       dispatch({ type: WS_FEED_CONNECTION_STOP });
     }
   }, []);

@@ -96,7 +96,10 @@ export function InfoPage(props) {
             <p className={props.isModal ? `${Styles.number} ${Styles.number_modal}` : Styles.number}>#{orderItem.number}</p>
             <div className={Styles.info}>
               <p className={Styles.name}>{orderItem.name}</p>
-              <p className={`${Styles.status} ${colorCalc(orderItem.status)}`}>{translate(orderItem.status)}</p>
+              <p className={colorCalc(orderItem.status)==='cyan'? `${Styles.status} ${Styles.cyan}`:
+                            colorCalc(orderItem.status)==='blue'? `${Styles.status} ${Styles.blue}`:
+                            colorCalc(orderItem.status)==='red'? `${Styles.status} ${Styles.red}`:
+                            Styles.status}>{translate(orderItem.status)}</p>
             </div>
             <p className={Styles.text}>Состав:</p>
             <div className={Styles.scrollbar}>
