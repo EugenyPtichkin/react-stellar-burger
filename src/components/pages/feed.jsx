@@ -53,11 +53,13 @@ export const FeedPage = () => {
     const dataPrices = [];
     current_order.ingredients.forEach((ingredient_id) => {
       const currentIngredient = ingredients.find(item => item._id === ingredient_id);
-      const currentImage = currentIngredient.image_mobile;
-      const currentPrice = currentIngredient.price;
-      //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
-      dataImages.push(...[currentImage]);
-      dataPrices.push(...[currentPrice]);
+      if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
+        const currentImage = currentIngredient.image_mobile;
+        const currentPrice = currentIngredient.price;
+        //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
+        dataImages.push(...[currentImage]);
+        dataPrices.push(...[currentPrice]);
+      }
     })
     //console.log(`Images: ${dataImages} Prices: ${dataPrices}`);
 
