@@ -21,7 +21,6 @@ import {
   WS_FEED_GET_MESSAGE,
   WS_FEED_SEND_MESSAGE
 } from './services/actions/wsFeedActionTypes';
-import { wsFeedConnectAction } from './services/actions/wsFeedActions';
 
 import {
   WS_USER_CONNECTION_CLOSED,
@@ -32,7 +31,6 @@ import {
   WS_USER_GET_MESSAGE,
   WS_USER_SEND_MESSAGE
 } from './services/actions/wsUserActionTypes';
-import { wsUserConnectAction } from './services/actions/wsUserActions';
 
 const wsFeedActions = {
   wsConnect: WS_FEED_CONNECTION_START,

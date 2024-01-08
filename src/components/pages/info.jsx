@@ -6,7 +6,6 @@ import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-component
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate } from './../../utils/data';
 import { getSingleOrder, SET_ORDER_SUCCESS } from '../../services/actions/singleOrder';
-import { UnderConstructionPage } from './under-construction';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
 import { wsUrl } from '../../utils/data';
@@ -64,23 +63,12 @@ export function InfoPage(props) {
   let last_orders_list = {};
   if (messages) { //отображать страницу только если есть списки заказов
     last_orders_list = messages[messages.length - 1];
-    console.log(last_orders_list);
+    //console.log(last_orders_list);
     if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
       dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
   }
-
-  /*
-  const orderItem = last_orders_list.orders.find(item => item.number === Number(number));
-  console.log(orderItem);
-  if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// 
-    console.log('Не найден заказ!');
-    orderItem = order;
-    console.log(order);
-    //dispatch(getOrderIngredientsData(Number(number))); */
-  {/* return (<UnderConstructionPage />); */ }
-  //} 
 
   useEffect(() => {
     if (last_orders_list) {
@@ -117,7 +105,6 @@ export function InfoPage(props) {
           ingredientsPairs.push({ ingredient: ingredient._id, quantity: orderQuantity });
         }
       })
-      //console.log(ingredientsPairs);
 
       //отобразить одну строчку ингредиентов из заказа
       const DisplayIngredient = (ingredient) => {

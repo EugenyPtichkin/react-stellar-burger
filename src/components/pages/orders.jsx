@@ -21,7 +21,7 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket USER connection to be established');
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
     return () => {
       console.log('WebSocket USER connection to be closed');
@@ -31,14 +31,12 @@ export const OrdersPage = () => {
   }, []);
 
   let last_order_list = {};
-  if (messages) {
+  if (messages) { //отображать страницу только если есть списки заказов
     last_order_list = messages[messages.length - 1];
-    //console.log(`#${messages.length}`);
-    console.log(last_order_list);
+    //console.log(last_order_list);
     if (last_order_list && last_order_list.message === 'Invalid or missing token') {
-      console.log(last_order_list.message);
-      dispatch(refreshToken);
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ','')}`)));    
+      dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
   }
 
