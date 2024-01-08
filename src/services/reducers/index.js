@@ -16,6 +16,9 @@ import {userReducer} from './user';
 import { wsFeedReducer } from './wsFeedReducer';
 import { wsUserReducer } from './wsUserReducer';
 
+// Редьюсер старого заказа
+import { singleOrderReducer } from './singleOrder';
+
 // Корневой редьюсер
 export const rootReducer = combineReducers({
     ingredients: ingredientsReducer,
@@ -24,4 +27,5 @@ export const rootReducer = combineReducers({
     user: userReducer,
     wsFeed: wsFeedReducer,
     wsUser: wsUserReducer,
+    singleOrder : singleOrderReducer,
 }) 

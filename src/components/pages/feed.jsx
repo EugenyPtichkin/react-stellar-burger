@@ -9,7 +9,7 @@ import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionType
 import { wsFeedConnectAction } from '../../services/actions/wsFeedActions';
 import { wsUrl } from '../../utils/data';
 
-const maxListNum = 10; //максимальное число отображаемых заказов в списках
+const maxListNum = 20; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
   const { wsConnected, messages } = useSelector(store => store.wsFeed);
   const dispatch = useDispatch();

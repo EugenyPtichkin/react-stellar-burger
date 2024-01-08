@@ -60,7 +60,7 @@ const fetchWithRefresh = async (endpoint, options) => {
 
 const getIngredientsData = () => request('ingredients');
 
-const getSingleIngredientsData = (number) => request(`orders/${number}`, {
+const getSingleOrderData = (number) => request(`orders/${number}`, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
@@ -165,5 +165,5 @@ export const api = {
   resetPassword,
   refreshToken,
   fetchWithRefresh,
-  getSingleIngredientsData
+  getSingleOrderData
 };

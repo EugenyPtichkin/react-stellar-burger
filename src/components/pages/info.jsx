@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate } from './../../utils/data';
-import { getOrderIngredientsData } from '../../services/actions/ingredients';
+import { getSingleOrder, SET_ORDER_SUCCESS } from '../../services/actions/singleOrder';
 import { UnderConstructionPage } from './under-construction';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
@@ -16,19 +16,22 @@ import { refreshToken } from '../../utils/burger-api';
 
 export function InfoPage(props) {
   const { ingredients } = useSelector(store => store.ingredients);
+  const { order } = useSelector(store => store.singleOrder);
   const dispatch = useDispatch();
   const { number } = useParams();//текущий номер заказа из адреса страницы в текстовом виде
   console.log(`number= ${number}`);
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname.includes('/feed')) { //переход со страницы /feed - запустить websocket feed
-      console.log('WebSocket FEED connection to be established');
-      dispatch(wsFeedConnectAction(`${wsUrl}/orders/all`));
-    }
-    else { //переход со страницы /orders - запустить websocket order
-      console.log('WebSocket USER connection to be established');
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+    if (!props.isModal) { //если открыто модальное окно, то не открывать соединение webSocket повторно
+      if (location.pathname.includes('/feed')) { //переход со страницы /feed - запустить websocket feed
+        console.log('WebSocket FEED connection to be established');
+        dispatch(wsFeedConnectAction(`${wsUrl}/orders/all`));
+      }
+      else { //переход со страницы /orders - запустить websocket order
+        console.log('WebSocket USER connection to be established');
+        dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+      }
     }
     if (!props.isModal) { //если открыто модальное окно, то не закрывать соединение webSocket
       if (location.pathname.includes('/feed')) { //выход со страницы feed
@@ -43,8 +46,7 @@ export function InfoPage(props) {
         };
       }
     }
-    // eslint-disable-next-line
-  }, [location]);
+  }, [location, props.isModal, dispatch]);
 
   const wsFeed = useSelector(store => store.wsFeed);
   const messagesFeed = wsFeed.messages;
@@ -57,34 +59,51 @@ export function InfoPage(props) {
   //console.log(wsConnectedUser);
 
   const messages = (wsConnectedFeed ? messagesFeed : wsConnectedUser ? messagesUser : []);
-  //console.log(messages);
+  console.log(messages);
 
-  //dispatch(getOrderIngredientsData(number)); //заранее считать параметры заказа
-
-  let current_order = {};
+  let last_orders_list = {};
   if (messages) { //отображать страницу только если есть списки заказов
-    current_order = messages[messages.length - 1];
-    //console.log(current_order);
-    if (current_order && current_order.message === 'Invalid or missing token') {
-      //console.log(current_order.message);
-      dispatch(refreshToken);
+    last_orders_list = messages[messages.length - 1];
+    console.log(last_orders_list);
+    if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
+      dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
+  }
 
-    if (current_order) {//отображать страницу только если получен текущий заказ по webSocket
-      const orderItem = current_order.orders.find(item => item.number === Number(number));
-      console.log(orderItem);
-      if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// 
-        console.log('Не найден заказ!');
-       // dispatch(getOrderIngredientsData(Number(number)));
-        console.log(orderItem);
-        return (<UnderConstructionPage />);
+  /*
+  const orderItem = last_orders_list.orders.find(item => item.number === Number(number));
+  console.log(orderItem);
+  if (!orderItem) { //если в последних 50 заказах по webSocket такого нет, то запросить по https:// 
+    console.log('Не найден заказ!');
+    orderItem = order;
+    console.log(order);
+    //dispatch(getOrderIngredientsData(Number(number))); */
+  {/* return (<UnderConstructionPage />); */ }
+  //} 
+
+  useEffect(() => {
+    if (last_orders_list) {
+      const orderItem = last_orders_list.orders.find(item => item.number === Number(number));
+      if (orderItem) {
+        dispatch({ //обновить стор заказом с выбранным номером
+          type: SET_ORDER_SUCCESS,
+          payload: orderItem
+        })
+      } else {//если в последних 50 заказах по webSocket такого нет, то запросить по https:// 
+        dispatch(getSingleOrder(Number(number)));
       }
+    }
+  }, [dispatch, number, last_orders_list]);
 
+  console.log(order);
+
+  if (messages) { //отображать страницу только если есть списки заказов
+    if (order) {//отображать страницу только если получен текущий заказ по webSocket
 
       //список цен для вычисления суммы заказа
       const dataPrices = [];
-      orderItem.ingredients.forEach((ingredient_id) => {
+      order.ingredients.forEach((ingredient_id) => {
         const currentIngredient = ingredients.find(item => item._id === ingredient_id);
         const currentPrice = currentIngredient.price;
         dataPrices.push(...[currentPrice]);
@@ -93,7 +112,7 @@ export function InfoPage(props) {
       //список id ингредиентов с их количеством в заказе
       const ingredientsPairs = [];
       ingredients.forEach((ingredient) => {
-        const orderQuantity = orderItem.ingredients.filter(item => item === ingredient._id).length;
+        const orderQuantity = order.ingredients.filter(item => item === ingredient._id).length;
         if (orderQuantity !== 0) {
           ingredientsPairs.push({ ingredient: ingredient._id, quantity: orderQuantity });
         }
@@ -128,13 +147,13 @@ export function InfoPage(props) {
       return (
         <section className={props.isModal ? `${Styles.container} ${Styles.modal}` : Styles.container}>
           <div className={Styles.details}>
-            <p className={props.isModal ? `${Styles.number} ${Styles.number_modal}` : Styles.number}>#{orderItem.number}</p>
+            <p className={props.isModal ? `${Styles.number} ${Styles.number_modal}` : Styles.number}>#{order.number}</p>
             <div className={Styles.info}>
-              <p className={Styles.name}>{orderItem.name}</p>
-              <p className={orderItem.status === 'done' ? `${Styles.status} ${Styles.cyan}` :
-                orderItem.status === 'created' ? `${Styles.status} ${Styles.blue}` :
-                  orderItem.status === 'canceled' ? `${Styles.status} ${Styles.red}` :
-                    Styles.status}>{translate(orderItem.status)}</p>
+              <p className={Styles.name}>{order.name}</p>
+              <p className={order.status === 'done' ? `${Styles.status} ${Styles.cyan}` :
+                order.status === 'created' ? `${Styles.status} ${Styles.blue}` :
+                order.status === 'canceled' ? `${Styles.status} ${Styles.red}` :
+                    Styles.status}>{translate(order.status)}</p>
             </div>
             <p className={Styles.text}>Состав:</p>
             <div className={Styles.scrollbar}>
@@ -146,7 +165,7 @@ export function InfoPage(props) {
             </div>
             <div className={Styles.time_price}>
               <div className={Styles.time}>
-                <FormattedDate date={new Date(orderItem.createdAt)} />
+                <FormattedDate date={new Date(order.createdAt)} />
               </div>
               <div className={Styles.price}>
                 <p className={Styles.digit}>{dataPrices.reduce((acc, current) => acc + current, 0)}</p>

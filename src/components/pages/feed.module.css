@@ -129,7 +129,6 @@
 }
 
 .stats {
-  height: 626px;
   display: flex;
   flex-direction: column;
   row-gap: 60px;
@@ -137,7 +136,8 @@
 
 .orders_numbers {
   display: grid;
-  grid-template-rows: 32px 152px;
+  /*grid-template-rows: 32px 152px;*/
+  grid-template-rows: 32px 304px;
   row-gap: 24px;
   grid-template-columns: repeat(2, 280px);
   column-gap: 36px;
@@ -152,7 +152,8 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 20px;
-  grid-template-rows: repeat(5, 24px);
+  /*grid-template-rows: repeat(5, 24px);*/
+  grid-template-rows: repeat(10, 24px);
   row-gap: 8px;
   grid-auto-flow: column;
   color: #00CCCC;
