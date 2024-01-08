@@ -1,9 +1,138 @@
 export const baseUrl = "https://norma.nomoreparties.space/api/";
+export const wsUrl = 'wss://norma.nomoreparties.space';
 export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
 
+export const translate = (item) => {
+   if (item === 'created') return ('Создан');
+   if (item === 'pending') return ('Готовится');
+   if (item === 'done') return ('Выполнен');
+   if (item === 'canceled') return ('Отменен');
+}
 /*
+export const colorCalc = (item) => {
+   if (item === 'created') return ('blue');     //('#0000FF');
+   if (item === 'pending') return ('white');    //('#F2F2F3');
+   if (item === 'done') return ('cyan');        //('#00CCCC');
+   if (item === 'canceled') return ('red');     //('#FF0000');
+}*/
+/*
+export const done = ["034535", "034534", "034533", "034532", "034531", "034530", "034529", "034528"];
+export const pending = ["034538", "034541", "034542", "1", "2", "3", "4", "5", "6", "7", "8"];
+
+export const order_data = [
+   {
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944",
+               "643d69a5c3f7b9001cfa0945",
+               "643d69a5c3f7b9001cfa0946",
+               "643d69a5c3f7b9001cfa0947",
+               "643d69a5c3f7b9001cfa0948",
+               "643d69a5c3f7b9001cfa0949",
+               "643d69a5c3f7b9001cfa094a",
+               "643d69a5c3f7b9001cfa093e"
+            ],
+            "_id": "Death Star Starship Main бургер",
+            "status": "inprogress",
+            "number": "034535",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 1,
+      "totalToday": 0
+   },
+   {
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944",
+               "643d69a5c3f7b9001cfa0945"
+            ],
+            "_id": "Interstellar бургер",
+            "status": "canceled",
+            "number": "034534",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 2,
+      "totalToday": 0
+   },
+   {
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944"
+            ],
+            "_id": "Black Hole Singularity острый бургер",
+            "status": "done",
+            "number": "034533",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 3,
+      "totalToday": 1
+   },
+   {
+      "success": true,
+      "orders": [
+         {
+            "ingredients": [
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940"
+            ],
+            "_id": "Supernova Infinity бургер",
+            "status": "created",
+            "number": "034532",
+            "createdAt": "2021-06-23T14:43:22.587Z",
+            "updatedAt": "2021-06-23T14:43:22.603Z"
+         }
+      ],
+      "total": 4,
+      "totalToday": 2
+   }
+];
+*/
+
+/*
+    "ingredients": [
+               "643d69a5c3f7b9001cfa093e"
+               "643d69a5c3f7b9001cfa0943",
+               "643d69a5c3f7b9001cfa093f",
+               "643d69a5c3f7b9001cfa0940",
+               "643d69a5c3f7b9001cfa093d",
+               "643d69a5c3f7b9001cfa0944",
+               "643d69a5c3f7b9001cfa0945",
+               "643d69a5c3f7b9001cfa0946",
+               "643d69a5c3f7b9001cfa0947",
+               "643d69a5c3f7b9001cfa0948",
+               "643d69a5c3f7b9001cfa0949",
+               "643d69a5c3f7b9001cfa094a"
+    ]
+               
 export const orderNumber = Number('034536');
 
 export const data = [

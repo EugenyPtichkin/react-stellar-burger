@@ -7,7 +7,7 @@ export const NotFound404Page = () => {
   const navigate = useNavigate();
   
   const onClick = () => {
-    navigate('/', {replace: true});
+    navigate(-1, {replace: true});
   }
 
 return (
@@ -16,11 +16,11 @@ return (
       <p className={Styles.title}>Такой страницы нет</p>
       <div className={Styles.button}>
         <Button htmlType="button" type="primary" size="medium" onClick={onClick} extraClass="mb-20">
-          Конструктор      
+          Назад      
         </Button>
       </div>
       <p className={Styles.additionalActions}>
-        Вернуться обратно?
+        Вернуться в Конструктор?
         <Link to='/' className={Styles.link} > Конструктор
         </Link> 
       </p>      

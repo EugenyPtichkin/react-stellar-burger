@@ -1,0 +1,179 @@
+.container {
+  margin: 0;
+  padding-top: 122px;
+  width: 1280px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #F2F2F3;
+}
+
+.modal {
+  padding-top: 40px;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  width: 640px;
+}
+
+.number {
+  margin: 0;
+  width: 100%;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  composes: text_type_digits-default pb-10 from global;
+}
+
+.number_modal {
+  height: 64px;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info {
+  margin: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  row-gap: 12px;
+  composes: text_type_main-medium from global;
+}
+
+.name {
+  margin: 0;
+  width: 100%;
+  /*height: 30px;*/
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  composes: text_type_main-medium from global;
+}
+
+.status {
+  margin: 0;
+  width: 100%;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  composes: text_type_main-default from global;
+  color: #F2F2F3;
+}
+
+.text {
+  margin: 0;
+  width: 100%;
+  height: 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  composes: text_type_main-medium pt-15 pb-6 from global;
+}
+
+.scrollbar {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  column-gap: 24px;
+  width: 640px;
+  max-height: 320px;
+  /*366px;*/
+  overflow: auto;
+  composes: custom-scroll from global;
+  box-sizing: content-box;
+}
+
+.orders {
+  margin: 0;
+  padding: 0;
+  width: calc(608px - 24px - 8px);
+  height: 366px;
+  display: flex;
+  flex-direction: column;
+  row-gap: 16px;
+}
+
+.ingredient {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.image {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+}
+
+.image_name {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+}
+
+.image_circle {
+  width: 64px;
+  height: 64px;
+  border: 2px solid #4C4CFF;
+  border-radius: 32px;
+  background-color: #1C1C21;
+}
+
+.ingredient {
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  composes: text_type_main-small pl-4 from global;
+}
+
+.time_price {
+  margin: 0;
+  padding-top: 40px;
+  padding-bottom: 40px;
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.price {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  width: 240px;
+  column-gap: 8px;
+}
+
+.digit {
+  margin: 0;
+  composes: text_type_digits-default from global;
+}
+
+.time {
+  composes: text_type_main-default text_color_inactive from global;
+}
+
+.white {
+  color: #F2F2F3;
+}
+
+.cyan {
+  color: #00CCCC;
+}
+
+.red {
+  color: #FF0000;
+}
+
+.blue {
+  color: #0000FF;
+}

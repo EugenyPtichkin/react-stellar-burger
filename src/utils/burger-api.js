@@ -27,7 +27,7 @@ const request = async (endpoint, options) => {
   //.then(checkSuccess)
 };
 
-const refreshToken = () => request('auth/token', {
+export const refreshToken = () => request('auth/token', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
@@ -59,6 +59,13 @@ const fetchWithRefresh = async (endpoint, options) => {
 };
 
 const getIngredientsData = () => request('ingredients');
+
+const getSingleOrderData = (number) => request(`orders/${number}`, {
+  method: 'GET',
+  headers: {
+    'Content-Type': 'application/json',
+  }
+});
 
 const getOrderNumber = (data) => fetchWithRefresh('orders', {
   method: 'POST',
@@ -157,5 +164,6 @@ export const api = {
   askPasswordReset,
   resetPassword,
   refreshToken,
-  fetchWithRefresh
+  fetchWithRefresh,
+  getSingleOrderData
 };

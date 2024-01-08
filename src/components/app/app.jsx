@@ -8,13 +8,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
   HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage,
-  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage
+  NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage, InfoPage
 } from '../pages';
 import Modal from './../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { checkUserAuth } from '../../services/actions/user';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
+
 
 const App = () => {
   const location = useLocation();
@@ -29,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(getIngredients());
-    dispatch(checkUserAuth());    
+    dispatch(checkUserAuth());
   }, [dispatch]);
 
   const { ingredientsLoading, ingredientsError, ingredientsErrorType } = useSelector(store => store.ingredients);
@@ -52,6 +53,9 @@ const App = () => {
               <Route path='orders' element={<OrdersPage />} />
               <Route path='*' element={<NotFound404Page />} />
             </Route>
+            <Route path='/profile/orders/:number' element={<InfoPage isModal={false} />} />
+            <Route path='/feed' element={<FeedPage />} />
+            <Route path='/feed/:number' element={<InfoPage isModal={false} />} />
             <Route path='/ingredients/:ingredientId' element={<IngredientDetails isModal={false} />} />
             <Route path='*' element={<NotFound404Page />} />
           </Routes>
@@ -63,6 +67,22 @@ const App = () => {
               element={
                 <Modal handleClose={handleModalClose}>
                   <IngredientDetails isModal={true} />
+                </Modal>
+              }
+            />
+            <Route
+              path='/feed/:number'
+              element={
+                <Modal handleClose={handleModalClose}>
+                  <InfoPage isModal={true} />
+                </Modal>
+              }
+            />
+            <Route
+              path='/profile/orders/:number'
+              element={
+                <Modal handleClose={handleModalClose}>
+                  <InfoPage isModal={true} />
                 </Modal>
               }
             />
