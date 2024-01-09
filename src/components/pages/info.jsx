@@ -93,8 +93,10 @@ export function InfoPage(props) {
       const dataPrices = [];
       order.ingredients.forEach((ingredient_id) => {
         const currentIngredient = ingredients.find(item => item._id === ingredient_id);
-        const currentPrice = currentIngredient.price;
-        dataPrices.push(...[currentPrice]);
+        if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
+          const currentPrice = currentIngredient.price;
+          dataPrices.push(...[currentPrice]);
+        }
       })
 
       //список id ингредиентов с их количеством в заказе
@@ -109,26 +111,28 @@ export function InfoPage(props) {
       //отобразить одну строчку ингредиентов из заказа
       const DisplayIngredient = (ingredient) => {
         const currentIngredient = ingredients.find(item => item._id === ingredient.ingredient.ingredient);
-        const ingredientImage = currentIngredient.image_mobile;
-        const ingredientName = currentIngredient.name;
-        const ingredientPrice = currentIngredient.price;
-        const ingredientNumber = ingredient.ingredient.quantity;
-        //console.log(`Image: ${ingredientImage} Price: ${ingredientPrice} Number: ${ingredientNumber}`);
+        if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
+          const ingredientImage = currentIngredient.image_mobile;
+          const ingredientName = currentIngredient.name;
+          const ingredientPrice = currentIngredient.price;
+          const ingredientNumber = ingredient.ingredient.quantity;
+          //console.log(`Image: ${ingredientImage} Price: ${ingredientPrice} Number: ${ingredientNumber}`);
 
-        return (
-          <div className={Styles.ingredient}>
-            <div className={Styles.image_name}>
-              <div className={Styles.image_circle}>
-                <img className={Styles.image} src={ingredientImage} alt='компонент бургера' />
+          return (
+            <div className={Styles.ingredient}>
+              <div className={Styles.image_name}>
+                <div className={Styles.image_circle}>
+                  <img className={Styles.image} src={ingredientImage} alt='компонент бургера' />
+                </div>
+                <p className={Styles.ingredient} >{ingredientName}</p>
               </div>
-              <p className={Styles.ingredient} >{ingredientName}</p>
+              <div className={Styles.price}>
+                <p className={Styles.digit}>{ingredientNumber} x {ingredientPrice}</p>
+                <CurrencyIcon></CurrencyIcon>
+              </div>
             </div>
-            <div className={Styles.price}>
-              <p className={Styles.digit}>{ingredientNumber} x {ingredientPrice}</p>
-              <CurrencyIcon></CurrencyIcon>
-            </div>
-          </div>
-        )
+          )
+        }
       }
 
       return (
@@ -139,7 +143,7 @@ export function InfoPage(props) {
               <p className={Styles.name}>{order.name}</p>
               <p className={order.status === 'done' ? `${Styles.status} ${Styles.cyan}` :
                 order.status === 'created' ? `${Styles.status} ${Styles.blue}` :
-                order.status === 'canceled' ? `${Styles.status} ${Styles.red}` :
+                  order.status === 'canceled' ? `${Styles.status} ${Styles.red}` :
                     Styles.status}>{translate(order.status)}</p>
             </div>
             <p className={Styles.text}>Состав:</p>
