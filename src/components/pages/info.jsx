@@ -128,7 +128,7 @@ export function InfoPage(props) {
       })
 
       //отобразить одну строчку ингредиентов из заказа
-      const DisplayIngredient = (ingredient, index) => {
+      const DisplayIngredient = (ingredient) => {
         const currentIngredient = ingredients.find(item => item._id === ingredient.ingredient.ingredient);
         if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
           const ingredientImage = currentIngredient.image_mobile;
@@ -140,7 +140,7 @@ export function InfoPage(props) {
           return (
             <div className={Styles.ingredient}>
               <div className={Styles.image_name}>
-                <div className={Styles.image_circle} > {/*  style={{ 'z-Index': `${6 - index}` }}  */}
+                <div className={Styles.image_circle}   >
                   <img className={Styles.image} src={ingredientImage} alt='компонент бургера' />
                 </div>
                 <p className={Styles.ingredient} >{ingredientName}</p>
@@ -169,7 +169,7 @@ export function InfoPage(props) {
             <div className={Styles.scrollbar}>
               <ul className={Styles.orders} id="ingredient_items" > {
                 ingredientsPairs.map((item, index) =>
-                  <DisplayIngredient ingredient={item} key={index} index={index} />
+                  <DisplayIngredient ingredient={item} key={index} />
                 )}
               </ul>
             </div>
