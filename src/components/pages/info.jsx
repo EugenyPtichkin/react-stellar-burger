@@ -1,7 +1,7 @@
 import Styles from './info.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate } from './../../utils/data';
@@ -57,10 +57,29 @@ export function InfoPage(props) {
   const wsConnectedUser = wsUser.wsConnected;
   //console.log(wsConnectedUser);
 
-  const messages = (wsConnectedFeed ? messagesFeed : wsConnectedUser ? messagesUser : []);
+  const messages = useMemo(() => {
+    return (wsConnectedFeed ? messagesFeed : wsConnectedUser ? messagesUser : []);
+  }, [wsConnectedFeed, wsConnectedUser, messagesFeed, messagesUser]
+  );
+
   console.log(messages);
 
-  let last_orders_list = {};
+  const last_orders_list = useMemo(() => {
+    if (messages) { //отображать страницу только если есть списки заказов
+      return (messages[messages.length - 1]);
+    }
+  }, [messages]
+  );
+
+  useEffect(() => {
+    if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
+      dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+    }
+  }, [last_orders_list, dispatch]
+  );
+
+  /*const last_orders_list = {};
   if (messages) { //отображать страницу только если есть списки заказов
     last_orders_list = messages[messages.length - 1];
     //console.log(last_orders_list);
@@ -68,7 +87,7 @@ export function InfoPage(props) {
       dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
-  }
+  }*/
 
   useEffect(() => {
     if (last_orders_list) {
@@ -109,7 +128,7 @@ export function InfoPage(props) {
       })
 
       //отобразить одну строчку ингредиентов из заказа
-      const DisplayIngredient = (ingredient) => {
+      const DisplayIngredient = (ingredient, index) => {
         const currentIngredient = ingredients.find(item => item._id === ingredient.ingredient.ingredient);
         if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
           const ingredientImage = currentIngredient.image_mobile;
@@ -121,7 +140,7 @@ export function InfoPage(props) {
           return (
             <div className={Styles.ingredient}>
               <div className={Styles.image_name}>
-                <div className={Styles.image_circle}>
+                <div className={Styles.image_circle} > {/*  style={{ 'z-Index': `${6 - index}` }}  */}
                   <img className={Styles.image} src={ingredientImage} alt='компонент бургера' />
                 </div>
                 <p className={Styles.ingredient} >{ingredientName}</p>
@@ -150,7 +169,7 @@ export function InfoPage(props) {
             <div className={Styles.scrollbar}>
               <ul className={Styles.orders} id="ingredient_items" > {
                 ingredientsPairs.map((item, index) =>
-                  <DisplayIngredient ingredient={item} key={index} />
+                  <DisplayIngredient ingredient={item} key={index} index={index} />
                 )}
               </ul>
             </div>
