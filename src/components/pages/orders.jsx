@@ -1,7 +1,7 @@
 import Styles from './orders.module.css';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
@@ -30,15 +30,30 @@ export const OrdersPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  let last_order_list = {};
-  if (messages) { //отображать страницу только если есть списки заказов
-    last_order_list = messages[messages.length - 1];
-    //console.log(last_order_list);
-    if (last_order_list && last_order_list.message === 'Invalid or missing token') {
+  const last_orders_list = useMemo(() => {
+    if (messages) { //отображать страницу только если есть списки заказов
+      return (messages[messages.length - 1]);
+    }
+  }, [messages]
+  );
+
+  useEffect(() => {
+    if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
       dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
       dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
     }
-  }
+  }, [last_orders_list, dispatch]
+  );
+
+/*  let last_orders_list = {};
+  if (messages) { //отображать страницу только если есть списки заказов
+    last_orders_list = messages[messages.length - 1];
+    //console.log(last_orders_list);
+    if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
+      dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+    }
+  }*/
 
   const DisplayCard = (props) => {
     const current_order = props.data;
@@ -99,14 +114,21 @@ export const OrdersPage = () => {
     )
   };
 
-  if (messages && last_order_list) {
+  if (messages && last_orders_list) {
+    //отобразить заказы в обратном порядке от недавнего к старому 
+    const ordersArray = [];
+    last_orders_list.orders.map(item => {
+      ordersArray.unshift(item);
+      return null;
+    });
+
     return (
       <>
         <div className={Styles.content}>
           <div className={Styles.scrollbar}>
             <ul className={Styles.orders} id="order_cards" >
               {
-                (last_order_list.orders).map((item, index) =>
+                ordersArray.map((item, index) =>
                   <Link
                     key={index}
                     to={`/profile/orders/${item.number}`}
