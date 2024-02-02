@@ -7,12 +7,13 @@ import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import OrderDetails from './../order-details/order-details';
 import Modal from './../modal/modal';
-import { useSelector, useDispatch } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 import { deleteIngredient, updateIngredients, deleteAllIngredients } from '../../services/actions/burger';
 import { getOrder } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import { addBuns, addIngredient } from '../../services/actions/burger';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 function BurgerConstructor() {
   const [modalActive, setModalActive] = useState(false);
@@ -25,7 +26,6 @@ function BurgerConstructor() {
   const [{ isOver }, dropRef] = useDrop({
     accept: 'ingredient',
     drop(item) {
-      //console.log(item);
       if (item.type === 'bun') {
         dispatch(addBuns(item))
       } else {

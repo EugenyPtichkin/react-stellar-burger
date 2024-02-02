@@ -4,8 +4,10 @@
     SET_ORDER_ERROR    
 } from '../actions/order';
 
+import { TOrderSet } from '../types/data';
+
   //cостояние заказа + статусы запросов
-  const initialState = {
+  const initialState: TOrderSet = {
     Ids: [],
     orderName: '',
     orderNumber: 0,
@@ -15,7 +17,7 @@
     orderErrorType: ''
   };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: any): TOrderSet => {
   switch (action.type) {
     case ORDER_REQUEST : 
       return {

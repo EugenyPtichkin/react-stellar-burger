@@ -6,12 +6,15 @@ import {
   DELETE_ALL_INGREDIENTS,
 } from '../actions/burger';
 
-const initialState = {
+import { TBurger } from '../types/data';
+import { TBurgerActions } from '../actions/burger';
+
+const initialState: TBurger = {
   bun: null,
   ingredients: []
 }
 
-export const burgerReducer = (state = initialState, action) => {
+export const burgerReducer = (state = initialState, action: TBurgerActions): TBurger => {
   switch (action.type) {
     case ADD_BUNS:
       return {

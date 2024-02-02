@@ -1,12 +1,15 @@
-import { SET_AUTH_CHECKED, SET_USER, SET_AUTH_ERROR } from './../actions/user';
+import { SET_AUTH_CHECKED, SET_USER, SET_AUTH_ERROR } from '../actions/user';
 
-const initialState = {
+
+import { TUserSet } from '../types/data';
+
+const initialState: TUserSet = {
     user: null,
     isAuthChecked: false,
     isAuthError: false,
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (state = initialState, action: any): TUserSet => {
   switch (action.type) {
     case SET_AUTH_CHECKED:
       return {

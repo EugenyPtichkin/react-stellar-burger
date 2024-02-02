@@ -1,11 +1,13 @@
-import { SET_ORDER_SUCCESS, SET_ORDER_ERROR } from './../actions/singleOrder';
+import { SET_ORDER_SUCCESS, SET_ORDER_ERROR } from '../actions/singleOrder';
 
-const initialState = {
+import { TSingleOrder } from '../types/data'; 
+
+const initialState: TSingleOrder = {
   order: null,
   errorType: false,
 };
 
-export const singleOrderReducer = (state = initialState, action) => {
+export const singleOrderReducer = (state = initialState, action: any): TSingleOrder => {
   switch (action.type) {
     case SET_ORDER_SUCCESS:
       return {

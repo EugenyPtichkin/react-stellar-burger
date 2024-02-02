@@ -1,16 +1,18 @@
 import { api } from '../../utils/burger-api';
 
-export const ORDER_REQUEST = 'ORDER_REQUEST';
-export const SET_ORDER_SUCCESS = 'SET_ORDER_SUCCESS';
-export const SET_ORDER_ERROR = 'SET_ORDER_ERROR';
+export const ORDER_REQUEST: 'ORDER_REQUEST' = 'ORDER_REQUEST';
+export const SET_ORDER_SUCCESS: 'SET_ORDER_SUCCESS' = 'SET_ORDER_SUCCESS';
+export const SET_ORDER_ERROR: 'SET_ORDER_ERROR' = 'SET_ORDER_ERROR';
 
-export function getOrder(data) {
-    return function(dispatch) {      
+import { DispatchType } from '../hooks/hooks';
+
+export function getOrder(data: Array<string>) {
+    return function(dispatch: DispatchType) {      
       dispatch({
         type: ORDER_REQUEST,
       })
   
-      api.getOrderNumber(data)
+      api.getOrderNumber(data) //: Array<string>)
       .then((res) => {
           dispatch( {
             type: SET_ORDER_SUCCESS,

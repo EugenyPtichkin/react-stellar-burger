@@ -1,26 +1,29 @@
 import { api } from "../../utils/burger-api";
 
-export const SET_AUTH_CHECKED = "SET_AUTH_CHECKED";
-export const SET_USER = "SET_USER";
-export const SET_AUTH_ERROR = "SET_AUTH_ERROR";
+export const SET_AUTH_CHECKED: 'SET_AUTH_CHECKED' = 'SET_AUTH_CHECKED';
+export const SET_USER: 'SET_USER' = 'SET_USER';
+export const SET_AUTH_ERROR: 'SET_AUTH_ERROR' = 'SET_AUTH_ERROR';
 
-export const setAuthChecked = (value) => ({
+import { TUser, TUserSet} from '../types/data'; 
+import { DispatchType } from '../hooks/hooks';
+
+export const setAuthChecked = (value: boolean) => ({
   type: SET_AUTH_CHECKED,
   payload: value,
 });
 
-export const setAuthError = (value) => ({
+export const setAuthError = (value: boolean) => ({
   type: SET_AUTH_ERROR,
   payload: value,
 });
 
-export const setUser = (user) => ({
+export const setUser = (user: TUser | null) => ({
   type: SET_USER,
   payload: user,
 });
 
 export const getUser = () => {
-  return async (dispatch) => {
+  return async (dispatch: DispatchType) => {
     return api.getUser().then((res) => {
       dispatch(setUser(res.user));
     }).catch(res => console.log(res));
@@ -28,7 +31,7 @@ export const getUser = () => {
 };
 
 export const updateUser = (data) => {
-  return async (dispatch) => {
+  return async (dispatch: DispatchType) => {
     return await api.updateUser(data).then((res) => {
       dispatch(setUser(res.user));
       dispatch(setAuthChecked(true));
@@ -37,7 +40,7 @@ export const updateUser = (data) => {
 };
 
 export const login = (data) => {
-  return async (dispatch) => {
+  return async (dispatch: DispatchType) => {
     return await api.login(data).then((res) => {
       if (res && res.success) {
         localStorage.setItem("accessToken", res.accessToken);
@@ -57,7 +60,7 @@ export const login = (data) => {
 };
 
 export const register = (data) => {
-  return async (dispatch) => {
+  return async (dispatch: DispatchType) => {
     return await api.register(data).then((res) => {
       if (res && res.success) {
         localStorage.setItem("accessToken", res.accessToken);
@@ -77,7 +80,7 @@ export const register = (data) => {
 };
 
 export const checkUserAuth = () => {
-  return (dispatch) => {
+  return (dispatch: DispatchType) => {
     if (localStorage.getItem("accessToken")) {
       dispatch(getUser())
         .catch(() => {
@@ -93,7 +96,7 @@ export const checkUserAuth = () => {
 };
 
 export const logout = () => {
-  return async (dispatch) => {
+  return async (dispatch: DispatchType) => {
     return api.logout().then(() => {
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");

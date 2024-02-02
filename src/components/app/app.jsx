@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import ErrorBoundary from './../errorboundary/error-boundary';
+import ErrorBoundary from '../errorboundary/error-boundary';
 import Styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/actions/ingredients';
@@ -10,7 +10,7 @@ import {
   HomePage, LoginPage, RegisterPage, ForgotPasswordPage, ResetPasswordPage,
   NotFound404Page, ProfilePage, ProfileEditPage, OrdersPage, FeedPage, InfoPage
 } from '../pages';
-import Modal from './../modal/modal';
+import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { checkUserAuth } from '../../services/actions/user';
