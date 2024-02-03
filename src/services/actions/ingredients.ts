@@ -1,11 +1,11 @@
 import { api } from '../../utils/burger-api';
 
+import { AppDispatch, AppThunk } from '../types';
+import { TBurger } from '../types/data';
+
 export const INGREDIENTS_REQUEST: 'INGREDIENTS_REQUEST' = 'INGREDIENTS_REQUEST';
 export const SET_INGREDIENTS_SUCCESS: 'SET_INGREDIENTS_SUCCESS' = 'SET_INGREDIENTS_SUCCESS';
 export const SET_INGREDIENTS_ERROR: 'SET_INGREDIENTS_ERROR' = 'SET_INGREDIENTS_ERROR';
-
-import { AppDispatch, AppThunk } from '../types';
-import { TBurger } from '../types/data';
 
 interface IIngredientsRequest {
   readonly type: typeof INGREDIENTS_REQUEST;

@@ -1,39 +1,39 @@
 import {
-  WS_FEED_CONNECTION_SUCCESS,
-  WS_FEED_CONNECTION_ERROR,
-  WS_FEED_CONNECTION_CLOSED,
-  WS_FEED_GET_MESSAGE
-} from '../actions/wsFeedActionTypes';
+  WS_USER_CONNECTION_SUCCESS,
+  WS_USER_CONNECTION_ERROR,
+  WS_USER_CONNECTION_CLOSED,
+  WS_USER_GET_MESSAGE
+} from '../actions/wsUserActionTypes';
 
-//import { TWSMessages } from '../types/data';
-//import { WsFeedActions } from '../actions/wsFeedActions';
+import { TWSAnswer } from '../types/data'; 
+import { WsUserActions } from '../actions/wsUserActions';
 
-const initialState = {
+const initialState: TWSAnswer = {
   wsConnected: false,
   messages: []
 };
 
-export const wsFeedReducer = (state = initialState, action) => {
+export const wsUserReducer = (state = initialState, action: WsUserActions): TWSAnswer => {
   switch (action.type) {
-    case WS_FEED_CONNECTION_SUCCESS:
+    case WS_USER_CONNECTION_SUCCESS:
       return {
         ...state,
         wsConnected: true
       };
 
-    case WS_FEED_CONNECTION_ERROR:
+    case WS_USER_CONNECTION_ERROR:
       return {
         ...state,
         wsConnected: false
       };
 
-    case WS_FEED_CONNECTION_CLOSED:
+    case WS_USER_CONNECTION_CLOSED:
       return {
         ...state,
         wsConnected: false
       };
 
-    case WS_FEED_GET_MESSAGE:
+    case WS_USER_GET_MESSAGE:
       return {
         ...state,
         messages: state.messages.length

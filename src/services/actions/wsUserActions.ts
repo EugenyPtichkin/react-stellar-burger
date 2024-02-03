@@ -7,6 +7,8 @@ import {
   WS_USER_SEND_MESSAGE
 } from './wsUserActionTypes';
 
+import { TWSMessage } from '../types/data';
+
 export interface WsUserConnectionSuccess {
   readonly type: typeof WS_USER_CONNECTION_SUCCESS;
 }
@@ -18,11 +20,11 @@ export interface WsUserConnectionClosed {
 }
 export interface WsUserGetMessage {
   readonly type: typeof WS_USER_GET_MESSAGE;
-  payload: string;
+  payload: TWSMessage;
 }
 export interface WsUserSendMessage {
   readonly type: typeof WS_USER_SEND_MESSAGE;
-  payload: string;
+  payload: TWSMessage;
 }
 export interface WsUserConnectAction {
   readonly type: typeof WS_USER_CONNECTION_START;
@@ -49,12 +51,12 @@ export const wsUserConnectionClosed = (): WsUserConnectionClosed => ({
   type: WS_USER_CONNECTION_CLOSED
 });
 
-export const wsUserGetMessage = (message: string): WsUserGetMessage => ({
+export const wsUserGetMessage = (message: TWSMessage): WsUserGetMessage => ({
   type: WS_USER_GET_MESSAGE,
   payload: message
 });
 
-export const wsUserSendMessage = (message: string): WsUserSendMessage => ({
+export const wsUserSendMessage = (message: TWSMessage): WsUserSendMessage => ({
   type: WS_USER_SEND_MESSAGE,
   payload: message
 });

@@ -7,6 +7,8 @@ import {
   WS_FEED_SEND_MESSAGE
 } from './wsFeedActionTypes';
 
+import { TWSMessage } from '../types/data';
+
 export interface WsFeedConnectionSuccess {
   readonly type: typeof WS_FEED_CONNECTION_SUCCESS;
 }
@@ -18,8 +20,7 @@ export interface WsFeedConnectionClosed {
 }
 export interface WsFeedGetMessage {
   readonly type: typeof WS_FEED_GET_MESSAGE;
-  payload: [];
-  timestamp: number;
+  payload: TWSMessage;
 }
 export interface WsFeedSendMessage {
   readonly type: typeof WS_FEED_SEND_MESSAGE;
@@ -50,10 +51,9 @@ export const wsFeedConnectionClosed = (): WsFeedConnectionClosed => ({
   type: WS_FEED_CONNECTION_CLOSED
 });
 
-export const wsFeedGetMessage = (message: []): WsFeedGetMessage => ({
+export const wsFeedGetMessage = (message: TWSMessage): WsFeedGetMessage => ({
   type: WS_FEED_GET_MESSAGE,
-  payload: message,
-  timestamp: 0
+  payload: message
 });
 
 export const wsFeedSendMessage = (message: string): WsFeedSendMessage => ({

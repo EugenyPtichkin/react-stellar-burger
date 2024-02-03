@@ -53,13 +53,27 @@ export type TUserSet = {
   isAuthError: boolean;
 };
 
-export type TUserForm = TUser &  {  password: string;};
+export type TUserForm = TUser & { password: string; };
 
-export type TWSMEssage = {
-  messages: [];
+//типизация ответов с сервера по интерфейсу WS
+export type TWSOrder = {
+  _id: string;
+  ingredients: Array<string>;
+  status: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  number: number;
 };
 
-export type TWSMessages = {
+export type TWSMessage = {
+  orders: Array<TWSOrder>;
+  total: number;
+  totalToday: number;
+  timestamp: number;
+};
+
+export type TWSAnswer = {
   wsConnected: boolean;
-  messages: Array<TWSMEssage>
+  messages: Array<TWSMessage>
 };
