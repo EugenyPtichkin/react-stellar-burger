@@ -5,15 +5,15 @@ import {
   WS_FEED_GET_MESSAGE
 } from '../actions/wsFeedActionTypes';
 
-import { TWSMessages } from '../types/data';
-import { WsFeedActions } from '../actions/wsFeedActions';
+//import { TWSMessages } from '../types/data';
+//import { WsFeedActions } from '../actions/wsFeedActions';
 
-const initialState: TWSMessages = {
+const initialState = {
   wsConnected: false,
   messages: []
 };
 
-export const wsFeedReducer = (state = initialState, action: WsFeedActions): TWSMessages => {
+export const wsFeedReducer = (state = initialState, action) => {
   switch (action.type) {
     case WS_FEED_CONNECTION_SUCCESS:
       return {

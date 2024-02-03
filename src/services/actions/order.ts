@@ -1,18 +1,17 @@
 import { api } from '../../utils/burger-api';
 
+import { AppDispatch, AppThunk } from '../types';
+
 export const ORDER_REQUEST: 'ORDER_REQUEST' = 'ORDER_REQUEST';
 export const SET_ORDER_SUCCESS: 'SET_ORDER_SUCCESS' = 'SET_ORDER_SUCCESS';
 export const SET_ORDER_ERROR: 'SET_ORDER_ERROR' = 'SET_ORDER_ERROR';
 
-import { DispatchType } from '../hooks/hooks';
-
-export function getOrder(data: Array<string>) {
-    return function(dispatch: DispatchType) {      
+export const getOrder: AppThunk = (data: Array<string> |any) =>  (dispatch: AppDispatch) => {      
       dispatch({
         type: ORDER_REQUEST,
       })
   
-      api.getOrderNumber(data) //: Array<string>)
+      api.getOrderNumber(data)
       .then((res) => {
           dispatch( {
             type: SET_ORDER_SUCCESS,
@@ -27,5 +26,4 @@ export function getOrder(data: Array<string>) {
           errorType : res.status
         })
       })
-    }
-  }
+    };

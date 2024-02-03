@@ -53,6 +53,8 @@ export type TUserSet = {
   isAuthError: boolean;
 };
 
+export type TUserForm = TUser &  {  password: string;};
+
 export type TWSMEssage = {
   messages: [];
 };
