@@ -9,12 +9,12 @@ export const RegisterPage = () => {
   const [form, setForm] = useState({ email: '', password: '', name: '' });
   const dispatch = useDispatch();
 
-  const onChange = e => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(register(form));
   }

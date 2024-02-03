@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Styles from './reset-password.module.css';
 import { PasswordInput, Input, Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import { api } from './../../utils/burger-api';
+import { api } from '../../utils/burger-api';
 
 export const ResetPasswordPage = () => {
   const [form, setForm] = useState({ password: '', code: '' });
@@ -16,12 +16,12 @@ export const ResetPasswordPage = () => {
     }
   }, [isForgotPasswordPageVisited, navigate]);
 
-  const onChange = e => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     api.resetPassword(form).then((res) => {
       console.log(res);

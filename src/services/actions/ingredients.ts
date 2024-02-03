@@ -1,7 +1,7 @@
 import { api } from '../../utils/burger-api';
 
 import { AppDispatch, AppThunk } from '../types';
-import { TBurger } from '../types/data';
+import { TIngredient } from '../types/data';
 
 export const INGREDIENTS_REQUEST: 'INGREDIENTS_REQUEST' = 'INGREDIENTS_REQUEST';
 export const SET_INGREDIENTS_SUCCESS: 'SET_INGREDIENTS_SUCCESS' = 'SET_INGREDIENTS_SUCCESS';
@@ -12,7 +12,7 @@ interface IIngredientsRequest {
 }
 interface ISetIngredientsSuccess {
   readonly type: typeof SET_INGREDIENTS_SUCCESS;
-  ingredients: TBurger | null;
+  ingredients: Array<TIngredient>;
 }
 interface ISetIngredientsError {
   readonly type: typeof SET_INGREDIENTS_ERROR;
@@ -23,22 +23,27 @@ export type TIngredientsActions =
   | ISetIngredientsSuccess
   | ISetIngredientsError;
 
+export const ingredientsActions = (): TIngredientsActions => ({
+  type: INGREDIENTS_REQUEST,
+});
+
+export const setIngredientsSuccess = (data: Array<TIngredient>): ISetIngredientsSuccess => ({
+  type: SET_INGREDIENTS_SUCCESS,
+  ingredients: data,
+});
+
+export const setIngredientsError = (data: string): ISetIngredientsError => ({
+  type: SET_INGREDIENTS_ERROR,
+  errorType: data,
+});
 
 export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
-  dispatch({
-    type: INGREDIENTS_REQUEST
-  })
+  dispatch(ingredientsActions());
   api.getIngredientsData()
     .then((res) => {
-      dispatch({
-        type: SET_INGREDIENTS_SUCCESS,
-        ingredients: res.data
-      })
+      dispatch(setIngredientsSuccess(res.data));
     })
     .catch((res) => {
-      dispatch({
-        type: SET_INGREDIENTS_ERROR,
-        errorType: res.status
-      })
+      dispatch(setIngredientsError(res.status));
     })
 };

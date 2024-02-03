@@ -1,16 +1,20 @@
 import Styles from './orders.module.css';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import { translate } from './../../utils/data';
+import { translate } from '../../utils/data';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { wsUserConnectAction } from '../../services/actions/wsUserActions';
 import { wsUrl } from '../../utils/data';
 import { refreshToken } from '../../utils/burger-api';
+import { TIngredient, TWSMessage, TWSOrder } from '../../services/types/data';
 
+type TData = {
+  data: TWSOrder
+}
 export const OrdersPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
   const { wsConnected, messages } = useSelector(store => store.wsUser);
@@ -21,7 +25,7 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket USER connection to be established');
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${(localStorage.getItem("accessToken") || '').replace('Bearer ', '')}`)));
     }
     return () => {
       console.log('WebSocket USER connection to be closed');
@@ -30,7 +34,7 @@ export const OrdersPage = () => {
     // eslint-disable-next-line
   }, []);
 
-  const last_orders_list = useMemo(() => {
+  const last_orders_list: TWSMessage | undefined = useMemo(() => {
     if (messages) { //отображать страницу только если есть списки заказов
       return (messages[messages.length - 1]);
     }
@@ -40,37 +44,39 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
       dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${(localStorage.getItem("accessToken") || '').replace('Bearer ', '')}`)));
     }
   }, [last_orders_list, dispatch]
   );
 
-/*  let last_orders_list = {};
-  if (messages) { //отображать страницу только если есть списки заказов
-    last_orders_list = messages[messages.length - 1];
-    //console.log(last_orders_list);
-    if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
-      dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
-    }
-  }*/
+  /*  let last_orders_list = {};
+    if (messages) { //отображать страницу только если есть списки заказов
+      last_orders_list = messages[messages.length - 1];
+      //console.log(last_orders_list);
+      if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
+        dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
+        dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+      }
+    }*/
 
-  const DisplayCard = (props) => {
-    const current_order = props.data;
-    const data_ids = current_order.ingredients;
-    const dataImages = [];
-    const dataPrices = [];
-    data_ids.forEach((ingredient_id) => {
-      const currentIngredient = ingredients.find(item => item._id === ingredient_id);
-      const currentImage = currentIngredient.image_mobile;
-      const currentPrice = currentIngredient.price;
+
+  const DisplayCard: FC<TData> = ({ data }) => {
+    
+    const current_order: TWSOrder = data;
+    const data_ids: Array<string> = current_order.ingredients;
+    const dataImages: Array<string> = [];
+    const dataPrices: Array<number> = [];
+    data_ids.forEach((ingredient_id: string) => {
+      const currentIngredient: TIngredient | null = ingredients?.find(item => item._id === ingredient_id) || null;
+      const currentImage: string = currentIngredient?.image_mobile || "";
+      const currentPrice: number = currentIngredient?.price || 0;
       //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
       dataImages.push(...[currentImage]);
       dataPrices.push(...[currentPrice]);
     })
     //console.log(`Images: ${dataImages} Prices: ${dataPrices}`);
 
-    return (
+    return ( data &&
       <div className={Styles.order_card}>
         <div className={Styles.details}>
           <p className={Styles.digit}>#{current_order.number}</p>
@@ -90,12 +96,12 @@ export const OrdersPage = () => {
             <div className={Styles.images}>
               {dataImages.map((image, index) => {
                 if (index < 5) return (
-                  <div key={index} className={Styles.image_circle} style={{'zIndex': `${6-index}`}} >
+                  <div key={index} className={Styles.image_circle} style={{ 'zIndex': `${6 - index}` }} >
                     <img className={Styles.image} src={image} alt='компонент бургера' />
                   </div>
                 )
                 else if (index === 5) return (
-                  <div key={index} className={Styles.image_circle} style={{'zIndex': `${6-index}`}}  >
+                  <div key={index} className={Styles.image_circle} style={{ 'zIndex': `${6 - index}` }}  >
                     <img className={`${Styles.image} ${Styles.image_last}`} src={image} alt='компонент бургера' />
                     <p className={Styles.text_last}>+{dataImages.length - 5}</p>
                   </div>
@@ -107,7 +113,7 @@ export const OrdersPage = () => {
           </div>
           <div className={Styles.price}>
             <p className={Styles.digit}>{dataPrices.reduce((acc, current) => acc + current, 0)}</p>
-            <CurrencyIcon></CurrencyIcon>
+            <CurrencyIcon type="primary" />
           </div>
         </div>
       </div>
@@ -116,7 +122,7 @@ export const OrdersPage = () => {
 
   if (messages && last_orders_list) {
     //отобразить заказы в обратном порядке от недавнего к старому 
-    const ordersArray = [];
+    const ordersArray: Array<TWSOrder> = [];
     last_orders_list.orders.map(item => {
       ordersArray.unshift(item);
       return null;

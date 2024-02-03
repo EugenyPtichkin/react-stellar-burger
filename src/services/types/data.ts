@@ -13,7 +13,7 @@ export type TBun = {
   readonly _id: string;
 };
 
-export type TIngredient = TBun & { readonly uuid: string };
+export type TIngredient = TBun & { readonly uuid?: string };
 
 export type TBurger = {
   readonly bun: TBun | null;
@@ -21,7 +21,7 @@ export type TBurger = {
 };
 
 export type TIngredientsSet = {
-  ingredients: TBurger | null;
+  ingredients: Array<TIngredient> | null;
   ingredientsLoading: boolean;
   ingredientsError: boolean;
   ingredientsErrorType: string;
@@ -43,8 +43,8 @@ export type TSingleOrder = {
 };
 
 export type TUser = {
-  email: string;
-  name: string;
+  email: string | null;
+  name: string | null;
 };
 
 export type TUserSet = {
@@ -71,6 +71,7 @@ export type TWSMessage = {
   total: number;
   totalToday: number;
   timestamp: number;
+  message? : string;
 };
 
 export type TWSAnswer = {

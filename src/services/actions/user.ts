@@ -7,17 +7,36 @@ export const SET_AUTH_CHECKED: 'SET_AUTH_CHECKED' = 'SET_AUTH_CHECKED';
 export const SET_USER: 'SET_USER' = 'SET_USER';
 export const SET_AUTH_ERROR: 'SET_AUTH_ERROR' = 'SET_AUTH_ERROR';
 
-export const setAuthChecked = (value: boolean) => ({
+
+interface ISetAuthChecked {
+  readonly type: typeof SET_AUTH_CHECKED;
+  payload: boolean;
+}
+interface ISetAuthError {
+  readonly type: typeof SET_AUTH_ERROR;
+  payload: boolean;
+}
+interface ISetUser {
+  readonly type: typeof SET_USER;
+  payload: TUser | null;
+}
+
+export type TUserActions =
+  | ISetAuthChecked
+  | ISetAuthError
+  | ISetUser;
+
+export const setAuthChecked = (value: boolean): ISetAuthChecked => ({
   type: SET_AUTH_CHECKED,
   payload: value,
 });
 
-export const setAuthError = (value: boolean) => ({
+export const setAuthError = (value: boolean): ISetAuthError => ({
   type: SET_AUTH_ERROR,
   payload: value,
 });
 
-export const setUser = (user: TUser | null) => ({
+export const setUser = (user: TUser | null): ISetUser => ({
   type: SET_USER,
   payload: user,
 });
@@ -77,13 +96,15 @@ export const register: AppThunk = (data: TUserForm) => async (dispatch: AppDispa
 
 export const checkUserAuth: AppThunk = () => (dispatch: AppDispatch) => {
   if (localStorage.getItem("accessToken")) {
-    dispatch(getUser())
-      .catch(() => {
+    try {
+      getUser();
+    } catch {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         dispatch(setUser(null));
-      })
-      .finally(() => dispatch(setAuthChecked(true)));
+    } finally {
+      dispatch(setAuthChecked(true))
+    }
   } else {
     dispatch(setAuthChecked(true));
   }

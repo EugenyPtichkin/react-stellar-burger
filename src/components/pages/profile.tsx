@@ -6,7 +6,7 @@ import { logout } from '../../services/actions/user';
 export const ProfilePage = () => {
   const dispatch = useDispatch();
 
-  const onClick = (e) => {
+  const onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     dispatch(logout());
   }

@@ -1,29 +1,32 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 import Styles from './profile-edit.module.css';
 import { Input, EmailInput, PasswordInput, Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { updateUser } from '../../services/actions/user';
+import { TUserForm } from '../../services/types/data';
 
 export const ProfileEditPage = () => {
   const user = useSelector(store => store.user.user);
-  const [form, setForm] = useState({ email: user.email, password: '', name: user.name });
+  const [form, setForm] = useState<TUserForm>({ email: '', password: '', name:'' });
   const dispatch = useDispatch();
-  const enableButtonsDisplay = (form.email !== user.email) || (form.name !== user.name) || (form.password !== '');
+  const enableButtonsDisplay = (form.email !== user?.email) || (form.name !== user?.name) || (form.password !== '');
 
-  const onChange = e => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log(form);
     dispatch(updateUser(form));
   }
 
-  const onReset = (e) => {
+  const onReset = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setForm({ ...form, email: user.email, password: '', name: user.name });
+    if (user) {
+      setForm({ ...form, email: user?.email, password: '', name: user.name });
+    }
   }
 
   return (
@@ -34,7 +37,7 @@ export const ProfileEditPage = () => {
             type={'text'}
             placeholder='Имя'
             name='name'
-            value={form.name}
+            value={`${form.name? form.name:''}`}
             onChange={onChange}
             size={'default'}
             icon={"EditIcon"}
@@ -43,10 +46,10 @@ export const ProfileEditPage = () => {
           <EmailInput
             placeholder='Логин'
             name='email'
-            value={form.email}
+            value={`${form.email? form.email:''}`}
             onChange={onChange}
             isIcon={false}
-            icon={"EditIcon"}
+            //icon={"EditIcon"}
             autoComplete="on"
           />
           <PasswordInput
