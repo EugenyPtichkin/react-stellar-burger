@@ -4,7 +4,7 @@ export const INGREDIENTS_REQUEST: 'INGREDIENTS_REQUEST' = 'INGREDIENTS_REQUEST';
 export const SET_INGREDIENTS_SUCCESS: 'SET_INGREDIENTS_SUCCESS' = 'SET_INGREDIENTS_SUCCESS';
 export const SET_INGREDIENTS_ERROR: 'SET_INGREDIENTS_ERROR' = 'SET_INGREDIENTS_ERROR';
 
-import { DispatchType } from '../hooks/hooks';
+import { AppDispatch, AppThunk } from '../types';
 import { TBurger } from '../types/data';
 
 interface IIngredientsRequest {
@@ -23,23 +23,22 @@ export type TIngredientsActions =
   | ISetIngredientsSuccess
   | ISetIngredientsError;
 
-export const getIngredients: any = () => {
-  return function(dispatch: DispatchType) {
-    dispatch({
-      type: INGREDIENTS_REQUEST
-    })
-    api.getIngredientsData()
+
+export const getIngredients: AppThunk = () => (dispatch: AppDispatch) => {
+  dispatch({
+    type: INGREDIENTS_REQUEST
+  })
+  api.getIngredientsData()
     .then((res) => {
-      dispatch( {
-          type: SET_INGREDIENTS_SUCCESS,
-          ingredients: res.data
-        })            
-      })
-    .catch((res) =>  {
       dispatch({
-        type : SET_INGREDIENTS_ERROR,
-        errorType : res.status
+        type: SET_INGREDIENTS_SUCCESS,
+        ingredients: res.data
       })
     })
-  }
-}
+    .catch((res) => {
+      dispatch({
+        type: SET_INGREDIENTS_ERROR,
+        errorType: res.status
+      })
+    })
+};
