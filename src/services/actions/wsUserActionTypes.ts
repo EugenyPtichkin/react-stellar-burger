@@ -5,3 +5,24 @@ export const WS_USER_CONNECTION_ERROR: 'WS_USER_CONNECTION_ERROR' = 'WS_USER_CON
 export const WS_USER_CONNECTION_CLOSED: 'WS_USER_CONNECTION_CLOSED' = 'WS_USER_CONNECTION_CLOSED';
 export const WS_USER_GET_MESSAGE: 'WS_USER_GET_MESSAGE' = 'WS_USER_GET_MESSAGE';
 export const WS_USER_SEND_MESSAGE: 'WS_USER_SEND_MESSAGE' = 'WS_USER_SEND_MESSAGE';
+
+
+export type TWsUserMiddlewareActions = {
+  readonly wsConnect: typeof WS_USER_CONNECTION_START;
+  readonly wsSendMessage: typeof WS_USER_SEND_MESSAGE;
+  readonly wsDisconnect: typeof WS_USER_CONNECTION_STOP;
+  readonly onOpen: typeof WS_USER_CONNECTION_SUCCESS;
+  readonly onClose: typeof WS_USER_CONNECTION_CLOSED;
+  readonly onError: typeof WS_USER_CONNECTION_ERROR;
+  readonly onMessage: typeof WS_USER_GET_MESSAGE;
+};
+
+export const wsUserActions: TWsUserMiddlewareActions = {
+  wsConnect: WS_USER_CONNECTION_START,
+  wsSendMessage: WS_USER_SEND_MESSAGE,
+  wsDisconnect: WS_USER_CONNECTION_STOP,
+  onOpen: WS_USER_CONNECTION_SUCCESS,
+  onClose: WS_USER_CONNECTION_CLOSED,
+  onError: WS_USER_CONNECTION_ERROR,
+  onMessage: WS_USER_GET_MESSAGE
+};

@@ -1,26 +1,34 @@
-export const socketMiddleware = (wsActions) => {
-  return store => {
-    let socket = null;
+import { Middleware, MiddlewareAPI } from 'redux';
+import { TWsFeedMiddlewareActions } from '../../services/actions/wsFeedActionTypes';
+import { TWsUserMiddlewareActions } from '../../services/actions/wsUserActionTypes';
+import { AppDispatch, RootState } from '../types';
+import { TWsUserActions } from '../actions/wsUserActions';
+import { TWsFeedActions } from '../actions/wsFeedActions';
+import { TWSMessage } from '../types/data';
 
-    return next => action => {
-      const { dispatch, getState } = store;
+export const socketMiddleware = (wsActions: TWsFeedMiddlewareActions | TWsUserMiddlewareActions): Middleware => {
+  return (store: MiddlewareAPI<AppDispatch, RootState>) => {
+    let socket: WebSocket | null = null;
+
+    return next => (action: TWsUserActions | TWsFeedActions) => {
+      const { dispatch } = store;
       const { type, payload } = action;
       const { wsConnect, wsSendMessage, wsDisconnect, onOpen, onClose, onError, onMessage } = wsActions;
-      const { user, token } = getState().user;
+      
       if (type === wsConnect) {
         //console.log(payload);
         socket = new WebSocket(payload); //весь путь спрятан в payload
       }
       if (socket) {
-        socket.onopen = event => {
+        socket.onopen = (event: Event) => {
           dispatch({ type: onOpen, payload: event });
         };
 
-        socket.onerror = event => {
+        socket.onerror = (event: Event) => {
           dispatch({ type: onError, payload: event });
         };
 
-        socket.onmessage = event => {
+        socket.onmessage = (event: MessageEvent) => {
           const { data } = event;
           const parsedData = JSON.parse(data);
           const { success, ...restParsedData } = parsedData;
@@ -33,7 +41,7 @@ export const socketMiddleware = (wsActions) => {
         };
 
         if (type === wsSendMessage) {
-          const message = { ...payload, token: user.token };
+          const message: TWSMessage = { ...payload};   //, token: localStorage.getItem("accessToken")
           socket.send(JSON.stringify(message));
         }
 

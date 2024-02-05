@@ -1,4 +1,5 @@
 import { baseUrl } from './data';
+import { IOptions } from '../services/types/api';
 
 // создаем функцию проверки ответа на `ok`, не анализирую success, т.к. нужен выше для анализа нагрузки
 const checkResponse = (res) => { //возвращается либо res.json либо Promise.reject(res.json())

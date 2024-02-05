@@ -6,14 +6,14 @@ import {
 } from '../actions/wsUserActionTypes';
 
 import { TWSAnswer } from '../types/data'; 
-import { WsUserActions } from '../actions/wsUserActions';
+import { TWsUserActions } from '../actions/wsUserActions';
 
 const initialState: TWSAnswer = {
   wsConnected: false,
   messages: []
 };
 
-export const wsUserReducer = (state = initialState, action: WsUserActions): TWSAnswer => {
+export const wsUserReducer = (state = initialState, action: TWsUserActions): TWSAnswer => {
   switch (action.type) {
     case WS_USER_CONNECTION_SUCCESS:
       return {

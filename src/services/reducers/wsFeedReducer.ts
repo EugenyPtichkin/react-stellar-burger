@@ -6,14 +6,14 @@ import {
 } from '../actions/wsFeedActionTypes';
 
 import { TWSAnswer } from '../types/data';
-import { WsFeedActions } from '../actions/wsFeedActions';
+import { TWsFeedActions } from '../actions/wsFeedActions';
 
 const initialState: TWSAnswer = {
   wsConnected: false,
   messages: []
 };
 
-export const wsFeedReducer = (state = initialState, action: WsFeedActions): TWSAnswer => {
+export const wsFeedReducer = (state = initialState, action: TWsFeedActions): TWSAnswer => {
   switch (action.type) {
     case WS_FEED_CONNECTION_SUCCESS:
       return {

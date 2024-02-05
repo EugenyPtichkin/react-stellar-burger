@@ -1,4 +1,5 @@
 import {
+  WS_FEED_CONNECTION_STOP,
   WS_FEED_CONNECTION_START,
   WS_FEED_CONNECTION_SUCCESS,
   WS_FEED_CONNECTION_ERROR,
@@ -9,59 +10,77 @@ import {
 
 import { TWSMessage } from '../types/data';
 
-export interface WsFeedConnectionSuccess {
+
+export interface IWsFeedConnectionStop {
+  readonly type: typeof WS_FEED_CONNECTION_STOP;
+  payload: Event;
+}
+
+export interface IWsFeedConnectionSuccess {
   readonly type: typeof WS_FEED_CONNECTION_SUCCESS;
+  payload: Event;
 }
-export interface WsFeedConnectionError {
+export interface IWsFeedConnectionError {
   readonly type: typeof WS_FEED_CONNECTION_ERROR;
+  payload: Event;
 }
-export interface WsFeedConnectionClosed {
+export interface IWsFeedConnectionClosed {
   readonly type: typeof WS_FEED_CONNECTION_CLOSED;
+  payload: Event;
 }
-export interface WsFeedGetMessage {
+export interface IWsFeedGetMessage {
   readonly type: typeof WS_FEED_GET_MESSAGE;
   payload: TWSMessage;
 }
-export interface WsFeedSendMessage {
+export interface IWsFeedSendMessage {
   readonly type: typeof WS_FEED_SEND_MESSAGE;
-  payload: string;
+  payload: TWSMessage;
 }
-export interface WsFeedConnectAction {
+export interface IWsFeedConnectAction {
   readonly type: typeof WS_FEED_CONNECTION_START;
   payload: string;
 }
 
-export type WsFeedActions = 
-  | WsFeedConnectionSuccess
-  | WsFeedConnectionError
-  | WsFeedConnectionClosed
-  | WsFeedGetMessage
-  | WsFeedSendMessage
-  | WsFeedConnectAction;
+export type TWsFeedActions =
+  | IWsFeedConnectionStop
+  | IWsFeedConnectionSuccess
+  | IWsFeedConnectionError
+  | IWsFeedConnectionClosed
+  | IWsFeedGetMessage
+  | IWsFeedSendMessage
+  | IWsFeedConnectAction;
 
-export const wsFeedConnectionSuccess = (): WsFeedConnectionSuccess => ({
-  type: WS_FEED_CONNECTION_SUCCESS
+export const wsFeedConnectionStop = (event: Event): IWsFeedConnectionStop => ({
+  type: WS_FEED_CONNECTION_STOP,
+  payload: event
 });
 
-export const wsFeedConnectionError = (): WsFeedConnectionError => ({
-  type: WS_FEED_CONNECTION_ERROR
+export const wsFeedConnectionSuccess = (event: Event): IWsFeedConnectionSuccess => ({
+  type: WS_FEED_CONNECTION_SUCCESS,
+  payload: event
 });
 
-export const wsFeedConnectionClosed = (): WsFeedConnectionClosed => ({
-  type: WS_FEED_CONNECTION_CLOSED
+export const wsFeedConnectionError = (event: Event): IWsFeedConnectionError => ({
+  type: WS_FEED_CONNECTION_ERROR,
+  payload: event
 });
 
-export const wsFeedGetMessage = (message: TWSMessage): WsFeedGetMessage => ({
+export const wsFeedConnectionClosed = (event: Event): IWsFeedConnectionClosed => ({
+  type: WS_FEED_CONNECTION_CLOSED,
+  payload: event
+});
+
+export const wsFeedGetMessage = (message: TWSMessage): IWsFeedGetMessage => ({
   type: WS_FEED_GET_MESSAGE,
   payload: message
 });
 
-export const wsFeedSendMessage = (message: string): WsFeedSendMessage => ({
+export const wsFeedSendMessage = (message: TWSMessage): IWsFeedSendMessage => ({
   type: WS_FEED_SEND_MESSAGE,
   payload: message
 });
 
-export const wsFeedConnectAction = (url: string): WsFeedConnectAction => ({
+export const wsFeedConnectAction = (url: string): IWsFeedConnectAction => ({
   type: WS_FEED_CONNECTION_START,
   payload: url
 });
