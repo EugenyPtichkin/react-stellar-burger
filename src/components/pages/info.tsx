@@ -1,10 +1,10 @@
 import Styles from './info.module.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 import { useParams, useLocation } from 'react-router-dom';
-import { useEffect, useMemo } from 'react';
+import { FC, useEffect, useMemo } from 'react';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { translate } from './../../utils/data';
+import { translate } from '../../utils/data';
 import { getSingleOrder, SET_ORDER_SUCCESS } from '../../services/actions/singleOrder';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
@@ -12,8 +12,9 @@ import { wsUrl } from '../../utils/data';
 import { wsUserConnectAction } from '../../services/actions/wsUserActions';
 import { wsFeedConnectAction } from '../../services/actions/wsFeedActions';
 import { refreshToken } from '../../utils/burger-api';
+import { IIsModal, TIngredient, TIngredientPairs } from '../../services/types/data';
 
-export function InfoPage(props) {
+export const InfoPage = ( {isModal}: IIsModal ) => {
   const { ingredients } = useSelector(store => store.ingredients);
   const { order } = useSelector(store => store.singleOrder);
   const dispatch = useDispatch();
@@ -22,17 +23,17 @@ export function InfoPage(props) {
   const location = useLocation();
 
   useEffect(() => {
-    if (!props.isModal) { //если открыто модальное окно, то не открывать соединение webSocket повторно
+    if (!isModal) { //если открыто модальное окно, то не открывать соединение webSocket повторно
       if (location.pathname.includes('/feed')) { //переход со страницы /feed - запустить websocket feed
         console.log('WebSocket FEED connection to be established');
         dispatch(wsFeedConnectAction(`${wsUrl}/orders/all`));
       }
       else { //переход со страницы /orders - запустить websocket order
         console.log('WebSocket USER connection to be established');
-        dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+        dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken")?.replace('Bearer ', '')}`)));
       }
     }
-    if (!props.isModal) { //если открыто модальное окно, то не закрывать соединение webSocket
+    if (!isModal) { //если открыто модальное окно, то не закрывать соединение webSocket
       if (location.pathname.includes('/feed')) { //выход со страницы feed
         return () => {
           console.log('WebSocket FEED connection to be closed');
@@ -45,7 +46,7 @@ export function InfoPage(props) {
         };
       }
     }
-  }, [location, props.isModal, dispatch]);
+  }, [location, isModal, dispatch]);
 
   const wsFeed = useSelector(store => store.wsFeed);
   const messagesFeed = wsFeed.messages;
@@ -74,7 +75,7 @@ export function InfoPage(props) {
   useEffect(() => {
     if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
       dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken").replace('Bearer ', '')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken")?.replace('Bearer ', '')}`)));
     }
   }, [last_orders_list, dispatch]
   );
@@ -109,32 +110,33 @@ export function InfoPage(props) {
     if (order) {//отображать страницу только если получен текущий заказ по webSocket
 
       //список цен для вычисления суммы заказа
-      const dataPrices = [];
-      order.ingredients.forEach((ingredient_id) => {
-        const currentIngredient = ingredients.find(item => item._id === ingredient_id);
+      const dataPrices: Array<number> = [];
+      order.ingredients.forEach((order_ingredient) => {
+
+        const currentIngredient: TIngredient | null = ingredients?.find(item => item._id === order_ingredient) || null;
         if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
-          const currentPrice = currentIngredient.price;
+          const currentPrice: number = currentIngredient.price;
           dataPrices.push(...[currentPrice]);
         }
       })
 
       //список id ингредиентов с их количеством в заказе
-      const ingredientsPairs = [];
-      ingredients.forEach((ingredient) => {
-        const orderQuantity = order.ingredients.filter(item => item === ingredient._id).length;
+      const ingredientsPairs: Array<TIngredientPairs> = [];
+      ingredients?.forEach((ingredient) => {
+        const orderQuantity: number = order.ingredients.filter(item => item === ingredient._id).length;
         if (orderQuantity !== 0) {
-          ingredientsPairs.push({ ingredient: ingredient._id, quantity: orderQuantity });
+          ingredientsPairs.push({ ingredient_id: ingredient._id, quantity: orderQuantity });
         }
       })
 
       //отобразить одну строчку ингредиентов из заказа
-      const DisplayIngredient = (ingredient) => {
-        const currentIngredient = ingredients.find(item => item._id === ingredient.ingredient.ingredient);
+      const DisplayIngredient = ({ingredient_id, quantity}:{ingredient_id:string, quantity:number}) => {
+        const currentIngredient = ingredients?.find(item => item._id === ingredient_id);
         if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
-          const ingredientImage = currentIngredient.image_mobile;
-          const ingredientName = currentIngredient.name;
-          const ingredientPrice = currentIngredient.price;
-          const ingredientNumber = ingredient.ingredient.quantity;
+          const ingredientImage: string = currentIngredient.image_mobile;
+          const ingredientName: string = currentIngredient.name;
+          const ingredientPrice: number = currentIngredient.price;
+          const ingredientNumber: number = quantity;
           //console.log(`Image: ${ingredientImage} Price: ${ingredientPrice} Number: ${ingredientNumber}`);
 
           return (
@@ -147,17 +149,18 @@ export function InfoPage(props) {
               </div>
               <div className={Styles.price}>
                 <p className={Styles.digit}>{ingredientNumber} x {ingredientPrice}</p>
-                <CurrencyIcon></CurrencyIcon>
+                <CurrencyIcon type='primary'/>
               </div>
             </div>
           )
         }
+        else { return null; }
       }
 
       return (
-        <section className={props.isModal ? `${Styles.container} ${Styles.modal}` : Styles.container}>
+        <section className={isModal ? `${Styles.container} ${Styles.modal}` : Styles.container}>
           <div className={Styles.details}>
-            <p className={props.isModal ? `${Styles.number} ${Styles.number_modal}` : Styles.number}>#{order.number}</p>
+            <p className={isModal ? `${Styles.number} ${Styles.number_modal}` : Styles.number}>#{order.number}</p>
             <div className={Styles.info}>
               <p className={Styles.name}>{order.name}</p>
               <p className={order.status === 'done' ? `${Styles.status} ${Styles.cyan}` :
@@ -169,7 +172,7 @@ export function InfoPage(props) {
             <div className={Styles.scrollbar}>
               <ul className={Styles.orders} id="ingredient_items" > {
                 ingredientsPairs.map((item, index) =>
-                  <DisplayIngredient ingredient={item} key={index} />
+                  <DisplayIngredient ingredient_id={item.ingredient_id} quantity={item.quantity} key={index} />
                 )}
               </ul>
             </div>
@@ -179,7 +182,7 @@ export function InfoPage(props) {
               </div>
               <div className={Styles.price}>
                 <p className={Styles.digit}>{dataPrices.reduce((acc, current) => acc + current, 0)}</p>
-                <CurrencyIcon></CurrencyIcon>
+                <CurrencyIcon type='primary'/>
               </div>
             </div>
           </div>

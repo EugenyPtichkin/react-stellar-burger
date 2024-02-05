@@ -38,13 +38,13 @@ export type TOrderSet = {
 };
 
 export type TSingleOrder = {
-  order: TBurger | null,
+  order: TWSOrder | null,
   errorType: boolean,
 };
 
 export type TUser = {
-  email: string | null;
-  name: string | null;
+  email: string;
+  name: string;
 };
 
 export type TUserSet = {
@@ -77,4 +77,13 @@ export type TWSMessage = {
 export type TWSAnswer = {
   wsConnected: boolean;
   messages: Array<TWSMessage>
+};
+
+export interface IIsModal {
+  isModal: boolean;
+};
+
+export type TIngredientPairs = {
+ ingredient_id: string;
+ quantity: number;
 };

@@ -7,7 +7,7 @@ export const NotFound404Page = () => {
   const navigate = useNavigate();
   
   const onClick = () => {
-    navigate(-1, {replace: true});
+    navigate(-1);
   }
 
 return (

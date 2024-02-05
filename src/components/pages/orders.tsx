@@ -25,7 +25,7 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (!wsConnected) {
       console.log('WebSocket USER connection to be established');
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${(localStorage.getItem("accessToken") || '').replace('Bearer ', '')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken")?.replace('Bearer ', '')}`)));
     }
     return () => {
       console.log('WebSocket USER connection to be closed');
@@ -44,7 +44,7 @@ export const OrdersPage = () => {
   useEffect(() => {
     if (last_orders_list && last_orders_list.message === 'Invalid or missing token') {
       dispatch(refreshToken); //обновить токен и перезапросить подключение по webSocket
-      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${(localStorage.getItem("accessToken") || '').replace('Bearer ', '')}`)));
+      dispatch(wsUserConnectAction((`${wsUrl}/orders?token=${localStorage.getItem("accessToken")?.replace('Bearer ', '')}`)));
     }
   }, [last_orders_list, dispatch]
   );
@@ -68,7 +68,7 @@ export const OrdersPage = () => {
     const dataPrices: Array<number> = [];
     data_ids.forEach((ingredient_id: string) => {
       const currentIngredient: TIngredient | null = ingredients?.find(item => item._id === ingredient_id) || null;
-      const currentImage: string = currentIngredient?.image_mobile || "";
+      const currentImage: string = currentIngredient?.image_mobile || '';
       const currentPrice: number = currentIngredient?.price || 0;
       //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
       dataImages.push(...[currentImage]);

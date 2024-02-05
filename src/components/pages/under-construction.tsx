@@ -8,7 +8,7 @@ export const UnderConstructionPage = () => {
 
   const onClick = () => {
     //navigate('/login', {replace: true});
-    navigate(-1, { replace: true });
+    navigate(-1);
   }
 
   return (

@@ -7,7 +7,7 @@ import { TUserForm } from '../../services/types/data';
 
 export const ProfileEditPage = () => {
   const user = useSelector(store => store.user.user);
-  const [form, setForm] = useState<TUserForm>({ email: '', password: '', name:'' });
+  const [form, setForm] = useState<TUserForm>({ email: user?.email || '', name: user?.name || '' , password: ''});
   const dispatch = useDispatch();
   const enableButtonsDisplay = (form.email !== user?.email) || (form.name !== user?.name) || (form.password !== '');
 
@@ -37,7 +37,7 @@ export const ProfileEditPage = () => {
             type={'text'}
             placeholder='Имя'
             name='name'
-            value={`${form.name? form.name:''}`}
+            value={`${form.name ? form.name : ''}`}
             onChange={onChange}
             size={'default'}
             icon={"EditIcon"}
@@ -46,10 +46,9 @@ export const ProfileEditPage = () => {
           <EmailInput
             placeholder='Логин'
             name='email'
-            value={`${form.email? form.email:''}`}
+            value={`${form.email ? form.email : ''}`}
             onChange={onChange}
-            isIcon={false}
-            //icon={"EditIcon"}
+            isIcon={true}
             autoComplete="on"
           />
           <PasswordInput

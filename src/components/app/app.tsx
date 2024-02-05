@@ -3,7 +3,7 @@ import ErrorBoundary from '../errorboundary/error-boundary';
 import Styles from './app.module.css';
 import AppHeader from '../app-header/app-header';
 import { getIngredients } from '../../services/actions/ingredients';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import {
@@ -15,7 +15,6 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { checkUserAuth } from '../../services/actions/user';
 import { OnlyAuth, OnlyUnAuth } from '../protected-route';
-
 
 const App = () => {
   const location = useLocation();

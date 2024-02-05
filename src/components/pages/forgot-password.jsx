@@ -9,11 +9,12 @@ export const ForgotPasswordPage = () => {
   const navigate = useNavigate();
 
   const onChange = e => {
-    setEmail(e.target.value)
+    setEmail(e.target.value);
   }
 
   const onSubmit = (e) => {
     e.preventDefault();
+    //console.log(email);
     api.askPasswordReset(email).then((res) => {
       console.log(res);
       sessionStorage.setItem('forgotPasswordPageVisited', true);

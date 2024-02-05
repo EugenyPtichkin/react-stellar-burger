@@ -9,12 +9,12 @@ export const LoginPage = () => {
   const [form, setForm] = useState({ email: '', password: '' });
   const dispatch = useDispatch();
 
-  const onChange = e => {
+  const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     setForm({ ...form, [e.target.name]: e.target.value });
   }
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(login(form));
   }
