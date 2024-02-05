@@ -4,7 +4,11 @@ export const bunsName = ['bun', 'Булки'];
 export const saucesName = ['sauce', 'Соусы'];
 export const mainsName = ['main', 'Начинки'];
 
-export const translate = (item) => {
+//let statusRus : 'Создан' |  'Готовится' | 'Выполнен' | 'Отменен' | undefined;
+//let statusEng : 'created' | 'pending' | 'done' | 'canceled' | undefined;
+
+//export const translate: typeof statusRus = (item: any) => {
+   export const translate = (item: any) => {
    if (item === 'created') return ('Создан');
    if (item === 'pending') return ('Готовится');
    if (item === 'done') return ('Выполнен');

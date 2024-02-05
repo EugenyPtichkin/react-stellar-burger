@@ -2,14 +2,15 @@ import Styles from './feed.module.css';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from '../../services/hooks/hooks';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
 import { wsFeedConnectAction } from '../../services/actions/wsFeedActions';
 import { wsUrl } from '../../utils/data';
+import { TIngredient, TWSMessage, TWSOrder } from '../../services/types/data';
 
-const maxListNum = 20; //максимальное число отображаемых заказов в списках
+const maxListNum: number = 20; //максимальное число отображаемых заказов в списках
 export const FeedPage = () => {
   const { wsConnected, messages } = useSelector(store => store.wsFeed);
   const dispatch = useDispatch();
@@ -30,32 +31,39 @@ export const FeedPage = () => {
   const { ingredients } = useSelector(store => store.ingredients);
   const location = useLocation();
 
-  let last_order = {};
-  let status_done, status_pending;
+  let last_order: TWSMessage = {
+    orders: [],
+    total: 0,
+    totalToday: 0,
+    timestamp: 0,
+    message: ''
+  };
+  let status_done: number[] = [];
+  let status_pending: number[] = [];
   if (messages) {
     last_order = messages[messages.length - 1];
     //console.log(`#${messages.length}`);
     //console.log(last_order);
-    if (last_order) { //отрисовать списки заказов если существует информация о последнем списке заказов
+    if (last_order) { //отрисовать списки заказов если существует информация в последнем списке заказов существует ненулевой заказ
       status_done = last_order.orders.filter(item => (item.status === 'done')).map(item => item.number).reverse();
       status_pending = last_order.orders.filter(item => (item.status === 'pending')).map(item => item.number).reverse();
     }
   }
 
-  const zerofill = (number, digits) => {
+  const zerofill = (number: number, digits: number) => {
     return ("0".repeat(digits) + number).slice(-digits);
   }
 
-  const DisplayCard = (props) => {
-    const current_order = props.data;
+  const DisplayCard = ({ data }: { data: TWSOrder }) => {
+    const current_order: TWSOrder = data;
     //сформировать массивы картинок и цен из стора   
-    const dataImages = [];
-    const dataPrices = [];
+    const dataImages: Array<string> = [];
+    const dataPrices: Array<number> = [];
     current_order.ingredients.forEach((ingredient_id) => {
-      const currentIngredient = ingredients.find(item => item._id === ingredient_id);
+      const currentIngredient: TIngredient | undefined = ingredients?.find(item => item._id === ingredient_id);
       if (currentIngredient) { //если с сервера пришел известный ингредиент или не-null
-        const currentImage = currentIngredient.image_mobile;
-        const currentPrice = currentIngredient.price;
+        const currentImage: string = currentIngredient.image_mobile;
+        const currentPrice: number = currentIngredient.price;
         //console.log(`Image: ${currentImage} Price: ${currentPrice}`);
         dataImages.push(...[currentImage]);
         dataPrices.push(...[currentPrice]);
@@ -80,12 +88,12 @@ export const FeedPage = () => {
             <div className={Styles.images}>
               {dataImages.map((image, index) => {
                 if (index < 5) return (
-                  <div key={index} className={Styles.image_circle} style={{'zIndex': `${6-index}`}} >
+                  <div key={index} className={Styles.image_circle} style={{ 'zIndex': `${6 - index}` }} >
                     <img className={Styles.image} src={image} alt='компонент бургера' />
                   </div>
                 )
                 else if (index === 5) return (
-                  <div key={index} className={Styles.image_circle} style={{'zIndex': `${6-index}`}} >
+                  <div key={index} className={Styles.image_circle} style={{ 'zIndex': `${6 - index}` }} >
                     <img className={`${Styles.image} ${Styles.image_last}`} src={image} alt='компонент бургера' />
                     <p className={Styles.text_last}>+{dataImages.length - 5}</p>
                   </div>
@@ -97,7 +105,7 @@ export const FeedPage = () => {
           </div>
           <div className={Styles.price}>
             <p className={Styles.digit}>{dataPrices.reduce((acc, current) => acc + current, 0)}</p>
-            <CurrencyIcon></CurrencyIcon>
+            <CurrencyIcon type='primary' />
           </div>
         </div>
       </div>

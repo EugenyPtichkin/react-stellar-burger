@@ -87,3 +87,5 @@ export type TIngredientPairs = {
  ingredient_id: string;
  quantity: number;
 };
+
+export let status: 'created' | 'pending' | 'done' |'canceled';

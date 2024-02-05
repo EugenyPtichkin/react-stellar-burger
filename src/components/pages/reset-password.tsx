@@ -7,11 +7,11 @@ import { api } from '../../utils/burger-api';
 export const ResetPasswordPage = () => {
   const [form, setForm] = useState({ password: '', code: '' });
   const navigate = useNavigate();
-  const isForgotPasswordPageVisited = sessionStorage.getItem('forgotPasswordPageVisited');
+  const isForgotPasswordPageVisited: string | null = sessionStorage.getItem('forgotPasswordPageVisited');
   console.log(`Страница сброса пароля посещена: ${isForgotPasswordPageVisited}`);
 
   useEffect(() => {
-    if (!isForgotPasswordPageVisited) {
+    if (isForgotPasswordPageVisited !== 'yes') {
       navigate('/forgot-password', { replace: true });
     }
   }, [isForgotPasswordPageVisited, navigate]);
