@@ -6,7 +6,7 @@ import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from 'react-redux';
 import { deleteIngredient } from '../../services/actions/burger';
 import PropTypes from 'prop-types';
-import { sglDataPropType } from './../../utils/prop-types';
+import { sglDataPropType } from '../../utils/prop-types';
 
 export const BurgerItem = ({ dataItem, index, handleSwitchItems}) => {
 

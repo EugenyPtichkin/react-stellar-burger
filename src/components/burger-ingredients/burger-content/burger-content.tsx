@@ -1,16 +1,16 @@
-import PropTypes from 'prop-types';
-import { sglDataPropType } from './../../../utils/prop-types';
 import Styles from './burger-content.module.css';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Counter } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../../services/hooks/hooks';
 import { useDrag } from 'react-dnd';
+import { FC } from 'react';
+import { TIngredient } from '../../../services/types/data';
 
-const BurgerContent = ({ dataItem, children }) => {
+const BurgerContent: FC<{dataItem:TIngredient, children: JSX.Element}> = ({dataItem, children}: {dataItem:TIngredient, children: JSX.Element}) => {
    
   const [{ isDragging }, dragRef] = useDrag({
     type: 'ingredient',
-    item: dataItem,
+    item: { dataItem },
     collect: monitor => ({
       isDragging: monitor.isDragging()
     })
@@ -18,7 +18,7 @@ const BurgerContent = ({ dataItem, children }) => {
 
   const { bun, ingredients } = useSelector(store => store.burger);
 
-  function CollapsableTextContent({ quantity }) {
+  const CollapsableTextContent: FC<{ quantity: number }> = ({quantity}:{ quantity: number })  => {
     if (quantity === 0) {
       return null;
     }
@@ -39,17 +39,12 @@ const BurgerContent = ({ dataItem, children }) => {
         </div>
         <p className={Styles.name}>{dataItem.name}</p>
         <CollapsableTextContent quantity={
-          (dataItem.type === 'bun') && bun && (dataItem._id === bun._id) ? 2 : 0 +
-            (dataItem.type !== 'bun') && ingredients.filter(item => item._id === dataItem._id).length} />
+          (dataItem.type === 'bun') && bun && (dataItem._id === bun._id) ? 2 :
+          (dataItem.type !== 'bun') ? ingredients.filter(item => item._id === dataItem._id).length : 0} />
       </section>
     </>
   )
 }
-
-BurgerContent.propTypes = {
-  dataItem: sglDataPropType.isRequired,
-  children: PropTypes.node.isRequired,
-};
 
 export default BurgerContent;
 

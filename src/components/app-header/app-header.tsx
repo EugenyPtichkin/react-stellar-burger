@@ -4,7 +4,7 @@ import { Logo } from '@ya.praktikum/react-developer-burger-ui-components'
 import { BurgerIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ListIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 
 function AppHeader() {
   const location = useLocation();
@@ -12,24 +12,25 @@ function AppHeader() {
     <header>
       <section className={Styles.header}>
         <nav className={Styles.nav}>
-          <div className={Styles.nav_first}>            
-            <NavigationLink text='Конструктор' link='/' isActive={location.pathname === '/'}>
-              <BurgerIcon type={(location.pathname === '/') ? "primary" : "secondary"}>
-              </BurgerIcon>
+          <div className={Styles.nav_first}>
+            <NavigationLink text='Конструктор' link='/' isActive={location.pathname === '/'} >
+              <BurgerIcon type={(location.pathname === '/') ? "primary" : "secondary"} />
             </NavigationLink>
           </div>
-          <NavigationLink text='Лента заказов' link='/feed' isActive={location.pathname === '/orders'}>
-            <ListIcon type={(location.pathname === '/feed') ? "primary" : "secondary"}>
-            </ListIcon>
+          <NavigationLink text='Лента заказов' link='/feed' isActive={location.pathname === '/orders'} >
+            <ListIcon type={(location.pathname === '/feed') ? "primary" : "secondary"} />
           </NavigationLink>
         </nav>
 
-        <Logo className='header_logo'/>
+        <nav>
+          <Link to='/' className={Styles.header_logo}>
+            <Logo />
+          </Link>
+        </nav>
 
         <nav className={Styles.profile}>
-          <NavigationLink text='Личный кабинет' link='/profile' isActive={location.pathname === '/profile'}>
-            <ProfileIcon type={(location.pathname === '/profile') ? "primary" : "secondary"}>
-            </ProfileIcon>
+          <NavigationLink text='Личный кабинет' link='/profile' isActive={location.pathname === '/profile'} >
+            <ProfileIcon type={(location.pathname === '/profile') ? "primary" : "secondary"} />
           </NavigationLink>
         </nav>
       </section>

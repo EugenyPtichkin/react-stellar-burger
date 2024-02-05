@@ -1,35 +1,35 @@
-import { useState, useEffect, useMemo, useCallback } from 'react'; //useContext
+import { useState, useEffect, useMemo, useCallback, FC } from 'react'; //useContext
 import Styles from './burger-constructor.module.css';
 import ModalStyles from './../modal/modal.module.css';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { BurgerItem } from './../burger-item/burger-item';
+import { BurgerItem } from '../burger-item/burger-item';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
-import OrderDetails from './../order-details/order-details';
-import Modal from './../modal/modal';
-//import { useDispatch, useSelector } from 'react-redux';
-import { deleteIngredient, updateIngredients, deleteAllIngredients } from '../../services/actions/burger';
+import OrderDetails from '../order-details/order-details';
+import Modal from '../modal/modal';
+import { updateIngredients, deleteAllIngredients } from '../../services/actions/burger';
 import { getOrder } from '../../services/actions/order';
 import { useDrop } from 'react-dnd';
 import { addBuns, addIngredient } from '../../services/actions/burger';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
+import { TBun, TBurger, TIngredient, TUser } from '../../services/types/data';
 
-function BurgerConstructor() {
+const BurgerConstructor: FC = () => {
   const [modalActive, setModalActive] = useState(false);
   const [modalServerErrorActive, setServerErrorActive] = useState(false); //Отображение ошибки сервера
-  const user = useSelector(store => store.user.user);
+  const user: TUser | null = useSelector(store => store.user.user);
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const [{ isOver }, dropRef] = useDrop({
     accept: 'ingredient',
-    drop(item) {
-      if (item.type === 'bun') {
-        dispatch(addBuns(item))
+    drop(item: { dataItem: TIngredient }) {
+      if (item.dataItem.type === 'bun') {
+        dispatch(addBuns(item.dataItem))
       } else {
-        dispatch(addIngredient(item))
+        dispatch(addIngredient(item.dataItem))
       }
     },
     collect: monitor => ({
@@ -37,11 +37,11 @@ function BurgerConstructor() {
     })
   })
 
-  const { bun, ingredients } = useSelector(store => store.burger);
-  const burgerIngredients = { bun, ingredients };
+  const { bun, ingredients }: TBurger = useSelector(store => store.burger);
+  const burgerIngredients: TBurger = { bun, ingredients };
 
-  const burgerPrice = useMemo(() => {
-    return (bun && bun.price * 2) + ingredients.reduce((acc, item) => acc + item.price, 0);
+  const burgerPrice: number = useMemo(() => {
+    return (bun ? (bun.price * 2) : 0) + ingredients.reduce((acc, item) => acc + item.price, 0);
   }, [bun, ingredients]);
 
   //cостояние заказа
@@ -50,15 +50,15 @@ function BurgerConstructor() {
   const handleModalClose = useCallback(() => {
     setModalActive(false);
     dispatch(deleteAllIngredients());
-  },[dispatch]);
+  }, [dispatch]);
 
   const handleServerErrorOpen = useCallback(() => {
     setServerErrorActive(true);
-  },[]);
+  }, []);
 
   const handleSubmit = () => {
     if (user) {
-      const burgerIngredientsIds = [burgerIngredients.bun._id, ...burgerIngredients.ingredients.map(item => item._id), burgerIngredients.bun._id];
+      const burgerIngredientsIds: Array<string> = [burgerIngredients.bun ? burgerIngredients.bun._id : '', ...burgerIngredients.ingredients.map(item => item._id), burgerIngredients.bun ? burgerIngredients.bun._id : ''];
       dispatch(getOrder(burgerIngredientsIds));
       handleModalOpen();
     }
@@ -84,25 +84,31 @@ function BurgerConstructor() {
   };
 
   // Дописать к названию булочки "верх" или "низ" и отработать кнопку удаления
-  function DisplayElement({ dataItem, style, lock }) {
-    function handleDeleteItem() {
-      dispatch(deleteIngredient(dataItem.uuid));
-    }
-    const newtext = (style === "top") ? [dataItem.name, " (верх)"].join('') :
-      (style === "bottom") ? [dataItem.name, " (низ)"].join('') : dataItem.name;
+  const DisplayElement: FC<{ dataItem: TBun, style: string, lock: boolean }> = ({ dataItem, style, lock }: { dataItem: TBun, style: string, lock: boolean }) => {
+    //  function handleDeleteItem() {
+    //    dispatch(deleteIngredient(dataItem.uuid));
+    //  }
+    const newtext: string = (style === 'top') ? [dataItem.name, ' (верх)'].join('') :
+      (style === 'bottom') ? [dataItem.name, ' (низ)'].join('') : dataItem.name;
+    
+      type TConsructorElementStyle = 'top' | 'bottom' | undefined;
+      let consructorElementStyle: TConsructorElementStyle;
+      consructorElementStyle = (style === 'top')? consructorElementStyle = style : 
+      (style === 'bottom') ? consructorElementStyle = 'bottom' : undefined;
+        
     return (
       <ConstructorElement
-        type={style}
+        type={consructorElementStyle}
         isLocked={lock}
         text={newtext}
         price={dataItem.price}
         thumbnail={dataItem.image}
-        handleClose={handleDeleteItem}
+        handleClose={undefined} //Bun нельзя удалить, только заменить
       />
     )
   }
   // Добавить к разметке иконку перетаскивания 
-  function BunItem({ dataItem, style }) {
+  const BunItem: FC<{ dataItem: TBun, style: string }> = ({ dataItem, style }: { dataItem: TBun, style: string }) => {
     return (
       <section className={Styles.chosableItem}>
         <DisplayElement dataItem={dataItem} style={style} lock={true} />
@@ -110,9 +116,9 @@ function BurgerConstructor() {
     );
   };
 
-  const handleSwitchItems = useCallback((dragIndex, hoverIndex) => {
-    const dragItem = ingredients[dragIndex];
-    const updatedIngredients = [...ingredients];
+  const handleSwitchItems = useCallback((dragIndex: number, hoverIndex: number) => {
+    const dragItem: TIngredient = ingredients[dragIndex];
+    const updatedIngredients: Array<TIngredient> = [...ingredients];
     updatedIngredients.splice(dragIndex, 1);          //удалить переносимый
     updatedIngredients.splice(hoverIndex, 0, dragItem);//вставить внутрь
     dispatch(updateIngredients(updatedIngredients));
@@ -128,8 +134,7 @@ function BurgerConstructor() {
           <BunItem
             key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
-            // eslint-disable-next-line
-            style={'top'} /*TODO: (style является внутренним пропсом BunItem)*/
+            style={`top`}
           />
         }
         </section>
@@ -153,8 +158,7 @@ function BurgerConstructor() {
           <BunItem
             key={burgerIngredients.bun.uuid}
             dataItem={burgerIngredients.bun}
-            // eslint-disable-next-line
-            style={'bottom'} /*TODO: (style является внутренним пропсом BunItem)*/
+            style={`bottom`}
           />
         }
         </section>
@@ -163,7 +167,7 @@ function BurgerConstructor() {
       <section className={Styles.info}>
         <div className={Styles.price}>
           <p className={Styles.price_value}>{burgerPrice}</p>
-          <div className={Styles.price_icon}><CurrencyIcon /></div>
+          <div className={Styles.price_icon}><CurrencyIcon type='primary' /></div>
         </div>
         <Button htmlType="button" type="primary" size="medium" onClick={handleSubmit}
           disabled={!burgerIngredients.bun} >

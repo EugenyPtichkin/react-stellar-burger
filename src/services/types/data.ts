@@ -11,9 +11,11 @@ export type TBun = {
   readonly type: string;
   readonly __v: number;
   readonly _id: string;
+  readonly uuid?: string;
 };
 
-export type TIngredient = TBun & { readonly uuid?: string };
+export type TIngredient = TBun;
+//export type TIngredient = TBun & { readonly uuid?: string };
 
 export type TBurger = {
   readonly bun: TBun | null;
@@ -71,7 +73,7 @@ export type TWSMessage = {
   total: number;
   totalToday: number;
   timestamp: number;
-  message? : string;
+  message?: string;
 };
 
 export type TWSAnswer = {
@@ -84,8 +86,15 @@ export interface IIsModal {
 };
 
 export type TIngredientPairs = {
- ingredient_id: string;
- quantity: number;
+  ingredient_id: string;
+  quantity: number;
 };
 
-export let status: 'created' | 'pending' | 'done' |'canceled';
+export let status: 'created' | 'pending' | 'done' | 'canceled';
+
+export type TNavigationLink = {
+  link: string;
+  isActive?: boolean;
+  text?: string;
+  children: JSX.Element;
+}
