@@ -6,7 +6,13 @@ import { CloseIcon } from '@ya.praktikum/react-developer-burger-ui-components/di
 
 const modalRoot = document.getElementById('react-modals');
 
-const Modal: FC<{children: JSX.Element, handleClose():void, title?:string}> = ({children, handleClose, title}: {children: JSX.Element, handleClose():void, title?:string}) => {
+type TModal = {
+  children: JSX.Element;
+  handleClose(): void;
+  title?: string;
+}
+
+const Modal: FC<TModal> = ({ children, handleClose, title }: TModal) => {
   const closeOnEscape = useCallback((event) => {
     if (event.key === "Escape") {
       handleClose();
