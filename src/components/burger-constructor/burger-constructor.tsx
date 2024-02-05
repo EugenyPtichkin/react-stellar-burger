@@ -143,7 +143,7 @@ const BurgerConstructor: FC = () => {
         <section className={Styles.scrolbarList}>
           <ul className={Styles.itemsList} >
             {burgerIngredients.ingredients.map((dataItem, index) =>
-              <BurgerItem
+              <BurgerItem 
                 key={dataItem.uuid}
                 dataItem={dataItem}
                 index={index}

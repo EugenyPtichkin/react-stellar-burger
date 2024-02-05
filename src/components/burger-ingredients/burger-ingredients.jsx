@@ -2,12 +2,13 @@ import { useState, useEffect } from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
-import { bunsName, saucesName, mainsName } from './../../utils/data';
+import { bunsName, saucesName, mainsName } from '../../utils/data';
+//import { useSelector } from '../../services/hooks/hooks';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
-function BurgerIngredients() {
+const BurgerIngredients = () => {
   const [bunsCategoryActive, setBunsCategoryActive] = useState(true);
   const [saucesCategoryActive, setSaucesCategoryActive] = useState(false);
   const [mainsCategoryActive, setMainsCategoryActive] = useState(false);
@@ -16,11 +17,15 @@ function BurgerIngredients() {
   const { ingredients } = useSelector(store => store.ingredients);
 
   const bunNum = ingredients.filter(item => item.type === 'bun').length;
-  const bunPosition = 54 + 208 * Math.trunc((bunNum + 1) / 2) + 32 * Math.trunc((bunNum - 1) / 2) + 40 //title+208*items+32*gaps+bottomPadding
+  const bunPosition = 54 + 208 * Math.trunc((bunNum + 1) / 2) + 32 * Math.trunc((bunNum - 1) / 2) + 40; //title+208*items+32*gaps+bottomPadding
+  //const bunNum: number | undefined = ingredients?.filter(item => item.type === 'bun').length;
+  //const bunPosition: number = 54 + 208 * Math.trunc((bunNum ? bunNum + 1 : 1) / 2) + 32 * Math.trunc((bunNum ? bunNum - 1 : -1) / 2) + 40; //title+208*items+32*gaps+bottomPadding
   //console.log('bunsNum=', bunNum, ' bunPosition=', bunPosition);
 
   const sauceNum = ingredients.filter(item => item.type === 'sauce').length;
   const saucePosition = bunPosition + 54 + 208 * Math.trunc((sauceNum + 1) / 2) + 32 * Math.trunc((sauceNum - 1) / 2) + 40;//bunPos+title+208*items+32*gaps+bottomPadding
+  //const sauceNum: number | undefined = ingredients?.filter(item => item.type === 'sauce').length;
+  //const saucePosition: number = bunPosition + 54 + 208 * Math.trunc((sauceNum ? sauceNum + 1 : 1) / 2) + 32 * Math.trunc((sauceNum ? sauceNum - 1 : -1) / 2) + 40;//bunPos+title+208*items+32*gaps+bottomPadding
   //console.log('sauceNum=', sauceNum, ' saucePosition=', saucePosition);
 
   const scrollToBunCategory = () => {
@@ -29,23 +34,22 @@ function BurgerIngredients() {
       left: 0,
       behavior: "smooth",
     });
-  }
-
+  };
   const scrollToSauceCategory = () => {
     categories.scrollTo({
       top: bunPosition,
       left: 0,
       behavior: "smooth",
     });
-  }
-
+  };
   const scrollToMainCategory = () => {
     categories.scrollTo({
       top: saucePosition,
       left: 0,
       behavior: "smooth",
     });
-  }
+  };
+
 
   function ShowTab() {
     return (
@@ -61,11 +65,11 @@ function BurgerIngredients() {
         </Tab>
       </div>
     )
-  }
+  };
 
   function DisplayItem({ dataSet, productName }) {
     const location = useLocation();
-    
+
     return (
       <>
         <h2 className={Styles.subtitle}>{productName[1]}</h2>
@@ -75,7 +79,7 @@ function BurgerIngredients() {
               key={dataItem._id}
               to={`/ingredients/${dataItem._id}`}
               state={{ background: location }}
-              className={Styles.link}>                    
+              className={Styles.link}>
               <BurgerContent dataItem={dataItem} >
                 <img src={dataItem.image} alt={dataItem.name} />
               </BurgerContent>
@@ -85,7 +89,7 @@ function BurgerIngredients() {
         </div >
       </>
     );
-  }
+  };
 
   useEffect(() => {
     setCategories(document.getElementById("categories"));
@@ -114,7 +118,8 @@ function BurgerIngredients() {
       }
     }
     check();
-  }, [categories, bunPosition, saucePosition]);
+  }, [categories, bunPosition, saucePosition]
+  );
 
   return (
     <section className={Styles.contents}>
@@ -129,6 +134,5 @@ function BurgerIngredients() {
       </ul>
     </section>
   );
-};
-
+}
 export default BurgerIngredients;

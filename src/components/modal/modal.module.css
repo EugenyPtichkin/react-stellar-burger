@@ -34,5 +34,5 @@
   flex-direction: row;
   justify-content: center;
   color: #F2F2F3;
-  composes: text_type_main-large pl-10 pr-10 pt-10 from global;
+  composes: text_type_main-large from global;
 }

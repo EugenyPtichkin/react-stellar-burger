@@ -98,3 +98,11 @@ export type TNavigationLink = {
   text?: string;
   children: JSX.Element;
 }
+
+export type TBurgerItem = {
+  dataItem:TIngredient;
+  index: number;
+  handleSwitchItems: (
+    dragIndex: number,
+    hoverIndex: number) => void
+}

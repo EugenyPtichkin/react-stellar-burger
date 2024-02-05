@@ -1,19 +1,22 @@
 import Styles from './burger-item.module.css';
 import { DragIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { ConstructorElement } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useRef } from 'react';
+import { FC, useRef } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks/hooks';
 import { deleteIngredient } from '../../services/actions/burger';
 import PropTypes from 'prop-types';
 import { sglDataPropType } from '../../utils/prop-types';
+import { TBurgerItem } from '../../services/types/data';
 
-export const BurgerItem = ({ dataItem, index, handleSwitchItems}) => {
+export const BurgerItem: FC<TBurgerItem> = ({ dataItem, index, handleSwitchItems}: TBurgerItem) => {
 
   const ref = useRef(null);
   const dispatch = useDispatch();  
   function handleDeleteItem() {
-    dispatch(deleteIngredient(dataItem.uuid));
+    if(dataItem.uuid) {
+      dispatch(deleteIngredient(dataItem.uuid));
+    }
   }
 
   const [{ isMoving }, move] = useDrag({
@@ -26,9 +29,9 @@ export const BurgerItem = ({ dataItem, index, handleSwitchItems}) => {
 
   const [{ isHover }, drop] = useDrop({
     accept: 'item',
-    drop(item) {
-      const dragIndex = item.index;
-      const hoverIndex = index;
+    drop(item: {index: number}) {
+      const dragIndex: number = item.index;
+      const hoverIndex: number = index;
       //console.log(dragIndex, hoverIndex);
       handleSwitchItems(dragIndex, hoverIndex);
     },
@@ -43,7 +46,7 @@ export const BurgerItem = ({ dataItem, index, handleSwitchItems}) => {
     <li className={Styles.layout} ref={ref}>
       <div className={isMoving ? `${Styles.chosableItem} ${Styles.isMoving}` :
                       isHover ? `${Styles.chosableItem} ${Styles.isHover}` : `${Styles.chosableItem}`}>
-          <DragIcon/>
+          <DragIcon type='primary'/>
           <ConstructorElement
             isLocked={false}
             text={dataItem.name}
