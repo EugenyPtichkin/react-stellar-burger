@@ -1,4 +1,4 @@
-import { TIngredient, TIngredientPairs, TUser, TWSOrder } from "./data";
+import { TIngredient, TUser, TWSOrder } from "./data";
 
 export type THeadersInitAuth = HeadersInit & { Authorization?: string | null };
 

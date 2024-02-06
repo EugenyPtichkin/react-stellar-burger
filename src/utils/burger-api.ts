@@ -40,7 +40,7 @@ const fetchWithRefresh = async <T extends Response>(endpoint: string, options: R
       const res = await fetch(`${baseUrl}${endpoint}`, options); //повторяем запрос     
       return await checkResponse(res);
     }
-    return(res);
+    return (res);
   }
   catch (err) {
     return Promise.reject(err);
@@ -56,7 +56,7 @@ const getSingleOrderData = (number: number) => request<ISingleOrder, IOptions>(`
   }
 });
 
-const getOrderNumber = (orders: Array<string>) => {
+const getOrderNumber = (data: Array<string>) => {
   return fetchWithRefresh<IOrderResponse>('orders', {
     method: 'POST',
     headers: {
@@ -64,7 +64,7 @@ const getOrderNumber = (orders: Array<string>) => {
       'Authorization': localStorage.getItem("accessToken")
     } as THeadersInitAuth,
     body: JSON.stringify({
-      'ingredients': orders
+      'ingredients': data
     })
   });
 }
@@ -79,7 +79,7 @@ const getUser = async () => {
   });
 }
 
-const updateUser = (data: TUserForm) => {
+const updateUser = async (data: TUserForm) => {
   return fetchWithRefresh<IUserResponse>('auth/user', {
     method: 'PATCH',
     headers: {
@@ -93,7 +93,7 @@ const updateUser = (data: TUserForm) => {
     })
   });
 }
-const login = (data: TUserForm) => {
+const login = async  (data: TUserForm) => {
   return request<IUserResponse, IOptions>('auth/login', {
     method: 'POST',
     headers: {
@@ -106,15 +106,17 @@ const login = (data: TUserForm) => {
   });
 }
 
-const logout = () => request('auth/logout', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    'token': localStorage.getItem("refreshToken"),
-  })
-});
+const logout = async () => {
+  return request('auth/logout', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'token': localStorage.getItem("refreshToken"),
+    }),
+  });
+}
 
 const register = (data: TUserForm) => {
   return request<IUserResponse, IOptions>('auth/register', {
@@ -126,7 +128,7 @@ const register = (data: TUserForm) => {
       'email': data.email,
       'password': data.password,
       'name': data.name,
-    })
+    }),
   });
 }
 
@@ -138,7 +140,7 @@ const askPasswordReset = async (email: string) => {
     },
     body: JSON.stringify({
       'email': email,
-    })
+    }),
   });
 }
 
@@ -151,7 +153,7 @@ const resetPassword = async (data: { password: string, code: string }) => {
     body: JSON.stringify({
       'password': data.password,
       'token': data.code
-    })
+    }),
   });
 }
 

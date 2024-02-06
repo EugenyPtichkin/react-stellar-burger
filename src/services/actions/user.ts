@@ -53,6 +53,7 @@ export const updateUser: AppThunk = (data: TUserForm) => async (dispatch: AppDis
   console.log(data);
   await api.updateUser(data)
     .then((res) => {
+      console.log(res)
       dispatch(setUser(res.user));
       dispatch(setAuthChecked(true));
     })
