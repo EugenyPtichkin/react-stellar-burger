@@ -50,6 +50,7 @@ export const getUser: AppThunk = () => async (dispatch: AppDispatch) => {
 };
 
 export const updateUser: AppThunk = (data: TUserForm) => async (dispatch: AppDispatch) => {
+  console.log(data);
   await api.updateUser(data)
     .then((res) => {
       dispatch(setUser(res.user));

@@ -15,7 +15,7 @@ export const getOrder: AppThunk = (data: Array<string> | any) => (dispatch: AppD
     .then((res) => {
       dispatch({
         type: SET_ORDER_SUCCESS,
-        name: res.name,
+        name: res.order.name,
         order: res.order.number,
         success: true
       })

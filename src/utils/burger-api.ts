@@ -1,30 +1,6 @@
-import { TIngredient, TUser, TUserForm, TWSOrder } from '../services/types/data';
+import { IArrayIngredients, IOptions, IOrderResponse, IResponse, ISingleOrder, IUserResponse, THeadersInitAuth } from '../services/types/api';
+import { TUserForm } from '../services/types/data';
 import { baseUrl } from './data';
-
-type THeadersInitAuth = HeadersInit & { Authorization?: string | null };
-
-export interface IOptions extends RequestInit {
-  headers: THeadersInitAuth;
-}
-
-interface IArrayIngredients extends Response {
-  data: Array<TIngredient>;
-};
-
-interface ISingleOrder extends Response {
-  orders: Array<TWSOrder>;
-}
-
-export interface IResponse extends Response {
-  success: boolean;
-  refreshToken: string;
-  accessToken: string;
-  message: string;
-}
-
-export interface IUserResponse extends IResponse {
-  user: TUser;
-}
 
 // создаем функцию проверки ответа на `ok`, не анализирую success, т.к. нужен выше для анализа нагрузки
 const checkResponse = (res: Response): Promise<any> => { //возвращается либо res.json либо Promise.reject(res.json())
@@ -38,7 +14,7 @@ const request = async <T extends Response, I extends RequestInit>(endpoint: stri
 };
 
 export const refreshToken = async () => {
-  return request<IResponse,IOptions>('auth/token', {
+  return request<IResponse, IOptions>('auth/token', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
@@ -46,16 +22,12 @@ export const refreshToken = async () => {
     body: JSON.stringify({
       token: localStorage.getItem("refreshToken"),
     }),
-  })
+  });
 };
 
-const fetchWithRefresh = async (endpoint: string, options: RequestInit & IOptions) => {
+const fetchWithRefresh = async <T extends Response>(endpoint: string, options: RequestInit & IOptions): Promise<T> => {
   try {
-    //    const res: Response = await fetch(`${baseUrl}${endpoint}`, options);
-    //    return await checkResponse(res);
-    //  } catch (err) {
-    //    if (err.message === 'jwt expired') {
-    const res = await request<IResponse,IOptions>(`${baseUrl}${endpoint}`, options)
+    const res = await request<T, IOptions>(`${endpoint}`, options)
       .then(checkResponse);
     if (res.message === 'jwt expired') {
       const refreshData = await refreshToken(); //обновляем токен
@@ -67,66 +39,71 @@ const fetchWithRefresh = async (endpoint: string, options: RequestInit & IOption
       options.headers.Authorization = refreshData.accessToken;
       const res = await fetch(`${baseUrl}${endpoint}`, options); //повторяем запрос     
       return await checkResponse(res);
-      //} else {
     }
+    return(res);
   }
   catch (err) {
     return Promise.reject(err);
-  }
+  };
 };
 
-const getIngredientsData = () => request<IArrayIngredients,IOptions>('ingredients');
+const getIngredientsData = () => request<IArrayIngredients, IOptions>('ingredients');
 
-const getSingleOrderData = (number: number) => request<ISingleOrder,IOptions>(`orders/${number}`, {
+const getSingleOrderData = (number: number) => request<ISingleOrder, IOptions>(`orders/${number}`, {
   method: 'GET',
   headers: {
     'Content-Type': 'application/json',
   }
 });
 
-const getOrderNumber = (data: Array<string>) => fetchWithRefresh('orders', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem("accessToken")
-  } as THeadersInitAuth,
-  body: JSON.stringify({
-    'ingredients': data
-  })
-});
+const getOrderNumber = (orders: Array<string>) => {
+  return fetchWithRefresh<IOrderResponse>('orders', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("accessToken")
+    } as THeadersInitAuth,
+    body: JSON.stringify({
+      'ingredients': orders
+    })
+  });
+}
 
-const getUser = async () => fetchWithRefresh('auth/user', {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem("accessToken")
-  } as THeadersInitAuth,
-});
+const getUser = async () => {
+  return fetchWithRefresh<IUserResponse>('auth/user', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("accessToken")
+    } as THeadersInitAuth,
+  });
+}
 
-const updateUser = (data: TUserForm) => fetchWithRefresh('auth/user', {
-  method: 'PATCH',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': localStorage.getItem("accessToken")
-  } as THeadersInitAuth,
-  body: JSON.stringify({
-    'email': data.email,
-    'password': data.password,
-    'name': data.name,
-  })
-});
-
+const updateUser = (data: TUserForm) => {
+  return fetchWithRefresh<IUserResponse>('auth/user', {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': localStorage.getItem("accessToken")
+    } as THeadersInitAuth,
+    body: JSON.stringify({
+      'email': data.email,
+      'password': data.password,
+      'name': data.name,
+    })
+  });
+}
 const login = (data: TUserForm) => {
-  return request<IUserResponse,IOptions>('auth/login', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    'email': data.email,
-    'password': data.password
-  })
-});
+  return request<IUserResponse, IOptions>('auth/login', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'email': data.email,
+      'password': data.password
+    })
+  });
 }
 
 const logout = () => request('auth/logout', {
@@ -140,39 +117,43 @@ const logout = () => request('auth/logout', {
 });
 
 const register = (data: TUserForm) => {
-  return request<IUserResponse,IOptions>('auth/register', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    'email': data.email,
-    'password': data.password,
-    'name': data.name,
-  })
-});
+  return request<IUserResponse, IOptions>('auth/register', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'email': data.email,
+      'password': data.password,
+      'name': data.name,
+    })
+  });
 }
 
-const askPasswordReset = (email: string) => request('password-reset', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    'email': email,
-  })
-});
+const askPasswordReset = async (email: string) => {
+  request<IUserResponse, IOptions>('password-reset', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'email': email,
+    })
+  });
+}
 
-const resetPassword = (data: { password: string, code: string }) => request('password-reset/reset', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json'
-  },
-  body: JSON.stringify({
-    'password': data.password,
-    'token': data.code
-  })
-});
+const resetPassword = async (data: { password: string, code: string }) => {
+  request<IUserResponse, IOptions>('password-reset/reset', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      'password': data.password,
+      'token': data.code
+    })
+  });
+}
 
 export const api = {
   getIngredientsData,
@@ -185,6 +166,5 @@ export const api = {
   askPasswordReset,
   resetPassword,
   refreshToken,
-  fetchWithRefresh,
   getSingleOrderData
-};
+}
