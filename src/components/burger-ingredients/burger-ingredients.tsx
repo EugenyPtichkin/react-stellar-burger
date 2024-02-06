@@ -1,55 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Styles from './burger-ingredients.module.css';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from '../../utils/data';
-//import { useSelector } from '../../services/hooks/hooks';
-import { useSelector } from 'react-redux';
+import { useSelector } from '../../services/hooks/hooks';
+//import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
+import { TIngredient } from '../../services/types/data';
 
 const BurgerIngredients = () => {
-  const [bunsCategoryActive, setBunsCategoryActive] = useState(true);
-  const [saucesCategoryActive, setSaucesCategoryActive] = useState(false);
-  const [mainsCategoryActive, setMainsCategoryActive] = useState(false);
-  const [categories, setCategories] = useState();
+  const [bunsCategoryActive, setBunsCategoryActive] = useState<boolean>(true);
+  const [saucesCategoryActive, setSaucesCategoryActive] = useState<boolean>(false);
+  const [mainsCategoryActive, setMainsCategoryActive] = useState<boolean>(false);
+  const [categories, setCategories] = useState<HTMLElement | null>(null);
 
   const { ingredients } = useSelector(store => store.ingredients);
 
-  const bunNum = ingredients.filter(item => item.type === 'bun').length;
-  const bunPosition = 54 + 208 * Math.trunc((bunNum + 1) / 2) + 32 * Math.trunc((bunNum - 1) / 2) + 40; //title+208*items+32*gaps+bottomPadding
-  //const bunNum: number | undefined = ingredients?.filter(item => item.type === 'bun').length;
-  //const bunPosition: number = 54 + 208 * Math.trunc((bunNum ? bunNum + 1 : 1) / 2) + 32 * Math.trunc((bunNum ? bunNum - 1 : -1) / 2) + 40; //title+208*items+32*gaps+bottomPadding
+  const bunNum: number | undefined = ingredients?.filter(item => item.type === 'bun').length;
+  const bunPosition: number = 54 + 208 * Math.trunc((bunNum? bunNum + 1 : 0) / 2) + 32 * Math.trunc((bunNum? bunNum - 1 : 0) / 2) + 40; //title+208*items+32*gaps+bottomPadding
   //console.log('bunsNum=', bunNum, ' bunPosition=', bunPosition);
 
-  const sauceNum = ingredients.filter(item => item.type === 'sauce').length;
-  const saucePosition = bunPosition + 54 + 208 * Math.trunc((sauceNum + 1) / 2) + 32 * Math.trunc((sauceNum - 1) / 2) + 40;//bunPos+title+208*items+32*gaps+bottomPadding
-  //const sauceNum: number | undefined = ingredients?.filter(item => item.type === 'sauce').length;
-  //const saucePosition: number = bunPosition + 54 + 208 * Math.trunc((sauceNum ? sauceNum + 1 : 1) / 2) + 32 * Math.trunc((sauceNum ? sauceNum - 1 : -1) / 2) + 40;//bunPos+title+208*items+32*gaps+bottomPadding
+  const sauceNum: number | undefined = ingredients?.filter(item => item.type === 'sauce').length;
+  const saucePosition: number = bunPosition + 54 + 208 * Math.trunc((sauceNum? sauceNum + 1 : 0) / 2) + 32 * Math.trunc((sauceNum? sauceNum - 1 : 0) / 2) + 40 ;//bunPos+title+208*items+32*gaps+bottomPadding
   //console.log('sauceNum=', sauceNum, ' saucePosition=', saucePosition);
 
   const scrollToBunCategory = () => {
-    categories.scrollTo({
+    categories?.scrollTo({
       top: 0,
       left: 0,
       behavior: "smooth",
     });
   };
   const scrollToSauceCategory = () => {
-    categories.scrollTo({
+    categories?.scrollTo({
       top: bunPosition,
       left: 0,
       behavior: "smooth",
     });
   };
   const scrollToMainCategory = () => {
-    categories.scrollTo({
+    categories?.scrollTo({
       top: saucePosition,
       left: 0,
       behavior: "smooth",
     });
   };
-
 
   function ShowTab() {
     return (
@@ -67,7 +63,7 @@ const BurgerIngredients = () => {
     )
   };
 
-  function DisplayItem({ dataSet, productName }) {
+  const DisplayItem = ({ dataSet, productName }: { dataSet: Array<TIngredient>, productName: Array<string> }) => {
     const location = useLocation();
 
     return (
@@ -91,32 +87,35 @@ const BurgerIngredients = () => {
     );
   };
 
+
   useEffect(() => {
     setCategories(document.getElementById("categories"));
     function check() {
       if (categories === null || categories === undefined) {
         return;
       } else {
-        categories.addEventListener("scroll", (evt) => {
-          const scrollPosition = evt.target.scrollTop;
-          if (scrollPosition < bunPosition) {
+        categories.addEventListener("scroll", (evt: Event) => {
+          const scrollPosition: number | undefined = categories.scrollTop;
+          console.log(scrollPosition, bunPosition, saucePosition );
+          if (scrollPosition? scrollPosition < bunPosition: true) {  //булки
             setBunsCategoryActive(true);
             setSaucesCategoryActive(false);
             setMainsCategoryActive(false);
           }
-          else if (scrollPosition < saucePosition) {
+          else if (scrollPosition? scrollPosition < saucePosition: false) {//соусы
             setBunsCategoryActive(false);
             setSaucesCategoryActive(true);
             setMainsCategoryActive(false);
           }
-          else {
+          else { //начинки
             setBunsCategoryActive(false);
             setSaucesCategoryActive(false);
-            setMainsCategoryActive(true);
+            setMainsCategoryActive(true);          
           }
         });
       }
     }
+
     check();
   }, [categories, bunPosition, saucePosition]
   );
@@ -127,11 +126,12 @@ const BurgerIngredients = () => {
       <section className={Styles.tab}>
         <ShowTab />
       </section>
-      <ul className={Styles.scrollbar} id="categories" >
-        <DisplayItem dataSet={ingredients} productName={bunsName} />
-        <DisplayItem dataSet={ingredients} productName={saucesName} />
-        <DisplayItem dataSet={ingredients} productName={mainsName} />
-      </ul>
+      {ingredients &&
+        <ul className={Styles.scrollbar} id="categories" >
+          <DisplayItem dataSet={ingredients} productName={bunsName} />
+          <DisplayItem dataSet={ingredients} productName={saucesName} />
+          <DisplayItem dataSet={ingredients} productName={mainsName} />
+        </ul>}
     </section>
   );
 }
