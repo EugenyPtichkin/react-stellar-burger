@@ -1,4 +1,4 @@
-import { FC, useCallback, useEffect, KeyboardEvent } from 'react';
+import { FC, useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Styles from './modal.module.css';
 import ModalOverlay from '../modal-overlay/modal-overlay';
@@ -13,14 +13,15 @@ type TModal = {
 }
 
 const Modal: FC<TModal> = ({ children, handleClose, title }: TModal) => {
-  const closeOnEscape = useCallback((event) => { //((event: KeyboardEvent<HTMLInputElement>): AddEventListenerOptions => {
-    if (event.key === "Escape") {
+ 
+  const closeOnEscape = useCallback((ev: KeyboardEvent) => {
+    if (ev.key === "Escape") {
       handleClose();
     }
   }, [handleClose]);
 
   useEffect(() => {
-    document.addEventListener("keydown", closeOnEscape );
+    document.addEventListener("keydown", closeOnEscape);
     return () => {
       document.removeEventListener("keydown", closeOnEscape );
     }
