@@ -96,17 +96,20 @@ export const register: AppThunk = (data: TUserForm) => async (dispatch: AppDispa
   });
 }
 
-export const checkUserAuth: AppThunk = () => (dispatch: AppDispatch) => {
+export const checkUserAuth: AppThunk =  () => async (dispatch: AppDispatch) => {
   if (localStorage.getItem("accessToken")) {
-    try {
-      getUser();
-    } catch {
+    api.getUser()
+    .then((res) => {
+      dispatch(setUser(res.user));
+    })
+    .catch((res) => {
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
         dispatch(setUser(null));
-    } finally {
+    })
+    .finally (() => {
       dispatch(setAuthChecked(true))
-    }
+    })
   } else {
     dispatch(setAuthChecked(true));
   }

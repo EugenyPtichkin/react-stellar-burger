@@ -5,8 +5,6 @@ import { FC, useRef } from 'react';
 import { useDrop, useDrag } from 'react-dnd';
 import { useDispatch } from '../../services/hooks/hooks';
 import { deleteIngredient } from '../../services/actions/burger';
-import PropTypes from 'prop-types';
-import { sglDataPropType } from '../../utils/prop-types';
 import { TBurgerItem } from '../../services/types/data';
 
 export const BurgerItem: FC<TBurgerItem> = ({ dataItem, index, handleSwitchItems}: TBurgerItem) => {
@@ -32,7 +30,6 @@ export const BurgerItem: FC<TBurgerItem> = ({ dataItem, index, handleSwitchItems
     drop(item: {index: number}) {
       const dragIndex: number = item.index;
       const hoverIndex: number = index;
-      //console.log(dragIndex, hoverIndex);
       handleSwitchItems(dragIndex, hoverIndex);
     },
     collect: monitor => ({
@@ -57,10 +54,4 @@ export const BurgerItem: FC<TBurgerItem> = ({ dataItem, index, handleSwitchItems
       </div>
     </li>
   );
-};
-
-BurgerItem.propTypes = {
-  dataItem: sglDataPropType.isRequired,
-  index: PropTypes.number.isRequired,
-  handleSwitchItems: PropTypes.func.isRequired
 };

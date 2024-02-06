@@ -4,7 +4,6 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerContent from './burger-content/burger-content';
 import { bunsName, saucesName, mainsName } from '../../utils/data';
 import { useSelector } from '../../services/hooks/hooks';
-//import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { TIngredient } from '../../services/types/data';

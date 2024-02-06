@@ -1,4 +1,4 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch } from '../../services/hooks/hooks';
 import { NavLink, Outlet } from 'react-router-dom';
 import Styles from './profile.module.css';
 import { logout } from '../../services/actions/user';
