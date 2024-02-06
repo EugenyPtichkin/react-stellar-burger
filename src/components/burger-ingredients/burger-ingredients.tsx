@@ -18,11 +18,11 @@ const BurgerIngredients = () => {
   const { ingredients } = useSelector(store => store.ingredients);
 
   const bunNum: number | undefined = ingredients?.filter(item => item.type === 'bun').length;
-  const bunPosition: number = 54 + 208 * Math.trunc((bunNum? bunNum + 1 : 0) / 2) + 32 * Math.trunc((bunNum? bunNum - 1 : 0) / 2) + 40; //title+208*items+32*gaps+bottomPadding
+  const bunPosition: number = 54 + 208 * Math.trunc((bunNum? bunNum + 1 : 0) / 2) + 32 * Math.trunc((bunNum? bunNum - 1 : 0) / 2) + 40 + 10; //title+208*items+32*gaps+bottomPadding
   //console.log('bunsNum=', bunNum, ' bunPosition=', bunPosition);
 
   const sauceNum: number | undefined = ingredients?.filter(item => item.type === 'sauce').length;
-  const saucePosition: number = bunPosition + 54 + 208 * Math.trunc((sauceNum? sauceNum + 1 : 0) / 2) + 32 * Math.trunc((sauceNum? sauceNum - 1 : 0) / 2) + 40 ;//bunPos+title+208*items+32*gaps+bottomPadding
+  const saucePosition: number = bunPosition + 54 + 208 * Math.trunc((sauceNum? sauceNum + 1 : 0) / 2) + 32 * Math.trunc((sauceNum? sauceNum - 1 : 0) / 2) + 40 +10 ;//bunPos+title+208*items+32*gaps+bottomPadding
   //console.log('sauceNum=', sauceNum, ' saucePosition=', saucePosition);
 
   const scrollToBunCategory = () => {

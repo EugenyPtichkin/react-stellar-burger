@@ -6,15 +6,15 @@ export interface IOptions extends RequestInit {
   headers: THeadersInitAuth;
 }
 
-export interface IArrayIngredients extends Response {
+export interface IArrayIngredients extends IResponse {
   data: Array<TIngredient>;
 };
 
-export interface ISingleOrder extends Response {
+export interface ISingleOrder extends IResponse {
   orders: Array<TWSOrder>;
 }
 
-export interface IOrderResponse extends Response {
+export interface IOrderResponse extends IResponse {
   order: TWSOrder;
 }
 

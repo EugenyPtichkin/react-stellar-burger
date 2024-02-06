@@ -2,15 +2,12 @@ import { IArrayIngredients, IOptions, IOrderResponse, IResponse, ISingleOrder, I
 import { TUserForm } from '../services/types/data';
 import { baseUrl } from './data';
 
-// создаем функцию проверки ответа на `ok`, не анализирую success, т.к. нужен выше для анализа нагрузки
-const checkResponse = (res: Response): Promise<any> => { //возвращается либо res.json либо Promise.reject(res.json())
-  return res.ok ? res.json() : res.json().then(err => Promise.reject(err));
-}
 
 // создаем универсальную фукнцию запроса с проверкой ответа `ok` и `success`
 const request = async <T extends Response, I extends RequestInit>(endpoint: string, options?: I): Promise<T> => {
-  return await fetch(`${baseUrl}${endpoint}`, options)
-    .then(checkResponse);
+  return fetch(`${baseUrl}${endpoint}`, options)
+    .then(res => res.json(), err => Promise.reject(err))
+    .catch(err =>  Promise.reject(err))
 };
 
 export const refreshToken = async () => {
@@ -25,10 +22,9 @@ export const refreshToken = async () => {
   });
 };
 
-const fetchWithRefresh = async <T extends Response>(endpoint: string, options: RequestInit & IOptions): Promise<T> => {
+const fetchWithRefresh = async <T extends IResponse>(endpoint: string, options: RequestInit & IOptions): Promise<T> => {
   try {
-    const res = await request<T, IOptions>(`${endpoint}`, options)
-      .then(checkResponse);
+    const res = await request<T, IOptions>(endpoint, options);
     if (res.message === 'jwt expired') {
       const refreshData = await refreshToken(); //обновляем токен
       if (!refreshData.success) {
@@ -37,8 +33,7 @@ const fetchWithRefresh = async <T extends Response>(endpoint: string, options: R
       localStorage.setItem("refreshToken", refreshData.refreshToken);
       localStorage.setItem("accessToken", refreshData.accessToken);
       options.headers.Authorization = refreshData.accessToken;
-      const res = await fetch(`${baseUrl}${endpoint}`, options); //повторяем запрос     
-      return await checkResponse(res);
+      return await request<T, IOptions>(`${endpoint}`, options);//повторяем запрос     
     }
     return (res);
   }
@@ -47,14 +42,18 @@ const fetchWithRefresh = async <T extends Response>(endpoint: string, options: R
   };
 };
 
-const getIngredientsData = () => request<IArrayIngredients, IOptions>('ingredients');
+const getIngredientsData = async () => {
+  return request<IArrayIngredients, IOptions>('ingredients');
+}
 
-const getSingleOrderData = (number: number) => request<ISingleOrder, IOptions>(`orders/${number}`, {
-  method: 'GET',
-  headers: {
-    'Content-Type': 'application/json',
-  }
-});
+const getSingleOrderData = async (number: number) => {
+  return request<ISingleOrder, IOptions>(`orders/${number}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  });
+}
 
 const getOrderNumber = (data: Array<string>) => {
   return fetchWithRefresh<IOrderResponse>('orders', {
@@ -93,7 +92,7 @@ const updateUser = async (data: TUserForm) => {
     })
   });
 }
-const login = async  (data: TUserForm) => {
+const login = async (data: TUserForm) => {
   return request<IUserResponse, IOptions>('auth/login', {
     method: 'POST',
     headers: {

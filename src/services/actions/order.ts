@@ -1,4 +1,4 @@
-import { api } from '../../utils/burger-api';
+import { api } from '../../utils/api';
 
 import { AppDispatch, AppThunk } from '../types';
 import { TWSOrder } from '../types/data';
@@ -7,7 +7,7 @@ export const ORDER_REQUEST: 'ORDER_REQUEST' = 'ORDER_REQUEST';
 export const SET_ORDER_SUCCESS: 'SET_ORDER_SUCCESS' = 'SET_ORDER_SUCCESS';
 export const SET_ORDER_ERROR: 'SET_ORDER_ERROR' = 'SET_ORDER_ERROR';
 
-export interface IOrderAction {
+export interface IGetOrderAction {
   readonly type: typeof ORDER_REQUEST;
 }
 
@@ -21,9 +21,9 @@ export interface ISetOrderSuccesAction {
   readonly payload: TWSOrder
 }
 
-export type TOrderActions = ISetOrderErrorAction | ISetOrderSuccesAction | IOrderAction;
+export type TGetOrderNumberActions = ISetOrderErrorAction | ISetOrderSuccesAction | IGetOrderAction;
 
-export const orderAction = ():IOrderAction => ({
+export const getOrderAction = ():IGetOrderAction => ({
   type: ORDER_REQUEST
 });
 
@@ -38,7 +38,7 @@ export const setOrderSuccessAction = (order:TWSOrder):ISetOrderSuccesAction => (
 });
 
 export const getOrder: AppThunk = (data: Array<string> ) => (dispatch: AppDispatch) => {
-  dispatch(orderAction());
+  dispatch(getOrderAction());
 
   api.getOrderNumber(data)
     .then((res) => {

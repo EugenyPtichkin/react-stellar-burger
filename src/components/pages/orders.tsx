@@ -9,7 +9,7 @@ import { translate } from '../../utils/data';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { wsUserConnectAction } from '../../services/actions/wsUserActions';
 import { wsUrl } from '../../utils/data';
-import { refreshToken } from '../../utils/burger-api';
+import { refreshToken } from '../../utils/api';
 import { TIngredient, TWSMessage, TWSOrder } from '../../services/types/data';
 
 type TData = {

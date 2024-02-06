@@ -4,7 +4,7 @@
     SET_ORDER_ERROR,    
 } from '../actions/order';
 
-import { TOrderActions } from '../actions/order';
+import { TGetOrderNumberActions } from '../actions/order';
 import { TOrderSet } from '../types/data';
 
 
@@ -17,7 +17,7 @@ import { TOrderSet } from '../types/data';
     orderIsError: false
   };
 
-export const orderReducer = (state = initialState, action: TOrderActions): TOrderSet => {
+export const orderReducer = (state = initialState, action: TGetOrderNumberActions): TOrderSet => {
   switch (action.type) {
     case ORDER_REQUEST : 
       return {

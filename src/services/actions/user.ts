@@ -1,4 +1,4 @@
-import { api } from "../../utils/burger-api";
+import { api } from "../../utils/api";
 
 import { TUser, TUserForm } from '../types/data';
 import { AppDispatch, AppThunk } from "../types";

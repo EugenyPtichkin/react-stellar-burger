@@ -37,7 +37,7 @@ export type TOrderSet = {
   orderIsError: boolean;
 };
 
-export type TSingleOrder = {
+export type TOrder = {
   order: TWSOrder | null,
   errorType: boolean,
 };

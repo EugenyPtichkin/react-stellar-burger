@@ -5,13 +5,13 @@ import { useEffect, useMemo } from 'react';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate } from '../../utils/data';
-import { getSingleOrder, SET_ORDER_SUCCESS } from '../../services/actions/singleOrder';
+import { getSingleOrder, setSingleOrderAction } from '../../services/actions/singleOrder';
 import { WS_USER_CONNECTION_STOP } from '../../services/actions/wsUserActionTypes';
 import { WS_FEED_CONNECTION_STOP } from '../../services/actions/wsFeedActionTypes';
 import { wsUrl } from '../../utils/data';
 import { wsUserConnectAction } from '../../services/actions/wsUserActions';
 import { wsFeedConnectAction } from '../../services/actions/wsFeedActions';
-import { refreshToken } from '../../utils/burger-api';
+import { refreshToken } from '../../utils/api';
 import { IIsModal, TIngredient, TIngredientPairs } from '../../services/types/data';
 
 export const InfoPage = ( {isModal}: IIsModal ) => {
@@ -94,10 +94,7 @@ export const InfoPage = ( {isModal}: IIsModal ) => {
     if (last_orders_list) {
       const orderItem = last_orders_list.orders.find(item => item.number === Number(number));
       if (orderItem) {
-        dispatch({ //обновить стор заказом с выбранным номером
-          type: SET_ORDER_SUCCESS,
-          payload: orderItem
-        })
+        dispatch(setSingleOrderAction(orderItem));//обновить стор заказом с выбранным номером
       } else {//если в последних 50 заказах по webSocket такого нет, то запросить по https:// 
         dispatch(getSingleOrder(Number(number)));
       }

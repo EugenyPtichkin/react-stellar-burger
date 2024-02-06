@@ -1,12 +1,12 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { TBun, TIngredient} from '../types/data';
+
 export const ADD_INGREDIENT: 'ADD_INGREDIENT' = 'ADD_INGREDIENT';
 export const ADD_BUNS: 'ADD_BUNS' = 'ADD_BUNS';
 export const DELETE_INGREDIENT: 'DELETE_INGREDIENT' = 'DELETE_INGREDIENT';
 export const UPDATE_INGREDIENTS: 'UPDATE_INGREDIENTS' = 'UPDATE_INGREDIENTS';
 export const DELETE_ALL_INGREDIENTS: 'DELETE_ALL_INGREDIENTS' = 'DELETE_ALL_INGREDIENTS';
-
-import { TBun, TIngredient} from '../types/data';
 
 interface IAddBuns {
   readonly type: typeof ADD_BUNS;
