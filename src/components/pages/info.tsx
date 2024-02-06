@@ -1,7 +1,7 @@
 import Styles from './info.module.css';
 import { useDispatch, useSelector } from '../../services/hooks/hooks';
 import { useParams, useLocation } from 'react-router-dom';
-import { FC, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/formatted-date/formatted-date';
 import { CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components/dist/ui/icons';
 import { translate } from '../../utils/data';

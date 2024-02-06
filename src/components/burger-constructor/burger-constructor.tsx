@@ -45,7 +45,7 @@ const BurgerConstructor: FC = () => {
   }, [bun, ingredients]);
 
   //cостояние заказа
-  const { orderIsError, orderErrorType } = useSelector(store => store.order);
+  const { orderIsError } = useSelector(store => store.order);
 
   const handleModalClose = useCallback(() => {
     setModalActive(false);
@@ -183,7 +183,7 @@ const BurgerConstructor: FC = () => {
 
       {modalServerErrorActive && //модальное окно с сообщением об ошибке сервера
         <Modal title='Ошибка запроса на сервер' handleClose={handleServerErrorClose} >
-          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}>Код ошибки: {orderErrorType}</p>
+          <p className={`${ModalStyles.title_text} ${ModalStyles.error_text}`}></p>
         </Modal>
       }
 

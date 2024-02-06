@@ -34,9 +34,7 @@ export type TOrderSet = {
   orderName: string;
   orderNumber: number;
   orderRequest: boolean;
-  orderSuccess: boolean;
   orderIsError: boolean;
-  orderErrorType: string;
 };
 
 export type TSingleOrder = {

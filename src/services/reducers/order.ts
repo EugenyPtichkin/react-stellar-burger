@@ -1,10 +1,12 @@
   import {
     ORDER_REQUEST,
     SET_ORDER_SUCCESS,
-    SET_ORDER_ERROR    
+    SET_ORDER_ERROR,    
 } from '../actions/order';
 
+import { TOrderActions } from '../actions/order';
 import { TOrderSet } from '../types/data';
+
 
   //cостояние заказа + статусы запросов
   const initialState: TOrderSet = {
@@ -12,36 +14,30 @@ import { TOrderSet } from '../types/data';
     orderName: '',
     orderNumber: 0,
     orderRequest: false,
-    orderSuccess: false,
-    orderIsError: false,
-    orderErrorType: ''
+    orderIsError: false
   };
 
-export const orderReducer = (state = initialState, action: any): TOrderSet => {
+export const orderReducer = (state = initialState, action: TOrderActions): TOrderSet => {
   switch (action.type) {
     case ORDER_REQUEST : 
       return {
         ...state,
         orderRequest: true,
-        orderIsError: false,
-        orderErrorType: ''
+        orderIsError: false
     }
     case SET_ORDER_SUCCESS : 
       return {
         ...state,
-        orderName: action.name,
-        orderNumber: action.order,
+        orderName: action.payload.name,
+        orderNumber: action.payload.number,
         orderRequest: false,
-        orderSuccess: action.success,
-        orderIsError: false,
-        orderErrorType: ''
+        orderIsError: false
       }
     case SET_ORDER_ERROR: 
       return {
         ...state,
         orderRequest: false,
-        orderIsError: true,
-        orderErrorType: action.errorType
+        orderIsError: true
       }
     default:
         return state;
