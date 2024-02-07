@@ -10,12 +10,12 @@
 
 .modal {
   padding-top: 40px;
+  width: 640px;
 }
 
 .details {
   display: flex;
-  flex-direction: column;
-  width: 640px;
+  flex-direction: column;  
 }
 
 .number {
